@@ -10,6 +10,13 @@ The **n-Puzzle** consists of **Client** and **Server**. The Client is based on "
 
 ![shot178.jpeg](https://bitbucket.org/repo/BgoK8dz/images/2884341233-shot178.jpeg)
 
+How to make from the sources:
+```
+#!bash
+$ qmake client.pro
+$ make
+```
+
 **1. Описание игры.**
 
 Существует огромное количество головоломок. Одной из самых популярных является, так называемый, пазл (Puzzle).
