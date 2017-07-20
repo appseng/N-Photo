@@ -1,6 +1,6 @@
 # README #
 
-**n-Puzzle** is a game created using **Qt-framework 4**, but it is possible to build it with **QT5**. You have to install this framework to launch the application or download necessary dlls from a download page. Also you can edit source code of the **n-Puzzle** with **Qt-Creator** or/and distribute this software under **BSD licence**.
+**n-Puzzle** is a game created using **Qt-framework 4**, but it is possible to build it with **QT5**. You have to install this framework to launch the application or download necessary dlls from a download page. Also you can modify the source code of the **n-Puzzle** with **Qt-Creator** or/and distribute modefied versions of the software under **GPL licence**.
 
 The **n-Puzzle** is a sliding puzzle that consists of a frame of numbered square tiles in random order with one tile missed. If the size is 3×3 tiles, the puzzle is called the 8-puzzle or 9-puzzle, and if 4×4 tiles, the puzzle is called the 15-puzzle or 16-puzzle named, respectively, for the number of tiles and the number of spaces. The object of the puzzle is to place the tiles in order by making sliding moves that use the empty space.
 
@@ -8,6 +8,7 @@ This implementation of a popular game using an image, which divides into pieces 
 
 The **n-Puzzle** consists of **Client** and **Server**. The Client is based on "Drag and Drop Puzzle Example" of Qt-framework. The **Client** can operate with one image from a local directory, a remote Server, or with random pic from the Internet. The **Server** saves pictures in a SQLite-database and provides them to **Clients**.
 
+The last versions of the software incude a feature to download images from the Web. It is the option by default, but a user of the software can change thise behaviour to load images from **Server** or from the directory on the computer.
 ![shot178.jpeg](https://bitbucket.org/repo/BgoK8dz/images/2884341233-shot178.jpeg)
 
 How to make from the sources:
