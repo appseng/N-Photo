@@ -48,11 +48,18 @@
 #include <QTcpSocket>
 #include <QListView>
 #include <QTranslator>
-#include "filedownloader.h"
+
 #include "puzzlewidget.h"
 #include "piecesmodel.h"
 #include "aboutdialogimpl.h"
 #include "ui_mainwindow.h"
+
+// for downloading images from the Internet
+#include "filedownloader.h"
+
+// for finding solution
+#include "state.h"
+#include "puzzlestrategy.h"
 
 enum  ImageSourceType {Net=1, Internet, Local};
 
@@ -63,10 +70,10 @@ public:
         MainWindowImpl(QWidget * = 0, Qt::WindowFlags = 0);
 
 private slots:
-        // меню "Файл"
+        // menu "File"
         void openImage(const QString & = QString());
         void saveImage();
-        // меню "Настройки"
+        // menu "Settings"
         void setLogVisible();
         void setSettingsAll();
         void setServerSettings();
@@ -75,34 +82,38 @@ private slots:
         void setGameSettings();
         void setComplicationSettings();
         void setCompleted();
-        // меню "Таймер"
+        // menu "Timer"
         void timerOn();
         void timerOff();
         void timerReset();
         void updateTime();
-        // меню "Язык"
+        // menu "Language"
         void setRussian();
         void setEnglish();
         void setSpanish();
-        // меню "Помощь"
+        // menu "Solution"
+        void solvePuzzle();
+        void setMisplacedTiles();
+        void setManhattanDistance();
+        // menu "Help"
         void about();
         void aboutQt();
-        // кнопки
-        void clickScramble();
-        void clickSolve();
+        // buttons
+        void clickShuffle();
+        void clickRefresh();
         void incStep();
         void getRandomImage();
-        // Получение изображения
+        // getting images
         void getFileList();
         void getImage(const int);
-        // // с сервера
+        // // from a server
         void tcpReady();
         void tcpError(QAbstractSocket::SocketError);
         void tcpConnected();
         void tcpDisconnected();
-        // // из локальной папки
+        // // from a local directory
         void chooseDirectory();
-        // // из интернета
+        // // from the Internet
         void loadImage();
 private:
         void readSettings();
@@ -131,19 +142,22 @@ private:
         int moves;
         int curRow;
         bool cacheUsed;
+
+        PuzzleStrategy strategy;
+        Heuristic heuristic;
+        QVector<int> *nodes;
+        bool busy;
+
+        void displayState(QVector<int>*,bool);
         FileDownloader *downloadedImage;
-        // язык
+        // laguage
         QString currLang;
-        // Источник картинок
+        // Souce of images
         ImageSourceType imageSource;
-        //bool isRemoteSource;
-        //bool isInternetSource;
         // сеть
         QTcpSocket socket;
         quint32 dataSize;
-        quint32 messageType;
-        //QStringList fileInfoList;
-
+        quint32 messageType; 
 protected:
         void closeEvent(QCloseEvent *);
 };

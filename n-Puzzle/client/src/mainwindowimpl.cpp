@@ -43,6 +43,7 @@
 #include <QHBoxLayout>
 #include <QFileDialog>
 #include <QPixmap>
+#include <QPoint>
 #include <QTimer>
 #include <QDataStream>
 #include <QByteArray>
@@ -54,6 +55,7 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QSettings>
+
 #include "aboutdialogimpl.h"
 #include "piecesmodel.h"
 #include "puzzlewidget.h"
@@ -65,23 +67,24 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     : QMainWindow(parent, f)
 {
     setupUi(this);
-    // чтение настроек
+
     readSettings();
+
     QTime now = QTime::currentTime();
     log->append(trUtf8("<b>Добро пожаловать!</b><br>На данный момент <b>%1</b> день года, <b>%2:%3:%4</b>")
                  .arg(QDate::currentDate().dayOfYear())
                  .arg(now.hour()).arg(now.minute()).arg(now.second()));
     //step->setVisible(false);
     // действия меню
-    // файл
+    // file
     connect(aExit, SIGNAL(triggered()), this, SLOT(close()));
     connect(aOpen, SIGNAL(triggered()), this, SLOT(openImage()));
     connect(aSave, SIGNAL(triggered()), this, SLOT(saveImage()));
-    // таймер
+    // timer
     connect(aTimerOn, SIGNAL(triggered()), this, SLOT(timerOn()));
     connect(aTimerOff, SIGNAL(triggered()), this, SLOT(timerOff()));
     connect(aTimerReset, SIGNAL(triggered()), this, SLOT(timerReset()));
-    // настройки
+    // settings
     connect(aServerSource, SIGNAL(triggered()), this, SLOT(setServerSettings()));
     connect(aLocalSource, SIGNAL(triggered()), this, SLOT(setLocalFolderSettings()));
     connect(aInternetSource, SIGNAL(triggered()), this, SLOT(setInternetSettings()));
@@ -89,17 +92,22 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     connect(aComplication, SIGNAL(triggered()), this, SLOT(setComplicationSettings()));
     connect(aAll, SIGNAL(triggered()), this, SLOT(setSettingsAll()));
     connect(aLog, SIGNAL(triggered()), this, SLOT(setLogVisible()));
-    // язык
+    // lanuguage
     connect(aRussian, SIGNAL(triggered()), this, SLOT(setRussian()));
     connect(aEnglish, SIGNAL(triggered()), this, SLOT(setEnglish()));
     connect(aSpanish, SIGNAL(triggered()), this, SLOT(setSpanish()));
-    // помощь
+    // help
     connect(aAboutProgram, SIGNAL(triggered()), this, SLOT(about()));
     connect(aAboutQt, SIGNAL(triggered()), this, SLOT(aboutQt()));
+    // solution
+    connect(aSolvePuzzle, SIGNAL(triggered()), this, SLOT(solvePuzzle()));
+    connect(aMisplacedTiles, SIGNAL(triggered()), this, SLOT(setMisplacedTiles()));
+    connect(aManhattanDistance, SIGNAL(triggered()), this, SLOT(setManhattanDistance()));
+    connect(&strategy, SIGNAL(onStateChanged(std::pair<QVector<int>*, int>)), this, SLOT(displayState(std::pair<QVector<int>*, int>)));
     /////////
     // кнопки
-    connect(scramble, SIGNAL(clicked()), this, SLOT (clickScramble()));
-    connect(solve, SIGNAL (clicked()), this, SLOT (clickSolve()));
+    connect(shuffle, SIGNAL(clicked()), this, SLOT (clickShuffle()));
+    connect(refresh, SIGNAL (clicked()), this, SLOT (clickRefresh()));
     connect(checkConnection, SIGNAL (clicked()), this, SLOT(getFileList()));
     //-------------------------------
     // загрузка изображения
@@ -115,6 +123,8 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     connect(choseFolder, SIGNAL(clicked()), this, SLOT(chooseDirectory()));
     //connect(this, SIGNAL(destroyed()), this, SLOT(show()));
     //connect(this, SIGNAL())
+    //
+
     setupWidgets();
 
     ptimer = new QTimer(this);
@@ -127,10 +137,14 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     qsrand(QCursor::pos().x() ^ QCursor::pos().y());
 
     getFileList();
+
+    // default heuristic is ManhattanDistance
+    heuristic = ManhattanDistance;
+    aManhattanDistance->setChecked(true);
 }
 void MainWindowImpl::writeSettings()
 {
-    QSettings settings(trUtf8("npuzzle.codeplex.com"), trUtf8("n-Puzzle"));
+    QSettings settings(trUtf8("bitbucket.org/appseng/n-puzzle"), trUtf8("n-Puzzle"));
 
     settings.setValue(trUtf8("geometry"), geometry());
     settings.setValue(trUtf8("host"), host->text());
@@ -274,7 +288,7 @@ void MainWindowImpl::incStep()
 {
     step->display(++moves);
 }
-void MainWindowImpl::clickSolve()
+void MainWindowImpl::clickRefresh()
 {
     setupPuzzle();
 }
@@ -283,11 +297,11 @@ void MainWindowImpl::updateTime()
     QTime curTime = QTime::fromString(timerText->text(), TimeFormat).addSecs(1);
     setTimer(false, curTime);
 }
-void MainWindowImpl::clickScramble()
+void MainWindowImpl::clickShuffle()
 {
     if (puzzleWidget) {
-        puzzleWidget->scramble();
-        scramble->setEnabled(false);
+        puzzleWidget->shuffle();
+        shuffle->setEnabled(false);
         ptimer->start(1000);
     }
 }
@@ -431,7 +445,7 @@ void MainWindowImpl::setupPuzzle()
         if (timerText->isEnabled())
             ptimer->start(1000);
     }
-    scramble->setEnabled(multi);
+    shuffle->setEnabled(multi);
     step->setEnabled(multi);
     moves = 0;
     step->display(0);
@@ -521,7 +535,43 @@ void MainWindowImpl::setSpanish()
     aEnglish->setEnabled(true);
     loadLanguage(QString("es_ES"));
 }
+void MainWindowImpl::solvePuzzle()
+{
+    if (relation == QPoint(5,5))
+        return;
 
+    busy = true;
+    shuffle->setEnabled(false);
+    refresh->setEnabled(false);
+
+    if (nodes != 0) {
+        nodes->clear();
+    } else {
+        nodes = new QVector<int>();
+    }
+    for(int j = 0; j < relation.y(); j++) {
+        for (int i = 0; i < relation.x(); i++){
+            QPoint point(i,j);
+            int index = puzzleWidget->getLocationIndex(point);
+            nodes->append(index);
+        }
+    }
+
+    strategy.start(nodes ,heuristic);
+}
+void MainWindowImpl::setMisplacedTiles()
+{
+    aMisplacedTiles->setChecked(true);
+    aManhattanDistance->setChecked(false);
+    heuristic = MisplacedTiles;
+}
+void MainWindowImpl::setManhattanDistance()
+{
+    aMisplacedTiles->setChecked(false);
+    aManhattanDistance->setChecked(true);
+    heuristic = ManhattanDistance;
+
+}
 void MainWindowImpl::about()
 {
     AboutDialogImpl infoDialog;
@@ -768,4 +818,28 @@ void MainWindowImpl::loadImage()
         puzzleImage = QPixmap(QString::fromUtf8(":/images/images/example.jpg"));
 
     setupPuzzle();
+}
+void MainWindowImpl::displayState(QVector<int>* nodes, bool isFinal)
+{
+    if (nodes != NULL)
+    {
+        QPoint relation = puzzleWidget->getRelation();
+        int x, y;
+        for (int i = 0; i < nodes->length(); i++) {
+            if (nodes->at(i) > 0)
+            {
+                y = nodes->at(i)/relation.x();
+                x = nodes->at(i) - y*relation.x() - 1;
+                QPoint point(x, y);
+                puzzleWidget->setPiece(point, i);
+            }
+        }
+        puzzleWidget->update();
+    }
+    if (isFinal) {
+        busy = false;
+        shuffle->setEnabled(true);
+        refresh->setEnabled(true);
+    }
+
 }

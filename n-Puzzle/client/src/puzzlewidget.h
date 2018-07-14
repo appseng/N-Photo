@@ -43,6 +43,7 @@
 
 #include <QList>
 #include <QPoint>
+#include <QRect>
 #include <QPixmap>
 #include <QWidget>
 #include <QDragEnterEvent>
@@ -58,7 +59,11 @@ public:
     void changeRelation(const QPoint);
     void changeType(const int);
     void addPieces(const QPixmap& = QPixmap());
-    void scramble();
+    void shuffle();
+    int getRectIndex(const QRect) const;
+    int getLocationIndex(const QPoint) const;
+    const QPoint getRelation() const;
+    void setPiece(QPoint, int);
 signals:
     void puzzleCompleted();
     void blockMoved();

@@ -198,6 +198,8 @@ void PuzzleWidget::mousePressEvent(QMouseEvent *event)
     if (found == -1)
         return;
 
+    qt_message_output(QtDebugMsg, QMessageLogContext(), QString::number(found));
+
     QPoint location = pieceLocations[found];
     QPixmap pixmap = piecePixmaps[found];
     pieceLocations.removeAt(found);
@@ -270,7 +272,7 @@ void PuzzleWidget::addPieces(const QPixmap& pixmap)
     }
     update();
 }
-void PuzzleWidget::scramble()
+void PuzzleWidget::shuffle()
 {
     qsrand(QCursor::pos().x() ^ QCursor::pos().y());
     moves = 0;
@@ -321,9 +323,9 @@ void PuzzleWidget::scramble()
         }
     }
 
-    pieceLocations.removeAt(freeRect);
-    piecePixmaps.removeAt(freeRect);
-    pieceRects.removeAt(freeRect);
+    pieceLocations.removeAt(maxid);
+    piecePixmaps.removeAt(maxid);
+    pieceRects.removeAt(maxid);
     inPlace = 0;
     for (int k = 0; k < pieceRects.size(); ++k) {
         if (pieceLocations[k] == QPoint(pieceRects[k].x()/pnt.x(), pieceRects[k].y()/pnt.y()))
@@ -356,4 +358,21 @@ void PuzzleWidget::paintEvent(QPaintEvent *event)
 const QRect PuzzleWidget::targetSquare(const QPoint &position) const
 {
     return QRect((position.x()/pnt.x()) * pnt.x(), (position.y()/pnt.y()) * pnt.y(), pnt.x(), pnt.y());
+}
+int  PuzzleWidget::getRectIndex(const QRect rect) const
+{
+    return pieceRects.indexOf(rect);
+}
+int  PuzzleWidget::getLocationIndex(const QPoint point) const
+{
+     return pieceLocations.indexOf(point);
+}
+const QPoint PuzzleWidget::getRelation() const
+{
+    return relation;
+}
+void PuzzleWidget::setPiece(QPoint point, int index)
+{
+    pieceLocations.replace(index, point);
+    pieceRects.replace(index, targetSquare(point));
 }

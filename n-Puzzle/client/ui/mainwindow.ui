@@ -468,7 +468,16 @@
                 <property name="sizeConstraint">
                  <enum>QLayout::SetDefaultConstraint</enum>
                 </property>
-                <property name="margin">
+                <property name="leftMargin">
+                 <number>1</number>
+                </property>
+                <property name="topMargin">
+                 <number>1</number>
+                </property>
+                <property name="rightMargin">
+                 <number>1</number>
+                </property>
+                <property name="bottomMargin">
                  <number>1</number>
                 </property>
                 <item>
@@ -533,7 +542,7 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QPushButton" name="scramble">
+       <widget class="QPushButton" name="shuffle">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -592,7 +601,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="solve">
+       <widget class="QPushButton" name="refresh">
         <property name="text">
          <string>Заново</string>
         </property>
@@ -724,10 +733,25 @@
     <addaction name="aEnglish"/>
     <addaction name="aSpanish"/>
    </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>Решение</string>
+    </property>
+    <widget class="QMenu" name="menu_3">
+     <property name="title">
+      <string>Эвристика</string>
+     </property>
+     <addaction name="aManhattanDistance"/>
+     <addaction name="aMisplacedTiles"/>
+    </widget>
+    <addaction name="menu_3"/>
+    <addaction name="aSolvePuzzle"/>
+   </widget>
    <addaction name="mFile"/>
    <addaction name="mTimer"/>
    <addaction name="mSettings"/>
    <addaction name="menu"/>
+   <addaction name="menu_2"/>
    <addaction name="mHelp"/>
   </widget>
   <action name="aOpen">
@@ -937,11 +961,35 @@
     <string>Ctrl+Alt+I</string>
    </property>
   </action>
+  <action name="aManhattanDistance">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>ManhattanDistance</string>
+   </property>
+  </action>
+  <action name="aMisplacedTiles">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>MisplacedTiles</string>
+   </property>
+  </action>
+  <action name="aSolvePuzzle">
+   <property name="text">
+    <string>Решить</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>download</tabstop>
-  <tabstop>solve</tabstop>
-  <tabstop>scramble</tabstop>
+  <tabstop>refresh</tabstop>
+  <tabstop>shuffle</tabstop>
   <tabstop>timerText</tabstop>
  </tabstops>
  <resources/>

@@ -1,6 +1,6 @@
 TEMPLATE = app
 QT += widgets core network
-CONFIG += qt warn_on release
+CONFIG += qt warn_on release c++11
 OBJECTS_DIR = build
 TARGET = n-puzzle
 DESTDIR = bin
@@ -9,14 +9,18 @@ UI_DIR = build
 FORMS = ui/mainwindow.ui ui/aboutDialog.ui
 HEADERS = src/mainwindowimpl.h src/puzzlewidget.h src/piecesmodel.h src/aboutdialogimpl.h \
     src/filedownloader.h \
-    src/solver.h
+    src/minpriorityqueue.h \
+    src/state.h \
+    src/puzzlestrategy.h
 SOURCES = src/mainwindowimpl.cpp \
- src/main.cpp \
- src/puzzlewidget.cpp \
- src/piecesmodel.cpp \
- src/aboutdialogimpl.cpp \
+    src/main.cpp \
+    src/puzzlewidget.cpp \
+    src/piecesmodel.cpp \
+    src/aboutdialogimpl.cpp \
     src/filedownloader.cpp \
-    src/solver.cpp
+    src/minpriorityqueue.cpp \
+    src/state.cpp \
+    src/puzzlestrategy.cpp
 RESOURCES += puzzle.qrc
 TRANSLATIONS = client_ru_RU.ts client_en_US.ts client_es_ES.ts
 RC_FILE += res.rc
@@ -25,3 +29,4 @@ CODECFORTR  = utf8
 OTHER_FILES += \
     LICENCE.BSD \
     LICENCE.ICONS
+CONFIG -= app_bundle
