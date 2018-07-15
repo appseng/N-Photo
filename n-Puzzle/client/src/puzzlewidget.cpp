@@ -329,11 +329,9 @@ void PuzzleWidget::shuffle()
     pieceLocations.removeAt(missing);
     piecePixmaps.removeAt(missing);
     pieceRects.removeAt(missing);
-    inPlace = 0;
-    for (int k = 0; k < pieceRects.size(); ++k) {
-        if (pieceLocations[k] == QPoint(pieceRects[k].x()/pnt.x(), pieceRects[k].y()/pnt.y()))
-            inPlace++;
-    }
+
+    countMatches();
+
     update();
 }
 void PuzzleWidget::paintEvent(QPaintEvent *event)
@@ -371,7 +369,14 @@ const QPoint PuzzleWidget::getRelation() const
 {
     return relation;
 }
-
+void PuzzleWidget::countMatches()
+{
+    inPlace = 0;
+    for (int k = 0; k < pieceRects.size(); ++k) {
+        if (pieceLocations[k] == QPoint(pieceRects[k].x()/pnt.x(), pieceRects[k].y()/pnt.y()))
+            inPlace++;
+    }
+}
 void PuzzleWidget::setPieces(const QVector<int>* nodes)
 {
     int num;
@@ -395,12 +400,7 @@ void PuzzleWidget::setPieces(const QVector<int>* nodes)
         }
     }
     update();
-
-    inPlace = 0;
-    for (int k = 0; k < pieceRects.size(); ++k) {
-        if (pieceLocations[k] == QPoint(pieceRects[k].x()/pnt.x(), pieceRects[k].y()/pnt.y()))
-            inPlace++;
-    }
+    countMatches();
 
     if (inPlace == relation.x()*relation.y()-1)
         emit puzzleCompleted(false);

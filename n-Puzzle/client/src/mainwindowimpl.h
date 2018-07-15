@@ -40,7 +40,7 @@
 
 #ifndef MAINWINDOWIMPL_H
 #define MAINWINDOWIMPL_H
-//
+
 #include <QMainWindow>
 #include <QPixmap>
 #include <QTime>

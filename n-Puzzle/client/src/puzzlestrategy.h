@@ -11,7 +11,6 @@
 #include <utility>
 
 #include "state.h"
-#include "minpriorityqueue2.h"
 #include "minpriorityqueue.h"
 
 class PuzzleStrategy : public QObject
@@ -33,7 +32,8 @@ class PuzzleStrategy : public QObject
     signals:
         onStateChanged(Param*);
         onPuzzleSolved(Param*);
-private slots:
+    private slots:
         void updateState();
 };
+
 #endif // PUZZLESTRATEGY_H

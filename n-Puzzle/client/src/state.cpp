@@ -27,17 +27,21 @@ int State::compareTo(const State* that) const
     }
     return 0;
 }
-bool State::isCostlierThan(State *thatState) {
+bool State::isCostlierThan(State *thatState) const
+{
     return mCostg > thatState->mCostg;
 }
-QString State::getStateCode() {
+QString State::getStateCode() const
+{
     return mStateCode;
 }
-bool State::isFinalState() {
+bool State::isFinalState() const
+{
     // If all tiles are at correct position, we are into final state.
     return mCosth == 0;
 }
-State* State::getParent() {
+State* State::getParent() const
+{
     return mParent;
 }
 QList<State*>* State::getNextStates(QList<State*> *nextStates) {
@@ -61,7 +65,7 @@ QList<State*>* State::getNextStates(QList<State*> *nextStates) {
     }
     return nextStates;
 }
-QString State::toString()
+QString State::toString() const
 {
     return "State:" + mStateCode + ", g:" + mCostg + ", h:" + mCosth + ", f:" + mCostf;
 }
@@ -167,7 +171,7 @@ QString State::generateStateCode()
     return code;
 }
 
-QVector<int>* State::getState()
+QVector<int>* State::getState() const
 {
     QVector<int> *state = new QVector<int>(*mNodes);
     return state;
@@ -190,14 +194,14 @@ State* State::getNextState(Direction direction)
     return nullptr;
 }
 
-void State::swap(QVector<int> *nodes, int i, int j)
+void State::swap(QVector<int> *nodes, int i, int j) const
 {
     int t = nodes->at(i);
     nodes->replace(i, nodes->at(j));
     nodes->replace(j, t);
 }
 
-bool State::canMove(Direction direction, int &newPosition)
+bool State::canMove(Direction direction, int &newPosition) const
 {
     int newX = -1;
     int newY = -1;
@@ -263,15 +267,19 @@ Param::Param(QObject *parent, int i, int j)
     steps = i;
     states = j;
 }
-QVector<int>* Param::getState() {
+QVector<int>* Param::getState() const
+{
     return state;
 }
-bool Param::isFinalState(){
+bool Param::isFinalState() const
+{
     return finalState;
 }
-int Param::getStates() {
+int Param::getStates() const
+{
     return states;
 }
-int Param::getSteps() {
+int Param::getSteps() const
+{
     return steps;
 }

@@ -12,7 +12,7 @@ bool MinPriorityQueue::isEmpty() const
     return mArray->isEmpty();
 }
 
-bool MinPriorityQueue::less (int a, int b) const
+bool MinPriorityQueue::less (const int a, const int b) const
 {
    return mArray->at(a)->compareTo(mArray->at(b)) < 0;
 }

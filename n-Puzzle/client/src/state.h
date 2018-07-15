@@ -1,7 +1,6 @@
 #ifndef SOLVER_H
 #define SOLVER_H
 
-
 #include <QtGlobal>
 #include <QtMath>
 #include <QObject>
@@ -31,21 +30,21 @@ class State : public QObject
         State(QObject* , State*, QVector<int>*);
         bool equals(const State*) const;
         int compareTo(const State*) const;
-        bool isCostlierThan(State*);
-        QString getStateCode();
-        bool isFinalState();
-        State* getParent();
+        bool isCostlierThan(State*) const;
+        QString getStateCode() const;
+        bool isFinalState() const;
+        State* getParent() const;
         QList<State*> *getNextStates(QList<State*>*);
-        QString toString();
+        QString toString() const;
         void calculateCost();
         int getHeuristicCost();
         int getMisplacedTilesCost();
         int getManhattanDistanceCost();
         QString generateStateCode();
-        QVector<int>* getState();
+        QVector<int>* getState() const;
         State* getNextState(Direction);
-        void swap(QVector<int>*, int, int);
-        bool canMove(Direction, int&);
+        void swap(QVector<int>*, int, int) const;
+        bool canMove(Direction, int&) const;
 };
 
 class Param : public QObject
@@ -54,10 +53,10 @@ class Param : public QObject
 public:
     Param(QObject*, QVector<int>*, bool);
     Param(QObject*, int, int);
-    QVector<int>* getState();
-    int getStates();
-    int getSteps();
-    bool isFinalState();
+    QVector<int>* getState() const;
+    int getStates() const;
+    int getSteps() const;
+    bool isFinalState() const;
 private:
     int steps;
     int states;

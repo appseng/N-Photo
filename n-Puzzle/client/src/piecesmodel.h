@@ -75,4 +75,4 @@ private:
     QPoint pnt;
 };
 
-#endif
+#endif // PIECESLIST_H

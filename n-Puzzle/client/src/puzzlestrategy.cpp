@@ -16,7 +16,6 @@ void PuzzleStrategy::start(QVector<int>* nodes, Heuristic heuristic)
     QList<State*> *nextStates = new QList<State*>();
     QSet<QString> openStates;
 
-    //MinPriorityQueue2 openStateQueue(nodes->length() * 3);
     MinPriorityQueue openStateQueue;
     QHash<QString, State*> closedQueue;
 

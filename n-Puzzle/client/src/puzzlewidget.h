@@ -84,6 +84,8 @@ private:
     int findPiece(const QRect &) const;
     QRect findPieceToMove(const QRect) const;
     const QRect targetSquare(const QPoint &) const;
+    void countMatches();
+
     QList<QPixmap> piecePixmaps;
     QList<QRect> pieceRects;
     QList<QPoint> pieceLocations;
@@ -95,4 +97,4 @@ private:
     int moves;
 };
 
-#endif
+#endif // PUZZLEWIDGET_H

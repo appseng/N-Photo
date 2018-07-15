@@ -1,5 +1,6 @@
 #ifndef ENUMS_H
 #define ENUMS_H
+
 enum Heuristic {
     MisplacedTiles,
     ManhattanDistance
@@ -12,4 +13,5 @@ enum Direction
     Down,
     Right
 };
+
 #endif // ENUMS_H

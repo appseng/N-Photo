@@ -1,5 +1,6 @@
 #ifndef MINPRIORITYQUEUE_H
 #define MINPRIORITYQUEUE_H
+
 #include <QList>
 #include <QObject>
 
@@ -16,8 +17,9 @@ class MinPriorityQueue : public QObject
         void enqueue(State*);
         State* dequeue();
         State* find(State*, int&) const;
-        void remove(int);
+        void remove(const int);
     private:
-        bool less (int, int) const;
+        bool less (const int, const int) const;
 };
+
 #endif // MINPRIORITYQUEUE_H
