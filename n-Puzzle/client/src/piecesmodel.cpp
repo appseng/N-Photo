@@ -38,8 +38,6 @@
  **
  ****************************************************************************/
 
-#include <QtGui>
-
 #include "piecesmodel.h"
 
 PiecesModel::PiecesModel(QObject *parent)

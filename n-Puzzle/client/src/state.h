@@ -1,23 +1,17 @@
 #ifndef SOLVER_H
 #define SOLVER_H
 
+
+#include <QtGlobal>
+#include <QtMath>
 #include <QObject>
 #include <QVector>
 #include <QString>
 #include <QList>
 
-enum Heuristic {
-    MisplacedTiles,
-    ManhattanDistance
-};
+#include <cstddef>
 
-enum Direction
-{
-    Left,
-    Right,
-    Up,
-    Down,
-};
+#include "enums.h"
 
 class State : public QObject
 {
@@ -33,15 +27,15 @@ class State : public QObject
         int mCostg;
         State *mParent;
     public:
-        State(QObject* qparent, State *parent, QVector<int> *nodes, Heuristic heuristic);
-        State(QObject* qparent, State *parent, QVector<int> *nodes);
-        bool equals(State *obj);
-        int compareTo(State *that);
-        bool isCostlierThan(State *thatState);
+        State(QObject*, State*, QVector<int>*, Heuristic );
+        State(QObject* , State*, QVector<int>*);
+        bool equals(const State*) const;
+        int compareTo(const State*) const;
+        bool isCostlierThan(State*);
         QString getStateCode();
         bool isFinalState();
         State* getParent();
-        QList<State*> *getNextStates(QList<State*> *nextStates);
+        QList<State*> *getNextStates(QList<State*>*);
         QString toString();
         void calculateCost();
         int getHeuristicCost();
@@ -49,9 +43,25 @@ class State : public QObject
         int getManhattanDistanceCost();
         QString generateStateCode();
         QVector<int>* getState();
-        State* getNextState(Direction direction);
-        void swap(QVector<int> *nodes, int i, int j);
-        bool canMove(Direction direction, int &newPosition);
+        State* getNextState(Direction);
+        void swap(QVector<int>*, int, int);
+        bool canMove(Direction, int&);
 };
 
+class Param : public QObject
+{
+    Q_OBJECT
+public:
+    Param(QObject*, QVector<int>*, bool);
+    Param(QObject*, int, int);
+    QVector<int>* getState();
+    int getStates();
+    int getSteps();
+    bool isFinalState();
+private:
+    int steps;
+    int states;
+    QVector<int> *state;
+    bool finalState;
+};
 #endif // SOLVER_H

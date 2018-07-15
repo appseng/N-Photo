@@ -68,7 +68,6 @@ class MainWindowImpl : public QMainWindow, public Ui::MainWindow
         Q_OBJECT
 public:
         MainWindowImpl(QWidget * = 0, Qt::WindowFlags = 0);
-
 private slots:
         // menu "File"
         void openImage(const QString & = QString());
@@ -81,7 +80,7 @@ private slots:
         void setInternetSettings();
         void setGameSettings();
         void setComplicationSettings();
-        void setCompleted();
+        void setCompleted(bool);
         // menu "Timer"
         void timerOn();
         void timerOff();
@@ -95,6 +94,8 @@ private slots:
         void solvePuzzle();
         void setMisplacedTiles();
         void setManhattanDistance();
+        void displayState(Param*);
+        void onPuzzleSolved(Param*);
         // menu "Help"
         void about();
         void aboutQt();
@@ -143,12 +144,11 @@ private:
         int curRow;
         bool cacheUsed;
 
-        PuzzleStrategy strategy;
+        PuzzleStrategy *strategy;
         Heuristic heuristic;
         QVector<int> *nodes;
         bool busy;
 
-        void displayState(QVector<int>*,bool);
         FileDownloader *downloadedImage;
         // laguage
         QString currLang;

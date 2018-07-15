@@ -103,7 +103,6 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     connect(aSolvePuzzle, SIGNAL(triggered()), this, SLOT(solvePuzzle()));
     connect(aMisplacedTiles, SIGNAL(triggered()), this, SLOT(setMisplacedTiles()));
     connect(aManhattanDistance, SIGNAL(triggered()), this, SLOT(setManhattanDistance()));
-    connect(&strategy, SIGNAL(onStateChanged(std::pair<QVector<int>*, int>)), this, SLOT(displayState(std::pair<QVector<int>*, int>)));
     /////////
     // кнопки
     connect(shuffle, SIGNAL(clicked()), this, SLOT (clickShuffle()));
@@ -141,6 +140,10 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     // default heuristic is ManhattanDistance
     heuristic = ManhattanDistance;
     aManhattanDistance->setChecked(true);
+    strategy = new PuzzleStrategy(this);
+    busy = false;
+    connect(strategy, SIGNAL(onStateChanged(Param*)), this, SLOT(displayState(Param*)));
+    connect(strategy, SIGNAL(onPuzzleSolved(Param*)), this, SLOT(onPuzzleSolved(Param*)));
 }
 void MainWindowImpl::writeSettings()
 {
@@ -276,8 +279,8 @@ void MainWindowImpl::setupWidgets()
     piecesList->setVisible(false);
     puzzleWidget = new PuzzleWidget(this);
     //puzzleWidget->changeRelation(relation);
-    connect(puzzleWidget, SIGNAL(puzzleCompleted()),
-            this, SLOT(setCompleted()), Qt::QueuedConnection);
+    connect(puzzleWidget, SIGNAL(puzzleCompleted(bool)),
+            this, SLOT(setCompleted(bool)), Qt::QueuedConnection);
     connect(puzzleWidget, SIGNAL(blockMoved()),
             this, SLOT(incStep()), Qt::QueuedConnection);
     puzzleWidget->addPieces(QPixmap(QString::fromUtf8(":/images/images/example.jpg")));
@@ -415,14 +418,16 @@ void MainWindowImpl::openImage(const QString &path)
         setupPuzzle();
     }
 }
-void MainWindowImpl::setCompleted()
+void MainWindowImpl::setCompleted(bool byHuman)
 {
     log->append(trUtf8("Головоломка решена за %1 ходов и время %2")
                 .arg(step->intValue())
                 .arg(timerText->text()));
-    QMessageBox::information(this, trUtf8("Головоломка решена."),
-                             trUtf8("Поздравляем! Вы решили головоломку успешно.\nНажмите OK для продолжения."),
-                             QMessageBox::Ok);
+    if (byHuman) {
+        QMessageBox::information(this, trUtf8("Головоломка решена."),
+                                 trUtf8("Поздравляем! Вы решили головоломку успешно.\nНажмите OK для продолжения."),
+                                 QMessageBox::Ok);
+    }
     setupPuzzle();
 }
 void MainWindowImpl::setupPuzzle()
@@ -540,24 +545,36 @@ void MainWindowImpl::solvePuzzle()
     if (relation == QPoint(5,5))
         return;
 
-    busy = true;
-    shuffle->setEnabled(false);
-    refresh->setEnabled(false);
+    if (busy == false) {
+        refresh->setEnabled(false);
 
-    if (nodes != 0) {
-        nodes->clear();
-    } else {
-        nodes = new QVector<int>();
-    }
-    for(int j = 0; j < relation.y(); j++) {
-        for (int i = 0; i < relation.x(); i++){
-            QPoint point(i,j);
-            int index = puzzleWidget->getLocationIndex(point);
-            nodes->append(index);
+        if (nodes != nullptr) {
+            nodes->clear();
+        } else {
+            nodes = new QVector<int>();
+        }
+        for(int j = 0; j < relation.y(); j++) {
+            for (int i = 0; i < relation.x(); i++){
+                QPoint point(i,j);
+                int index = puzzleWidget->getTargetIndex(point);
+                if (index != -1)
+                    index++;
+                //else
+                //    index = 11;
+
+                nodes->append(index);
+            }
+        }
+        busy = true;
+        try {
+            strategy->start(nodes, heuristic);
+        }catch(std::exception &e) {
+            qt_message_output(QtDebugMsg, QMessageLogContext(), QString("Exception"));
+            busy = false;
+            shuffle->setEnabled(true);
+            refresh->setEnabled(true);
         }
     }
-
-    strategy.start(nodes ,heuristic);
 }
 void MainWindowImpl::setMisplacedTiles()
 {
@@ -637,6 +654,8 @@ void MainWindowImpl::getFileList()
            listImage->addItems(dirList);
         }
         break;
+    default:
+        break;
     }
 }
 void MainWindowImpl::getInternetImage() {
@@ -665,8 +684,8 @@ void MainWindowImpl::getImage(const int curRow)
                     if (puzzleImage.size() != puzzleWidget->size()) {
                         int size = qMin(puzzleImage.width(), puzzleImage.height());
                         puzzleImage = puzzleImage.copy((puzzleImage.width() - size)/2,
-                                                   (puzzleImage.height() - size)/2, size, size)
-                        .scaled(puzzleWidget->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+                                                       (puzzleImage.height() - size)/2, size, size)
+                                .scaled(puzzleWidget->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
                         puzzleImage.save(file);
                     }
                     log->append(trUtf8("<i>Изображение загружено из кэша!</i>"));
@@ -694,8 +713,8 @@ void MainWindowImpl::getImage(const int curRow)
                     if (puzzleImage.size() != puzzleWidget->size()) {
                         int size = qMin(puzzleImage.width(), puzzleImage.height());
                         puzzleImage = puzzleImage.copy((puzzleImage.width() - size)/2,
-                                                   (puzzleImage.height() - size)/2, size, size)
-                        .scaled(puzzleWidget->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+                                                       (puzzleImage.height() - size)/2, size, size)
+                                .scaled(puzzleWidget->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
                     }
                     log->append(trUtf8("<i>Изображение загружено из папки!</i>"));
                 }
@@ -819,27 +838,21 @@ void MainWindowImpl::loadImage()
 
     setupPuzzle();
 }
-void MainWindowImpl::displayState(QVector<int>* nodes, bool isFinal)
+void MainWindowImpl::displayState(Param *param)
 {
-    if (nodes != NULL)
-    {
-        QPoint relation = puzzleWidget->getRelation();
-        int x, y;
-        for (int i = 0; i < nodes->length(); i++) {
-            if (nodes->at(i) > 0)
-            {
-                y = nodes->at(i)/relation.x();
-                x = nodes->at(i) - y*relation.x() - 1;
-                QPoint point(x, y);
-                puzzleWidget->setPiece(point, i);
-            }
-        }
-        puzzleWidget->update();
-    }
+    QVector<int>* nodes = param->getState();
+    bool isFinal = param->isFinalState();
     if (isFinal) {
         busy = false;
-        shuffle->setEnabled(true);
         refresh->setEnabled(true);
     }
-
+    if (nodes != nullptr)
+    {
+        puzzleWidget->setPieces(nodes);
+    }
+}
+void MainWindowImpl::onPuzzleSolved(Param* param) {
+    int steps = param->getSteps();
+    int states = param->getStates();
+    log->append(trUtf8("Решение найдено: %1 шагов, %2 состояний").arg(steps).arg(states));
 }

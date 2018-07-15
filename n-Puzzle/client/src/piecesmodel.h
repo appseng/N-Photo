@@ -41,6 +41,7 @@
 #ifndef PIECESLIST_H
 #define PIECESLIST_H
 
+#include <QtGui>
 #include <QAbstractListModel>
 #include <QList>
 #include <QPixmap>

@@ -1,10 +1,5 @@
 #include "state.h"
 
-#include <QtGlobal>
-#include <QtMath>
-
-#include <cstddef>
-
 State::State(QObject* qparent, State* parent, QVector<int> *nodes, Heuristic heuristic)
     :QObject(qparent)
 {
@@ -15,11 +10,13 @@ State::State(QObject* qparent, State* parent, QVector<int> *nodes, Heuristic heu
     mStateCode = generateStateCode();
 }
 
-bool State::equals(State *obj) {
-    return obj != nullptr && this->mStateCode == obj->mStateCode;
+bool State::equals(const State *obj) const
+{
+    return obj != nullptr && mStateCode == obj->mStateCode;
 }
 
-int State::compareTo(State* that) {
+int State::compareTo(const State* that) const
+{
 
     if (that != nullptr)
     {
@@ -31,7 +28,7 @@ int State::compareTo(State* that) {
     return 0;
 }
 bool State::isCostlierThan(State *thatState) {
-    return this->mCostg > thatState->mCostg;
+    return mCostg > thatState->mCostg;
 }
 QString State::getStateCode() {
     return mStateCode;
@@ -53,14 +50,13 @@ QList<State*>* State::getNextStates(QList<State*> *nextStates) {
     statesList.append(Up);
     statesList.append(Down);
 
-    int i = 0;
     foreach (Direction direction, statesList)
     {
         state = getNextState(direction);
 
         if (state != nullptr)
         {
-            nextStates->insert(i++, state);
+            nextStates->append(state);
         }
     }
     return nextStates;
@@ -114,7 +110,7 @@ int State::getMisplacedTilesCost() {
     for (int i = 0; i < mNodes->length(); i++) {
         int value = mNodes->at(i) - 1;
 
-        // Space tile's value is -1
+        // Space tile's value is 11
         if (value == -2) {
             value = mNodes->length() - 1;
             mSpaceIndex = i;
@@ -159,22 +155,21 @@ int State::getManhattanDistanceCost()
     return heuristicCost;
 }
 
-QString State::generateStateCode() {
+QString State::generateStateCode()
+{
     QString code;
 
     for (int i = 0; i < mNodes->length()-1; i++) {
-        code.append(QString(mNodes->at(i))).append("*");
+        code.append(QString::number(mNodes->at(i))).append("*");
     }
-    code.append(QString(mNodes->last()));
+    code.append(QString::number(mNodes->last()));
 
     return code;
 }
 
-QVector<int>* State::getState() {
-    QVector<int> *state = nullptr;
-    for(auto item : (*mNodes)){
-        state = new QVector<int>(item);
-    };
+QVector<int>* State::getState()
+{
+    QVector<int> *state = new QVector<int>(*mNodes);
     return state;
 }
 
@@ -184,10 +179,7 @@ State* State::getNextState(Direction direction)
 
     if (canMove(direction, position))
     {
-        QVector<int> *nodes = nullptr;
-        for(auto item : (*mNodes)){
-            nodes = new QVector<int>(item);
-        };
+        QVector<int> *nodes = new QVector<int>(*mNodes);
 
         // Get new state nodes
         swap(nodes, mSpaceIndex, position);
@@ -259,3 +251,27 @@ bool State::canMove(Direction direction, int &newPosition)
     return newPosition != -1;
 }
 
+Param::Param(QObject *parent, QVector<int> *s, bool f)
+    :QObject(parent)
+{
+    state = s;
+    finalState = f;
+}
+Param::Param(QObject *parent, int i, int j)
+    :QObject(parent)
+{
+    steps = i;
+    states = j;
+}
+QVector<int>* Param::getState() {
+    return state;
+}
+bool Param::isFinalState(){
+    return finalState;
+}
+int Param::getStates() {
+    return states;
+}
+int Param::getSteps() {
+    return steps;
+}

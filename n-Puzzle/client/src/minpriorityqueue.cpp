@@ -1,116 +1,77 @@
 #include "minpriorityqueue.h"
+#include <QtAlgorithms>
 
 MinPriorityQueue::MinPriorityQueue(QObject *parent)
     :QObject(parent)
 {
     mArray = new QList<State*>();
-    mCount = 0;
 }
 
-bool MinPriorityQueue::less(int i, int j)
+bool MinPriorityQueue::isEmpty() const
 {
-    return mArray->at(i)->compareTo(mArray->at(j)) < 0;
+    return mArray->isEmpty();
 }
-void MinPriorityQueue::swap(int i, int j)
+
+bool MinPriorityQueue::less (int a, int b) const
 {
-    State *temp = mArray->at(j);
-    mArray->replace(j, mArray->at(i));
-    mArray->replace(i, temp);
+   return mArray->at(a)->compareTo(mArray->at(b)) < 0;
 }
-
-void MinPriorityQueue::sink(int index)
-{
-    int k;
-    while (index * 2 < mCount)
-    {
-        k = index * 2;
-
-        if (k + 1 <= mCount && less(k + 1, k))
-        {
-            k = k + 1;
-        }
-
-        if (!less(k, index))
-        {
-            break;
-        }
-
-        swap(index, k);
-        index = k;
-    }
-}
-
-void MinPriorityQueue::swim(int index)
-{
-    int k;
-
-    while (index / 2 >= 0)
-    {
-        k = index / 2;
-
-        if (!less(index, k))
-        {
-            break;
-        }
-
-        swap(index, k);
-        index = k;
-    }
-}
-
-bool MinPriorityQueue::isEmpty()
-{
-    return mCount == 0;
-}
-
 void MinPriorityQueue::enqueue(State *item)
 {
-    ++mCount;
     mArray->append(item);
-    swim(mCount);
+    int pos_min = -1;
+    State* temp = nullptr;
+
+    for (int i = 0; i < mArray->length()-1; i++) {
+        pos_min = i;
+        for (int j = i+1; j < mArray->length(); j++) {
+            if (less(j, i)) {
+                pos_min = j;
+            }
+        }
+        if (pos_min != i)
+        {
+            temp = mArray->at(i);
+            mArray->replace(i, mArray->at(pos_min));
+            mArray->replace(pos_min, temp);
+        }
+    }
 }
 
 State* MinPriorityQueue::dequeue()
 {
-    if (!isEmpty())
+    if (!mArray->isEmpty())
     {
-        State *item = mArray->at(0);
-        mArray->replace(0, mArray->at(mCount));
-        mArray->replace(mCount--, NULL);
-
-        sink(0);
-
-        return item;
+        return mArray->takeFirst();;
     }
-    return NULL;
+    return nullptr;
 }
 
-State* MinPriorityQueue::find(State *item, int &index)
+State* MinPriorityQueue::find(State *item, int &index) const
 {
     index = -1;
-    if (!isEmpty())
+    if (!mArray->isEmpty())
     {
         int i = 0;
-
-        while (i++ <= mCount)
+        int length = mArray->length();
+        State* state = mArray->at(i);
+        while (i < length)
         {
-            if (mArray->at(i)->equals(item))
+            if (state->equals(item))
             {
                 index = i;
-                return mArray->at(i);
+                return state;
             }
+            i++;
         }
     }
-
-    return NULL;
+    return nullptr;
 }
 
 void MinPriorityQueue::remove(int index)
 {
-    if (index >= 0 && index < mCount)
+    if (index >= 0 && index < mArray->length())
     {
-        mArray->replace(index, mArray->at(mCount));
-        mArray->replace(mCount--, NULL);
-        sink(index);
+        mArray->removeAt(index);
     }
 }

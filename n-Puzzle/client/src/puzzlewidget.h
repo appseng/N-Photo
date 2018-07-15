@@ -49,6 +49,12 @@
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QMouseEvent>
+#include <QPainter>
+#include <QVector>
+#include <QMimeData>
+#include <QDrag>
+
+#include "enums.h"
 
 class PuzzleWidget : public QWidget
 {
@@ -60,12 +66,11 @@ public:
     void changeType(const int);
     void addPieces(const QPixmap& = QPixmap());
     void shuffle();
-    int getRectIndex(const QRect) const;
-    int getLocationIndex(const QPoint) const;
+    int getTargetIndex(const QPoint&) const;
     const QPoint getRelation() const;
-    void setPiece(QPoint, int);
+    void setPieces(const QVector<int>* nodes);
 signals:
-    void puzzleCompleted();
+    void puzzleCompleted(bool);
     void blockMoved();
 protected:
     void dragEnterEvent(QDragEnterEvent *);

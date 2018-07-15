@@ -38,10 +38,6 @@
  **
  ****************************************************************************/
 
-#include <QPainter>
-#include <QVector>
-#include <QMimeData>
-#include <QDrag>
 #include "puzzlewidget.h"
 
 PuzzleWidget::PuzzleWidget(QWidget *parent, const QSize size)
@@ -154,7 +150,7 @@ void PuzzleWidget::dropEvent(QDropEvent *event)
         if (location == QPoint(square.x()/pnt.x(), square.y()/pnt.y())) {
             inPlace++;
             if (inPlace == relation.x()*relation.y())
-                emit puzzleCompleted();
+                emit puzzleCompleted(true);
         }
     } else {
         highlightedRect = QRect();
@@ -198,8 +194,6 @@ void PuzzleWidget::mousePressEvent(QMouseEvent *event)
     if (found == -1)
         return;
 
-    qt_message_output(QtDebugMsg, QMessageLogContext(), QString::number(found));
-
     QPoint location = pieceLocations[found];
     QPixmap pixmap = piecePixmaps[found];
     pieceLocations.removeAt(found);
@@ -222,8 +216,9 @@ void PuzzleWidget::mousePressEvent(QMouseEvent *event)
         update(square);
         if (location == QPoint(square.x()/pnt.x(), square.y()/pnt.y()))
             inPlace++;
-        if (inPlace == (relation.x()*relation.y() - 1))
-            emit puzzleCompleted();
+
+        if (inPlace == pieceRects.length())
+            emit puzzleCompleted(true);
     }
     else {
         QByteArray itemData;
@@ -272,60 +267,68 @@ void PuzzleWidget::addPieces(const QPixmap& pixmap)
     }
     update();
 }
+
 void PuzzleWidget::shuffle()
 {
     qsrand(QCursor::pos().x() ^ QCursor::pos().y());
     moves = 0;
-    int maxid = relation.x()*relation.y() - 1;
-    QRect buf;
-    int freeRect = qrand()%maxid;
-//    maxid--;
-    int i = 100 + qrand()%21;
+    int maxid = pieceRects.length()-1;
+    QRect freeRect = QRect((relation.x()-1)*pnt.x(), (relation.y()-1)*pnt.y(), pnt.x(), pnt.y());
+    int rect = pieceRects.indexOf(freeRect);
+    int missing = rect;
+    QRect nRect;
+    int iRect;
+    int i = qrand()%maxid + 100;
     while (i)
     {
         switch(int(qrand()%4))
         {
-            case 0:
-                if (freeRect-relation.x() >= 0) {
-                    buf = pieceRects[freeRect];
-                    pieceRects[freeRect] = pieceRects[freeRect-relation.x()];
-                    pieceRects[freeRect-relation.x()] = buf;
-                    freeRect = freeRect-relation.x();
-                    i--;
-                    break;
-                }
-            case 1:
-                if ((freeRect%relation.x()) != (relation.x()-1)) {
-                    buf = pieceRects[freeRect];
-                    pieceRects[freeRect] = pieceRects[freeRect+1];
-                    pieceRects[freeRect+1] = buf;
-                    freeRect = freeRect+1;
-                    i--;
-                    break;
-                }
-            case 2:
-                if (freeRect+relation.x() <= maxid) {
-                    buf = pieceRects[freeRect];
-                    pieceRects[freeRect] = pieceRects[freeRect+relation.x()];
-                    pieceRects[freeRect+relation.x()] = buf;
-                    freeRect = freeRect+relation.x();
-                    i--;
-                    break;
-                }
-            default:
-                if ((freeRect%relation.x()) != 0) {
-                    buf = pieceRects[freeRect];
-                    pieceRects[freeRect] = pieceRects[freeRect-1];
-                    pieceRects[freeRect-1] = buf;
-                    freeRect = freeRect-1;
-                    i--;
-                }
+        case Up:
+            nRect = QRect(freeRect.x(),freeRect.y()-pnt.y(),pnt.x(),pnt.y());
+            iRect = pieceRects.indexOf(nRect);
+            if (iRect != -1) {
+                pieceRects.swap(iRect, rect);
+                //rect = iRect;
+                freeRect = nRect;
+                i--;
+            }
+            break;
+        case Left:
+            nRect = QRect(freeRect.x()-pnt.x(),freeRect.y(),pnt.x(),pnt.y());
+            iRect = pieceRects.indexOf(nRect);
+            if (iRect != -1) {
+                pieceRects.swap(iRect, rect);
+                //rect = iRect;
+                freeRect = nRect;
+                i--;
+            }
+            break;
+
+        case Down:
+            nRect = QRect(freeRect.x(),freeRect.y()+pnt.y(),pnt.x(),pnt.y());
+            iRect = pieceRects.indexOf(nRect);
+            if (iRect != -1) {
+                pieceRects.swap(iRect, rect);
+                //rect = iRect;
+                freeRect = nRect;
+                i--;
+            }
+            break;
+        default: //right
+            nRect = QRect(freeRect.x()+pnt.x(),freeRect.y(),pnt.x(),pnt.y());
+            iRect = pieceRects.indexOf(nRect);
+            if (iRect != -1) {
+                pieceRects.swap(iRect, rect);
+                //rect = iRect;
+                freeRect = nRect;
+                i--;
+            }
         }
     }
 
-    pieceLocations.removeAt(maxid);
-    piecePixmaps.removeAt(maxid);
-    pieceRects.removeAt(maxid);
+    pieceLocations.removeAt(missing);
+    piecePixmaps.removeAt(missing);
+    pieceRects.removeAt(missing);
     inPlace = 0;
     for (int k = 0; k < pieceRects.size(); ++k) {
         if (pieceLocations[k] == QPoint(pieceRects[k].x()/pnt.x(), pieceRects[k].y()/pnt.y()))
@@ -359,20 +362,47 @@ const QRect PuzzleWidget::targetSquare(const QPoint &position) const
 {
     return QRect((position.x()/pnt.x()) * pnt.x(), (position.y()/pnt.y()) * pnt.y(), pnt.x(), pnt.y());
 }
-int  PuzzleWidget::getRectIndex(const QRect rect) const
+int  PuzzleWidget::getTargetIndex(const QPoint &point) const
 {
-    return pieceRects.indexOf(rect);
-}
-int  PuzzleWidget::getLocationIndex(const QPoint point) const
-{
-     return pieceLocations.indexOf(point);
+    QPoint pos(point.x()*pnt.x()+1,point.y()*pnt.y()+1);
+    return pieceRects.indexOf(targetSquare(pos));
 }
 const QPoint PuzzleWidget::getRelation() const
 {
     return relation;
 }
-void PuzzleWidget::setPiece(QPoint point, int index)
+
+void PuzzleWidget::setPieces(const QVector<int>* nodes)
 {
-    pieceLocations.replace(index, point);
-    pieceRects.replace(index, targetSquare(point));
+    int num;
+    int range = nodes->length();
+    for (int i = 0; i < range; i++) {// i: position in solved state
+        num = nodes->at(i) - 1; // number on title minus one
+        if (num >= 0) {
+            // i : position in solved state
+            QPoint location(num%relation.x(), num/relation.x());
+            // index of position element
+            int index = pieceLocations.indexOf(location);
+
+            // point on PuzzleWidget
+            // num : number on title minus one
+            QPoint pos((i%relation.x())*pnt.x(), (i/relation.x())*pnt.y());
+
+            // rect accorging 'point'
+            QRect ts = targetSquare(pos);
+            if (index != -1 && index != pieceRects.indexOf(ts))
+                pieceRects.replace(index, ts);
+        }
+    }
+    update();
+
+    inPlace = 0;
+    for (int k = 0; k < pieceRects.size(); ++k) {
+        if (pieceLocations[k] == QPoint(pieceRects[k].x()/pnt.x(), pieceRects[k].y()/pnt.y()))
+            inPlace++;
+    }
+
+    if (inPlace == relation.x()*relation.y()-1)
+        emit puzzleCompleted(false);
+
 }

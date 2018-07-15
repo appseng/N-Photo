@@ -1,26 +1,22 @@
 #include "puzzlestrategy.h"
 
-#include <QHash>
-#include <QHash>
-#include <QSet>
-#include <QStack>
-
-#include "minpriorityqueue.h"
-
-PuzzleStrategy::PuzzleStrategy(QObject* parent)
+PuzzleStrategy::PuzzleStrategy(QObject *parent)
     :QObject(parent)
 {
-
+    timer = new QTimer(this);
+    timer->setInterval(1200);
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateState()));
 }
 
 void PuzzleStrategy::start(QVector<int>* nodes, Heuristic heuristic)
 {
-    int openStateIndex;
+    int openStateIndex = -1;
     int stateCount = -1;
     State *currentState;
     QList<State*> *nextStates = new QList<State*>();
     QSet<QString> openStates;
 
+    //MinPriorityQueue2 openStateQueue(nodes->length() * 3);
     MinPriorityQueue openStateQueue;
     QHash<QString, State*> closedQueue;
 
@@ -34,6 +30,12 @@ void PuzzleStrategy::start(QVector<int>* nodes, Heuristic heuristic)
         openStates.remove(currentState->getStateCode());
 
         stateCount++;
+
+        // Is this final state
+        if (currentState->isFinalState())
+        {
+            break;
+        }
 
         // Look into next state
         currentState->getNextStates(nextStates);
@@ -55,7 +57,7 @@ void PuzzleStrategy::start(QVector<int>* nodes, Heuristic heuristic)
                     // We already have same state in the open queue.
                     openState = openStateQueue.find(nextState, openStateIndex);
 
-                    if (openState->isCostlierThan(nextState))
+                    if (openState != nullptr && openState->isCostlierThan(nextState))
                     {
                         // We have found a better way to reach at this state. Discard the costlier one
                         openStateQueue.remove(openStateIndex);
@@ -69,11 +71,11 @@ void PuzzleStrategy::start(QVector<int>* nodes, Heuristic heuristic)
 
                     if (closedQueue.contains(stateCode))
                     {
+                        closedState = closedQueue.value(stateCode);
                         // We have found a better way to reach at this state. Discard the costlier one
                         if (closedState->isCostlierThan(nextState))
                         {
-                            closedQueue.remove(stateCode);
-                            closedQueue.insert(stateCode, nextState);
+                            closedQueue[stateCode] = nextState;
                         }
                     }
                 }
@@ -84,8 +86,8 @@ void PuzzleStrategy::start(QVector<int>* nodes, Heuristic heuristic)
                     openStates.insert(nextState->getStateCode());
                 }
             }
-            closedQueue.remove(currentState->getStateCode());
-            closedQueue.insert(currentState->getStateCode(), currentState);
+            //closedQueue.remove(currentState->getStateCode());
+            closedQueue[currentState->getStateCode()] = currentState;
         }
     }
     if (currentState != nullptr && !currentState->isFinalState())
@@ -103,34 +105,41 @@ void PuzzleStrategy::onFinalState(State *state)
     {
         // We have a solution for this puzzle
         // Backtrac to the root of the path in the tree
-        QStack<State*> path;
-
+        path.clear();
         while (state != nullptr)
         {
             path.push(state);
             state = state->getParent();
         }
-
-        while (path.count() > 0)
-        {
-            // Move one by one down the path
-            emit onStateChanged(std::make_pair(path.pop()->getState(), path.count() == 0));
-        }
+        timer->start();
     }
     else
     {
         // No solution
-        emit onStateChanged(std::make_pair(nullptr, true));
+        Param *param = new Param(this, nullptr, true);
+        emit onStateChanged(param);
+    }
+}
+
+void PuzzleStrategy::updateState() {
+    if (path.count() > 0)
+    {
+        // Move one by one down the path
+        Param *param = new Param(this, path.pop()->getState(), path.count() == 0);
+        emit onStateChanged(param);
+    } else {
+        timer->stop();
     }
 }
 
 void PuzzleStrategy::puzzleSolved(State *state, int states)
 {
-    int steps = -1;
+    steps = -1;
     while (state != nullptr)
     {
         state = state->getParent();
         steps++;
     }
-    emit onPuzzleSolved(std::make_pair(steps, states));
+    Param *param = new Param(this, steps, states);
+    emit onPuzzleSolved(param);
 }

@@ -10,20 +10,14 @@ class MinPriorityQueue : public QObject
     Q_OBJECT
     private:
         QList<State*> *mArray;
-        int mCount;
     public:
         MinPriorityQueue(QObject *parent = 0);
-        bool isEmpty();
-        void enqueue(State* item);
+        bool isEmpty() const;
+        void enqueue(State*);
         State* dequeue();
-        State* find(State* item, int &index);
-        void remove(int index);
+        State* find(State*, int&) const;
+        void remove(int);
     private:
-        void expand(int capacity);
-        bool less(int i, int j);
-        void swap(int i, int j);
-        void sink(int index);
-        void swim(int index);
+        bool less (int, int) const;
 };
-
 #endif // MINPRIORITYQUEUE_H
