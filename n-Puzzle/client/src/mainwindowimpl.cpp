@@ -542,7 +542,7 @@ void MainWindowImpl::setSpanish()
 }
 void MainWindowImpl::solvePuzzle()
 {
-    if (relation == QPoint(5,5))
+    if (relation != QPoint(3,3))
         return;
 
     if (busy == false) {
