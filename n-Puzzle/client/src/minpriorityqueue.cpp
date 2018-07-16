@@ -50,13 +50,15 @@ State* MinPriorityQueue::dequeue()
 State* MinPriorityQueue::find(State *item, int &index) const
 {
     index = -1;
+
     if (!mArray->isEmpty())
     {
         int i = 0;
         int length = mArray->length();
-        State* state = mArray->at(i);
+        State *state = nullptr;
         while (i < length)
         {
+            state = mArray->at(i);
             if (state->equals(item))
             {
                 index = i;
