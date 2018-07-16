@@ -557,9 +557,9 @@ void MainWindowImpl::solvePuzzle()
         for(int j = 0; j < relation.y(); j++) {
             for (int i = 0; i < relation.x(); i++){
                 QPoint point(i,j);
-                int index = puzzleWidget->getTargetIndex(point)+1;
-                if (index == 0)
-                    continue;
+                int index = puzzleWidget->getTargetIndex(point);
+                if (index != -1)
+                    index++;
 
                 nodes->append(index);
             }
