@@ -66,8 +66,8 @@ public:
     int rowCount(const QModelIndex &) const;
     Qt::DropActions supportedDropActions() const;
 
-    void addPiece(const QPixmap &, const QPoint &);
-    void addPieces(const QPixmap& , QPoint);
+    void addPiece(const QPixmap&, const QPoint&);
+    void addPieces(const QPixmap& , QPoint&);
 
 private:
     QList<QPoint> locations;

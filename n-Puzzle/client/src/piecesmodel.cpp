@@ -188,14 +188,13 @@ Qt::DropActions PiecesModel::supportedDropActions() const
     return Qt::CopyAction | Qt::MoveAction;
 }
 
-void PiecesModel::addPieces(const QPixmap& pixmap, QPoint relation)
+void PiecesModel::addPieces(const QPixmap& pixmap, QPoint& relation)
 {
     if (relation.isNull())
         relation = QPoint(4,4);
-    beginRemoveRows(QModelIndex(), 0, 24);
+
     pixmaps.clear();
     locations.clear();
-    endRemoveRows();
     for (int y = 0; y < relation.y(); ++y) {
         for (int x = 0; x < relation.x(); ++x) {
             QPixmap pieceImage = pixmap.copy(x*pixmap.width()/relation.x(),
