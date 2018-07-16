@@ -35,7 +35,6 @@ class State : public QObject
         bool isFinalState() const;
         State* getParent() const;
         QList<State*> *getNextStates(QList<State*>*);
-        QString toString() const;
         void calculateCost();
         int getHeuristicCost();
         int getMisplacedTilesCost();

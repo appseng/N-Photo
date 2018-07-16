@@ -65,10 +65,7 @@ QList<State*>* State::getNextStates(QList<State*> *nextStates) {
     }
     return nextStates;
 }
-QString State::toString() const
-{
-    return "State:" + mStateCode + ", g:" + mCostg + ", h:" + mCosth + ", f:" + mCostf;
-}
+
 State::State(QObject *qparent, State *parent, QVector<int>* nodes)
     :QObject(qparent)
 {
