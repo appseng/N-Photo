@@ -432,6 +432,9 @@ void MainWindowImpl::setCompleted(bool byHuman)
 }
 void MainWindowImpl::setupPuzzle()
 {
+    if (busy)
+        return;
+
     if (puzzleImage.isNull())
         return;
     puzzleWidget->clear();
@@ -546,8 +549,6 @@ void MainWindowImpl::solvePuzzle()
         return;
 
     if (busy == false) {
-        refresh->setEnabled(false);
-
         if (nodes != nullptr) {
             nodes->clear();
         } else {
@@ -556,11 +557,9 @@ void MainWindowImpl::solvePuzzle()
         for(int j = 0; j < relation.y(); j++) {
             for (int i = 0; i < relation.x(); i++){
                 QPoint point(i,j);
-                int index = puzzleWidget->getTargetIndex(point);
-                if (index != -1)
-                    index++;
-                //else
-                //    index = 11;
+                int index = puzzleWidget->getTargetIndex(point)+1;
+                if (index == 0)
+                    continue;
 
                 nodes->append(index);
             }
@@ -569,10 +568,7 @@ void MainWindowImpl::solvePuzzle()
         try {
             strategy->start(nodes, heuristic);
         }catch(std::exception &e) {
-            qt_message_output(QtDebugMsg, QMessageLogContext(), QString("Exception"));
             busy = false;
-            shuffle->setEnabled(true);
-            refresh->setEnabled(true);
         }
     }
 }
@@ -844,7 +840,6 @@ void MainWindowImpl::displayState(Param *param)
     bool isFinal = param->isFinalState();
     if (isFinal) {
         busy = false;
-        refresh->setEnabled(true);
     }
     if (nodes != nullptr)
     {

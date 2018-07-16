@@ -375,9 +375,9 @@ border-right-color: rgb(255, 65, 252);</source>
         <translation>&lt;b&gt;Добро пожаловать!&lt;/b&gt;&lt;br&gt;На данный момент &lt;b&gt;%1&lt;/b&gt; день года, &lt;b&gt;%2:%3:%4&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="632"/>
-        <location filename="src/mainwindowimpl.cpp" line="633"/>
-        <location filename="src/mainwindowimpl.cpp" line="635"/>
+        <location filename="src/mainwindowimpl.cpp" line="628"/>
+        <location filename="src/mainwindowimpl.cpp" line="629"/>
+        <location filename="src/mainwindowimpl.cpp" line="631"/>
         <source>cache</source>
         <translation type="unfinished"></translation>
     </message>
@@ -463,7 +463,7 @@ border-right-color: rgb(255, 65, 252);</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="804"/>
+        <location filename="src/mainwindowimpl.cpp" line="800"/>
         <source>Ошибка TCP: %1</source>
         <oldsource>ÐÑÐ¸Ð±ÐºÐ° TCP: %1</oldsource>
         <translation>Ошибка TCP: %1</translation>
@@ -502,43 +502,43 @@ border-right-color: rgb(255, 65, 252);</source>
 Нажмите OK для продолжения.</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="463"/>
+        <location filename="src/mainwindowimpl.cpp" line="466"/>
         <source>Сохранить изображение</source>
         <translation>Сохранить изображение</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="464"/>
+        <location filename="src/mainwindowimpl.cpp" line="467"/>
         <source>Изображения (*.png *.jpg *.bmp)</source>
         <oldsource>ÐÐ·Ð¾Ð±ÑÐ°Ð¶ÐµÐ½Ð¸Ñ (*.png *.jpg *.bmp)</oldsource>
         <translation>Изображения (*.png *.jpg *.bmp)</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="484"/>
+        <location filename="src/mainwindowimpl.cpp" line="487"/>
         <source>00:00:00</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="677"/>
+        <location filename="src/mainwindowimpl.cpp" line="673"/>
         <source>&lt;i&gt;Загрузка изображения из кэша......&lt;/i&gt;</source>
         <translation>&lt;i&gt;Загрузка изображения из кэша......&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="665"/>
+        <location filename="src/mainwindowimpl.cpp" line="661"/>
         <source>&lt;i&gt;Загрузка изображения из интернета......&lt;/i&gt;</source>
         <translation>&lt;i&gt;Загрузка изображения из интернета......&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="706"/>
+        <location filename="src/mainwindowimpl.cpp" line="702"/>
         <source>&lt;i&gt;Загрузка изображения из папки......&lt;/i&gt;</source>
         <translation>&lt;i&gt;Загрузка изображения из папки......&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="819"/>
+        <location filename="src/mainwindowimpl.cpp" line="815"/>
         <source>Выбор папки</source>
         <translation>Выбор папки</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="614"/>
+        <location filename="src/mainwindowimpl.cpp" line="610"/>
         <source>&lt;i&gt;Загрузка произвольного изображения......&lt;/i&gt;</source>
         <translation>&lt;i&gt;Загрузка произвольного изображения......&lt;/i&gt;</translation>
     </message>
@@ -554,70 +554,70 @@ border-right-color: rgb(255, 65, 252);</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="640"/>
+        <location filename="src/mainwindowimpl.cpp" line="636"/>
         <source>&lt;i&gt;Получение списка изображений......&lt;/i&gt;</source>
         <translation>&lt;i&gt;Получение списка изображений......&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="678"/>
-        <location filename="src/mainwindowimpl.cpp" line="734"/>
-        <location filename="src/mainwindowimpl.cpp" line="772"/>
+        <location filename="src/mainwindowimpl.cpp" line="674"/>
+        <location filename="src/mainwindowimpl.cpp" line="730"/>
+        <location filename="src/mainwindowimpl.cpp" line="768"/>
         <source>%1/%2.jpg</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="691"/>
-        <location filename="src/mainwindowimpl.cpp" line="738"/>
+        <location filename="src/mainwindowimpl.cpp" line="687"/>
+        <location filename="src/mainwindowimpl.cpp" line="734"/>
         <source>&lt;i&gt;Изображение загружено из кэша!&lt;/i&gt;</source>
         <translation>&lt;i&gt;Изображение загружено из кэша!&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="696"/>
+        <location filename="src/mainwindowimpl.cpp" line="692"/>
         <source>&lt;i&gt;Загрузка изображения с сервера......&lt;/i&gt;</source>
         <translation>&lt;i&gt;Загрузка изображения с сервера......&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="707"/>
+        <location filename="src/mainwindowimpl.cpp" line="703"/>
         <source>%1/%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="719"/>
+        <location filename="src/mainwindowimpl.cpp" line="715"/>
         <source>&lt;i&gt;Изображение загружено из папки!&lt;/i&gt;</source>
         <translation>&lt;i&gt;Изображение загружено из папки!&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="771"/>
+        <location filename="src/mainwindowimpl.cpp" line="767"/>
         <source>&lt;i&gt;Изображение загружено!&lt;/i&gt;</source>
         <translation>&lt;i&gt;Изображение загружено!&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="777"/>
+        <location filename="src/mainwindowimpl.cpp" line="773"/>
         <source>&lt;i&gt;Ошибка при получении изображения!&lt;/i&gt;</source>
         <translation>&lt;i&gt;Ошибка при получении изображения!&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="791"/>
+        <location filename="src/mainwindowimpl.cpp" line="787"/>
         <source>&lt;i&gt;Список доступных файлов загружен.&lt;/i&gt;</source>
         <translation>&lt;i&gt;Список доступных файлов загружен.&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="794"/>
+        <location filename="src/mainwindowimpl.cpp" line="790"/>
         <source>&lt;i&gt;Неизвестный тип - %1&lt;/i&gt;</source>
         <translation>&lt;i&gt;Неизвестный тип - %1&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="807"/>
+        <location filename="src/mainwindowimpl.cpp" line="803"/>
         <source>Используется кэш.</source>
         <translation>Используется кэш.</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="834"/>
+        <location filename="src/mainwindowimpl.cpp" line="830"/>
         <source>&lt;i&gt;Изображение загружено из интернета!&lt;/i&gt;</source>
         <translation>&lt;i&gt;Изображение загружено из интернета!&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="857"/>
+        <location filename="src/mainwindowimpl.cpp" line="852"/>
         <source>Решение найдено: %1 шагов, %2 состояний</source>
         <translation>Решение найдено: %1 шагов, %2 состояний</translation>
     </message>

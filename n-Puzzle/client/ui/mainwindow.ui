@@ -737,14 +737,14 @@
     <property name="title">
      <string>Решение</string>
     </property>
-    <widget class="QMenu" name="menu_3">
+    <widget class="QMenu" name="mSolution">
      <property name="title">
       <string>Эвристика</string>
      </property>
      <addaction name="aManhattanDistance"/>
      <addaction name="aMisplacedTiles"/>
     </widget>
-    <addaction name="menu_3"/>
+    <addaction name="mSolution"/>
     <addaction name="aSolvePuzzle"/>
    </widget>
    <addaction name="mFile"/>
