@@ -12,7 +12,7 @@ void PuzzleStrategy::start(QVector<int>* nodes, Heuristic heuristic)
 {
     int openStateIndex = -1;
     int stateCount = -1;
-    State *currentState;
+    State *currentState = nullptr;
     QList<State*> *nextStates = new QList<State*>();
     QSet<QString> openStates;
 
