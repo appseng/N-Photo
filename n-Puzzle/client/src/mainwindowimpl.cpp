@@ -172,10 +172,12 @@ void MainWindowImpl::writeSettings()
         lang = QString("es_ES");
 
     settings.setValue(trUtf8("language"), lang);
+
+    settings.setValue(trUtf8("heuristic"), aManhattanDistance->isChecked());
 }
 void MainWindowImpl::readSettings()
 {
-    QSettings settings(trUtf8("npuzzle.codeplex.com"),trUtf8("n-Puzzle"));
+    QSettings settings(trUtf8("bitbucket.org/appseng/n-puzzle"),trUtf8("n-Puzzle"));
 
     QRect rect = settings.value(trUtf8("geometry"), QRect(0,0,700,489)).toRect();
     move(rect.topLeft());
@@ -252,6 +254,13 @@ void MainWindowImpl::readSettings()
         aEnglish->setChecked(true);
     }
     loadLanguage(lang);
+
+    bool heuristic = settings.value(trUtf8("heuristic"), true).toBool();
+    if (heuristic) {
+        aManhattanDistance->setChecked(true);
+    } else {
+        aMisplacedTiles->setChecked(true);
+    }
 }
 void MainWindowImpl::closeEvent(QCloseEvent *event)
 {
@@ -545,7 +554,10 @@ void MainWindowImpl::setSpanish()
 }
 void MainWindowImpl::solvePuzzle()
 {
-    if (relation != QPoint(3,3))
+    if (!multi)
+        return;
+
+    if (relation == QPoint(5,5))
         return;
 
     if (busy == false) {

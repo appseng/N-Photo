@@ -26,9 +26,12 @@ class PuzzleStrategy : public QObject
     public:
         PuzzleStrategy(QObject* = 0);
         void start(QVector<int>*, Heuristic);
+        void IDAStar(QVector<int>*, Heuristic);
+        void AStar(QVector<int>*, Heuristic);
     private:
         void onFinalState(State*);
         void puzzleSolved(State*, int);
+        State* depthFirstSearch(State*, int);
     signals:
         onStateChanged(Param*);
         onPuzzleSolved(Param*);

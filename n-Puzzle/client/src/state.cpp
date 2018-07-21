@@ -95,6 +95,11 @@ void State::calculateCost()
     mCostf = mCosth + mCostg;
 }
 
+int State::getCost()
+{
+    return mCostg;
+}
+
 int State::getHeuristicCost()
 {
     if (mHeuristic == ManhattanDistance) {
