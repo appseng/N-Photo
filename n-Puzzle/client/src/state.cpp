@@ -1,18 +1,24 @@
 #include "state.h"
 
-State::State(QObject* qparent, State* parent, QVector<int> *nodes, Heuristic heuristic)
+State::State(QObject* qparent, State* parent, QVector<int>* nodes, Heuristic heuristic)
     :QObject(qparent)
 {
     mNodes = nodes;
     mParent = parent;
     mHeuristic = heuristic;
     calculateCost();
-    mStateCode = generateStateCode();
+    generateStateCode();
+    mOldSpaceIndex = (parent != nullptr) ? parent->getSpaceIndex(): -1;
+}
+
+State::State(QObject* qparent, State* parent, QVector<int>* nodes)
+    :State(qparent, parent, nodes, parent->mHeuristic)
+{
 }
 
 bool State::equals(const State *obj) const
 {
-    return obj != nullptr && mStateCode == obj->mStateCode;
+    return obj != nullptr && mStateCode == obj->getStateCode();
 }
 
 int State::compareTo(const State* that) const
@@ -45,14 +51,13 @@ State* State::getParent() const
     return mParent;
 }
 QList<State*>* State::getNextStates(QList<State*> *nextStates) {
-    nextStates->clear();
     State *state;
 
     QVector<Direction> statesList;
-    statesList.append(Left);
     statesList.append(Right);
-    statesList.append(Up);
     statesList.append(Down);
+    statesList.append(Left);
+    statesList.append(Up);
 
     foreach (Direction direction, statesList)
     {
@@ -64,16 +69,6 @@ QList<State*>* State::getNextStates(QList<State*> *nextStates) {
         }
     }
     return nextStates;
-}
-
-State::State(QObject *qparent, State *parent, QVector<int>* nodes)
-    :QObject(qparent)
-{
-    mNodes = nodes;
-    mParent = parent;
-    mHeuristic = parent->mHeuristic;
-    calculateCost();
-    mStateCode = generateStateCode();
 }
 
 void State::calculateCost()
@@ -97,7 +92,25 @@ void State::calculateCost()
 
 int State::getCost()
 {
+    return mCosth + mCostg;
+}
+
+int State::getCostg()
+{
     return mCostg;
+}
+
+int State::getCosth()
+{
+    return mCosth;
+}
+
+void State::setCostg(int cost) {
+    mCostg = cost;
+}
+
+int State::getSpaceIndex() {
+    return mSpaceIndex;
 }
 
 int State::getHeuristicCost()
@@ -132,7 +145,7 @@ int State::getMisplacedTilesCost() {
 int State::getManhattanDistanceCost()
 {
     int heuristicCost = 0;
-    int gridX = (int)qSqrt(mNodes->length());
+    int gridX = int(qSqrt(mNodes->length()));
     int idealX;
     int idealY;
     int currentX;
@@ -147,7 +160,6 @@ int State::getManhattanDistanceCost()
         }
 
         if (value != i) {
-            // Misplaced tile
             idealX = value % gridX;
             idealY = value / gridX;
 
@@ -161,16 +173,14 @@ int State::getManhattanDistanceCost()
     return heuristicCost;
 }
 
-QString State::generateStateCode()
+void State::generateStateCode()
 {
-    QString code;
-
-    for (int i = 0; i < mNodes->length()-1; i++) {
-        code.append(QString::number(mNodes->at(i))).append("*");
+    mStateCode.clear();
+    int s = mNodes->size()-1;
+    for (int i = 0; i < s; i++) {
+        mStateCode.append(trUtf8("%1*").arg(mNodes->at(i)));
     }
-    code.append(QString::number(mNodes->last()));
-
-    return code;
+    mStateCode.append(trUtf8("%1").arg(mNodes->last()));
 }
 
 QVector<int>* State::getState() const
@@ -187,8 +197,9 @@ State* State::getNextState(Direction direction)
     {
         QVector<int> *nodes = new QVector<int>(*mNodes);
 
-        // Get new state nodes
-        swap(nodes, mSpaceIndex, position);
+        //swap(nodes, mSpaceIndex, position);
+        nodes->replace(mSpaceIndex, nodes->at(position));
+        nodes->replace(position, -1);
 
         return new State(this, this, nodes);
     }
@@ -207,7 +218,7 @@ bool State::canMove(Direction direction, int &newPosition) const
 {
     int newX = -1;
     int newY = -1;
-    int gridX = (int)qSqrt(mNodes->length());
+    int gridX = int(qSqrt(mNodes->length()));
     int currentX = mSpaceIndex % gridX;
     int currentY = mSpaceIndex / gridX;
     newPosition = -1;
@@ -253,6 +264,9 @@ bool State::canMove(Direction direction, int &newPosition) const
     {
         newPosition = newY * gridX + newX;
     }
+
+    if (mOldSpaceIndex == newPosition)
+        return false;
 
     return newPosition != -1;
 }

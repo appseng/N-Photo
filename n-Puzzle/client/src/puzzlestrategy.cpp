@@ -19,14 +19,14 @@ void PuzzleStrategy::start(QVector<int>* nodes, Heuristic heuristic)
 void PuzzleStrategy::IDAStar(QVector<int>* nodes, Heuristic heuristic)
 {
     State* startNode = new State(this, nullptr, nodes, heuristic);
-    int nextCostBound = startNode->getHeuristicCost();
+    int nextCostBound = startNode->getCost();
     State* solution = nullptr;
     steps = 0;
 
-    while (solution == nullptr) {
-        int currentCostBound = nextCostBound;
-        solution = depthFirstSearch(startNode, currentCostBound);
-        nextCostBound += 2;
+    while (true) {
+        solution = depthFirstSearch(startNode, nextCostBound);
+        if (solution->isFinalState()) break;
+        nextCostBound = solution->getCost();
     }
     puzzleSolved(solution, steps);
     onFinalState(solution);
@@ -35,29 +35,32 @@ void PuzzleStrategy::IDAStar(QVector<int>* nodes, Heuristic heuristic)
 
 State* PuzzleStrategy::depthFirstSearch(State *current, int currentCostBound)
 {
+    if (current->getCost() > currentCostBound)
+        return current;
+
     if (current->isFinalState()) {
         return current;
     }
 
     steps++;
 
-    QList<State*> *nextStates  = new QList<State*>();
-    current->getNextStates(nextStates);
+    QList<State*> nextStates;
+    current->getNextStates(&nextStates);
 
-    for (int i = 0; i < nextStates->size(); i++) {
-        State* next = nextStates->at(i);
-        int value = next->getCost() + next->getHeuristicCost();
+    State* minState = nullptr;
+    int minval = INT_MAX;
+    for (int i = 0; i < nextStates.size(); i++) {
+        State* next = nextStates.at(i);
 
-        if (value <= currentCostBound) {
-            State* result = depthFirstSearch(next, currentCostBound);
-            if (result != nullptr){
-                delete nextStates;
-                return result;
-            }
+        State* result = depthFirstSearch(next, currentCostBound);
+        if (result->isFinalState()) return result;
+        int temp = result->getCost();
+        if (temp < minval) {
+            minval = temp;
+            minState = result;
         }
     }
-    delete nextStates;
-    return nullptr;
+    return minState;
 }
 
 void PuzzleStrategy::AStar(QVector<int>* nodes, Heuristic heuristic)
@@ -65,7 +68,7 @@ void PuzzleStrategy::AStar(QVector<int>* nodes, Heuristic heuristic)
     int openStateIndex = -1;
     int stateCount = -1;
     State *currentState = nullptr;
-    QList<State*> *nextStates = new QList<State*>();
+    QList<State*> nextStates;
     QSet<QString> openStates;
 
     MinPriorityQueue openStateQueue;
@@ -89,19 +92,19 @@ void PuzzleStrategy::AStar(QVector<int>* nodes, Heuristic heuristic)
         }
 
         // Look into next state
-        currentState->getNextStates(nextStates);
+        currentState->getNextStates(&nextStates);
 
-        if (nextStates->count() > 0)
+        if (nextStates.count() > 0)
         {
             State *closedState;
             State *openState;
             State *nextState;
 
-            for (int i = 0; i < nextStates->count(); i++)
+            for (int i = 0; i < nextStates.count(); i++)
             {
                 closedState = nullptr;
                 openState = nullptr;
-                nextState = nextStates->at(i);
+                nextState = nextStates.at(i);
 
                 if (openStates.contains(nextState->getStateCode()))
                 {
@@ -148,7 +151,6 @@ void PuzzleStrategy::AStar(QVector<int>* nodes, Heuristic heuristic)
     }
     puzzleSolved(currentState, stateCount);
     onFinalState(currentState);
-    delete nextStates;
 }
 
 void PuzzleStrategy::onFinalState(State *state)

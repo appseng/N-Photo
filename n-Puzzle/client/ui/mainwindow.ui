@@ -497,13 +497,6 @@
                   </property>
                  </widget>
                 </item>
-                <item>
-                 <widget class="QRadioButton" name="rButton_5">
-                  <property name="text">
-                   <string>5 x 5</string>
-                  </property>
-                 </widget>
-                </item>
                </layout>
               </item>
               <item>
@@ -971,6 +964,12 @@
    <property name="text">
     <string>ManhattanDistance</string>
    </property>
+   <property name="shortcut">
+    <string>Shift+D</string>
+   </property>
+   <property name="autoRepeat">
+    <bool>false</bool>
+   </property>
   </action>
   <action name="aMisplacedTiles">
    <property name="checkable">
@@ -979,10 +978,22 @@
    <property name="text">
     <string>MisplacedTiles</string>
    </property>
+   <property name="shortcut">
+    <string>Shift+T</string>
+   </property>
+   <property name="autoRepeat">
+    <bool>false</bool>
+   </property>
   </action>
   <action name="aSolvePuzzle">
    <property name="text">
     <string>Решить</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+S</string>
+   </property>
+   <property name="autoRepeat">
+    <bool>false</bool>
    </property>
   </action>
  </widget>

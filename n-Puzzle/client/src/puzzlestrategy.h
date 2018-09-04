@@ -24,7 +24,7 @@ class PuzzleStrategy : public QObject
         QStack<State*> path;
         QTimer *timer;
     public:
-        PuzzleStrategy(QObject* = 0);
+        PuzzleStrategy(QObject* = nullptr);
         void start(QVector<int>*, Heuristic);
         void IDAStar(QVector<int>*, Heuristic);
         void AStar(QVector<int>*, Heuristic);
@@ -33,8 +33,8 @@ class PuzzleStrategy : public QObject
         void puzzleSolved(State*, int);
         State* depthFirstSearch(State*, int);
     signals:
-        onStateChanged(Param*);
-        onPuzzleSolved(Param*);
+        void onStateChanged(Param*);
+        void onPuzzleSolved(Param*);
     private slots:
         void updateState();
 };

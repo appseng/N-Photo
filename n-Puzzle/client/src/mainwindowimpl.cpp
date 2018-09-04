@@ -158,11 +158,9 @@ void MainWindowImpl::writeSettings()
     settings.setValue(trUtf8("localFolder"), localFolder->text());
     settings.setValue(trUtf8("gameTypeSettings"),aGameSettings->isChecked());
     settings.setValue(trUtf8("complicationSettings"),aComplication->isChecked());
-    int rBut = 5;
+    int rBut = 4;
     if (rButton_3->isChecked())
         rBut = 3;
-    else if (rButton_4->isChecked())
-        rBut = 4;
 
     settings.setValue(trUtf8("complication"), rBut);
     QString lang("en_US");
@@ -227,14 +225,10 @@ void MainWindowImpl::readSettings()
     aComplication->setChecked(complicationSettingsVisible);;
 
     int rBut = settings.value(trUtf8("complication"), 4).toInt();
-    if (rBut == 3)
+    if (rBut == 3) {
         rButton_3->setChecked(true);
-    else if (rBut == 4)
-        rButton_4->setChecked(true);
-    else if (rBut == 5)
-        rButton_5->setChecked(true);
+    }
     else {
-        rBut = 4;
         rButton_4->setChecked(true);
     }
     setComplication();
@@ -671,7 +665,9 @@ void MainWindowImpl::getInternetImage() {
         downloadedImage->~FileDownloader();
 
     log->append(trUtf8("<i>Загрузка изображения из интернета......</i>"));
-    QUrl imageUrl("http://lorempixel.com/400/400/");
+
+
+    QUrl imageUrl(trUtf8("https://picsum.photos/400/400/?image=%1").arg(qrand()%1000));
     downloadedImage = new FileDownloader(imageUrl, this);
 
     connect(downloadedImage, SIGNAL(downloaded()), SLOT(loadImage()));
