@@ -30,3 +30,12 @@
 *.exe
 *.out
 *.app
+
+# Build-folders
+*-Debug
+*-Release
+
+# Additional project files
+*.pro.user
+
+
