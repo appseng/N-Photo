@@ -19,26 +19,33 @@ void PuzzleStrategy::start(QVector<int>* nodes, Heuristic heuristic)
 void PuzzleStrategy::IDAStar(QVector<int>* nodes, Heuristic heuristic)
 {
     State* startNode = new State(this, nullptr, nodes, heuristic);
-    int nextCostBound = startNode->getCost();
+    int nextCostBound  = startNode->getCost();
+    int minNextThreshold;
     State* solution = nullptr;
     steps = 0;
 
     while (true) {
-        solution = depthFirstSearch(startNode, nextCostBound);
-        if (solution->isFinalState()) break;
-        nextCostBound = solution->getCost();
+        minNextThreshold = INT_MAX;
+        solution = depthFirstSearch(startNode, nextCostBound, minNextThreshold);
+        if (solution != nullptr && solution->isFinalState()) break;
+        nextCostBound = minNextThreshold;
     }
     puzzleSolved(solution, steps);
     onFinalState(solution);
 }
 
 
-State* PuzzleStrategy::depthFirstSearch(State *current, int currentCostBound)
+State* PuzzleStrategy::depthFirstSearch(State *current, int currentCostBound, int& minNextThreshold)
 {
-    if (current->getCost() > currentCostBound)
-        return current;
-
     if (current->isFinalState()) {
+        return current;
+    }
+
+    int cost = current->getCost();
+    if (cost > currentCostBound) {
+        if (cost < minNextThreshold)
+            minNextThreshold = cost;
+
         return current;
     }
 
@@ -47,20 +54,13 @@ State* PuzzleStrategy::depthFirstSearch(State *current, int currentCostBound)
     QList<State*> nextStates;
     current->getNextStates(&nextStates);
 
-    State* minState = nullptr;
-    int minval = INT_MAX;
     for (int i = 0; i < nextStates.size(); i++) {
         State* next = nextStates.at(i);
 
-        State* result = depthFirstSearch(next, currentCostBound);
-        if (result->isFinalState()) return result;
-        int temp = result->getCost();
-        if (temp < minval) {
-            minval = temp;
-            minState = result;
-        }
+        State* result = depthFirstSearch(next, currentCostBound, minNextThreshold);
+        if (result != nullptr && result->isFinalState()) return result;
     }
-    return minState;
+    return nullptr;
 }
 
 void PuzzleStrategy::AStar(QVector<int>* nodes, Heuristic heuristic)
