@@ -19,8 +19,7 @@ class PuzzleStrategy : public QObject
     private:
         int steps;
         bool isFinalState;
-        State *state;
-        State *finalState;
+        State *initState;
         QStack<State*> path;
         QTimer *timer;
     public:

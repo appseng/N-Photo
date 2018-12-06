@@ -18,15 +18,15 @@ void PuzzleStrategy::start(QVector<int>* nodes, Heuristic heuristic)
 
 void PuzzleStrategy::IDAStar(QVector<int>* nodes, Heuristic heuristic)
 {
-    State* startNode = new State(this, nullptr, nodes, heuristic);
-    int nextCostBound  = startNode->getCost();
+    initState = new State(this, nullptr, nodes, heuristic);
+    int nextCostBound  = initState->getCost();
     int minNextThreshold;
     State* solution = nullptr;
     steps = 0;
 
     while (true) {
         minNextThreshold = INT_MAX;
-        solution = depthFirstSearch(startNode, nextCostBound, minNextThreshold);
+        solution = depthFirstSearch(initState, nextCostBound, minNextThreshold);
         if (solution != nullptr && solution->isFinalState()) break;
         nextCostBound = minNextThreshold;
     }
@@ -74,9 +74,9 @@ void PuzzleStrategy::AStar(QVector<int>* nodes, Heuristic heuristic)
     MinPriorityQueue openStateQueue;
     QHash<QString, State*> closedQueue;
 
-    State* state = new State(this, nullptr, nodes, heuristic);
-    openStateQueue.enqueue(state);
-    openStates.insert(state->getStateCode());
+    initState = new State(this, nullptr, nodes, heuristic);
+    openStateQueue.enqueue(initState);
+    openStates.insert(initState->getStateCode());
 
     while (!openStateQueue.isEmpty())
     {
@@ -183,6 +183,7 @@ void PuzzleStrategy::updateState() {
         emit onStateChanged(param);
     } else {
         timer->stop();
+        delete initState;
     }
 }
 

@@ -132,7 +132,7 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     timerOn();
     multi = true;
     curRow = -1;
-    downloadedImage = 0;
+    downloadedImage = nullptr;
     qsrand(QCursor::pos().x() ^ QCursor::pos().y());
 
     getFileList();
@@ -140,10 +140,8 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     // default heuristic is ManhattanDistance
     heuristic = ManhattanDistance;
     aManhattanDistance->setChecked(true);
-    strategy = new PuzzleStrategy(this);
     busy = false;
-    connect(strategy, SIGNAL(onStateChanged(Param*)), this, SLOT(displayState(Param*)));
-    connect(strategy, SIGNAL(onPuzzleSolved(Param*)), this, SLOT(onPuzzleSolved(Param*)));
+    strategy = nullptr;
 }
 void MainWindowImpl::writeSettings()
 {
@@ -551,9 +549,6 @@ void MainWindowImpl::solvePuzzle()
     if (!multi)
         return;
 
-    if (relation == QPoint(5,5))
-        return;
-
     if (busy == false) {
         if (nodes != nullptr) {
             nodes->clear();
@@ -572,6 +567,13 @@ void MainWindowImpl::solvePuzzle()
         }
         busy = true;
         try {
+            if (strategy != nullptr)
+                delete strategy;
+
+            strategy = new PuzzleStrategy(this);
+            connect(strategy, SIGNAL(onStateChanged(Param*)), this, SLOT(displayState(Param*)));
+            connect(strategy, SIGNAL(onPuzzleSolved(Param*)), this, SLOT(onPuzzleSolved(Param*)));
+
             strategy->start(nodes, heuristic);
         }catch(std::exception &e) {
             busy = false;
@@ -661,8 +663,8 @@ void MainWindowImpl::getFileList()
     }
 }
 void MainWindowImpl::getInternetImage() {
-    if (downloadedImage)
-        downloadedImage->~FileDownloader();
+    if (downloadedImage != nullptr)
+        delete downloadedImage;
 
     log->append(trUtf8("<i>Загрузка изображения из интернета......</i>"));
 
