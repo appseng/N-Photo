@@ -143,6 +143,10 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     busy = false;
     strategy = nullptr;
 }
+MainWindowImpl::~MainWindowImpl()
+{
+    strategy->deleteLater();
+}
 void MainWindowImpl::writeSettings()
 {
     QSettings settings(trUtf8("bitbucket.org/appseng/n-puzzle"), trUtf8("n-Puzzle"));
@@ -566,18 +570,19 @@ void MainWindowImpl::solvePuzzle()
             }
         }
         busy = true;
-        try {
-            if (strategy != nullptr)
+        //try {
+            if (strategy != nullptr) {
                 delete strategy;
+            }
 
-            strategy = new PuzzleStrategy(this);
+            strategy = new PuzzleStrategy();
             connect(strategy, SIGNAL(onStateChanged(Param*)), this, SLOT(displayState(Param*)));
             connect(strategy, SIGNAL(onPuzzleSolved(Param*)), this, SLOT(onPuzzleSolved(Param*)));
 
             strategy->start(nodes, heuristic);
-        }catch(std::exception &e) {
+       // }catch(std::exception &e) {
             busy = false;
-        }
+        //}
     }
 }
 void MainWindowImpl::setMisplacedTiles()
@@ -664,7 +669,7 @@ void MainWindowImpl::getFileList()
 }
 void MainWindowImpl::getInternetImage() {
     if (downloadedImage != nullptr)
-        delete downloadedImage;
+        downloadedImage->deleteLater();
 
     log->append(trUtf8("<i>Загрузка изображения из интернета......</i>"));
 

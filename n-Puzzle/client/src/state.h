@@ -26,10 +26,9 @@ class State : public QObject
         State* getParent() const;
         QList<State*> *getNextStates(QList<State*>*);
         void calculateCost();
-        int getCost();
-        int getCostg();
-        int getCosth();
-        void setCostg(int);
+        int getCost() const;
+        int getCostg() const;
+        int getCosth() const;
         int getHeuristicCost();
         int getMisplacedTilesCost();
         int getManhattanDistanceCost();
@@ -38,11 +37,11 @@ class State : public QObject
         State* getNextState(Direction);
         void swap(QVector<int>*, int, int) const;
         bool canMove(Direction, int&) const;
-        int getSpaceIndex();
+        int getSpaceIndex() const;
 
         Heuristic mHeuristic;
     private:
-        QVector<int> *mNodes;
+        QVector<int> mNodes;
         int mSpaceIndex;
         int mOldSpaceIndex;
         QString mStateCode;

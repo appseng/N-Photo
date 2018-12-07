@@ -379,10 +379,12 @@ void PuzzleWidget::countMatches()
 }
 void PuzzleWidget::setPieces(const QVector<int>* nodes)
 {
+    if (nodes == nullptr) return;
+
     int num;
     int range = nodes->length();
     for (int i = 0; i < range; i++) {// i: position in solved state
-        num = nodes->at(i) - 1; // number on title minus one
+        num = nodes->at(i) - 1; // number on tile minus one
         if (num >= 0) {
             // i : position in solved state
             QPoint location(num%relation.x(), num/relation.x());
@@ -404,5 +406,4 @@ void PuzzleWidget::setPieces(const QVector<int>* nodes)
 
     if (inPlace == relation.x()*relation.y()-1)
         emit puzzleCompleted(false);
-
 }

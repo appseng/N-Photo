@@ -68,6 +68,7 @@ class MainWindowImpl : public QMainWindow, public Ui::MainWindow
         Q_OBJECT
 public:
         MainWindowImpl(QWidget * = nullptr, Qt::WindowFlags = nullptr);
+        ~MainWindowImpl();
 private slots:
         // menu "File"
         void openImage(const QString & = QString());

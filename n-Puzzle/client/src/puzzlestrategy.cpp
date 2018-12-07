@@ -179,11 +179,11 @@ void PuzzleStrategy::updateState() {
     if (path.count() > 0)
     {
         // Move one by one down the path
-        Param *param = new Param(this, path.pop()->getState(), path.count() == 0);
+        QVector<int>* nodes = path.pop()->getState();
+        Param *param = new Param(this, nodes, path.count() == 0);
         emit onStateChanged(param);
     } else {
         timer->stop();
-        delete initState;
     }
 }
 
