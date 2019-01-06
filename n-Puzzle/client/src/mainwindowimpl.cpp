@@ -133,6 +133,8 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     multi = true;
     curRow = -1;
     downloadedImage = nullptr;
+    imageIndex = -1;
+
     qsrand(QCursor::pos().x() ^ QCursor::pos().y());
 
     getFileList();
@@ -355,7 +357,6 @@ void MainWindowImpl::setInternetSettings()
     imageSource = Internet;
     setSettingsAll();
     getInternetImage();
-
 }
 void MainWindowImpl::setLocalFolderSettings()
 {
@@ -554,11 +555,7 @@ void MainWindowImpl::solvePuzzle()
         return;
 
     if (busy == false) {
-        if (nodes != nullptr) {
-            nodes->clear();
-        } else {
-            nodes = new QVector<int>();
-        }
+        nodes.clear();
         for(int j = 0; j < relation.y(); j++) {
             for (int i = 0; i < relation.x(); i++){
                 QPoint point(i,j);
@@ -566,7 +563,7 @@ void MainWindowImpl::solvePuzzle()
                 if (index != -1)
                     index++;
 
-                nodes->append(index);
+                nodes.append(index);
             }
         }
         busy = true;
@@ -579,7 +576,7 @@ void MainWindowImpl::solvePuzzle()
             connect(strategy, SIGNAL(onStateChanged(Param*)), this, SLOT(displayState(Param*)));
             connect(strategy, SIGNAL(onPuzzleSolved(Param*)), this, SLOT(onPuzzleSolved(Param*)));
 
-            strategy->start(nodes, heuristic);
+            strategy->start(&nodes, heuristic);
        // }catch(std::exception &e) {
             busy = false;
         //}
@@ -663,7 +660,8 @@ void MainWindowImpl::getFileList()
            listImage->addItems(dirList);
         }
         break;
-    default:
+    case (Internet):
+        cacheUsage();
         break;
     }
 }
@@ -673,8 +671,8 @@ void MainWindowImpl::getInternetImage() {
 
     log->append(trUtf8("<i>Загрузка изображения из интернета......</i>"));
 
-
-    QUrl imageUrl(trUtf8("https://picsum.photos/400/400/?image=%1").arg(qrand()%1000));
+    imageIndex = qrand()%1000;
+    QUrl imageUrl(trUtf8("https://picsum.photos/400/400/?image=%1").arg(imageIndex));
     downloadedImage = new FileDownloader(imageUrl, this);
 
     connect(downloadedImage, SIGNAL(downloaded()), SLOT(loadImage()));
@@ -684,6 +682,7 @@ void MainWindowImpl::getImage(const int curRow)
     if (listImage && curRow != -1) {
         switch(imageSource) {
         case (Net):
+        case (Internet):
             if (cacheUsed) {
                 log->append(trUtf8("<i>Загрузка изображения из кэша......</i>"));
                 QString file (trUtf8("%1/%2.jpg").arg(getCache()).arg(listImage->item(curRow)->text()));
@@ -815,15 +814,22 @@ void MainWindowImpl::tcpError(QAbstractSocket::SocketError error)
    log->append(trUtf8("Ошибка TCP: %1").arg(socket.errorString()));
    if (error == QAbstractSocket::ConnectionRefusedError)
    {
-        log->append(trUtf8("Используется кэш."));
-        listImage->clear();
-        QDir dir (getCache());
-        dir.setFilter(QDir::Files);
-        QFileInfoList list = dir.entryInfoList();
-        cacheUsed = true;
-        for (int i = 0; i < list.size(); i++)
-            listImage->addItem(list.at(i).baseName());
+        cacheUsage();
    }
+}
+void MainWindowImpl::cacheUsage()
+{
+    log->append(trUtf8("Используется кэш."));
+    listImage->clear();
+    QDir dir (getCache());
+    dir.setFilter(QDir::Files);
+    QFileInfoList list = dir.entryInfoList();
+    cacheUsed = true;
+    for (int i = 0; i < list.size(); i++)
+        listImage->addItem(list.at(i).baseName());
+
+    listImage->sortItems();
+
 }
 void MainWindowImpl::chooseDirectory()
 {
@@ -842,6 +848,10 @@ void MainWindowImpl::loadImage()
                                        (puzzleImage.height() - size)/2, size, size)
             .scaled(puzzleWidget->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
         }
+
+        int imageNumber = (imageIndex != -1) ? imageIndex : listImage->count()+1;
+        puzzleImage.save(trUtf8("%1/%2.jpg").arg(getCache()).arg(imageNumber));
+        listImage->addItem(QString::number(imageNumber));
         log->append(trUtf8("<i>Изображение загружено из интернета!</i>"));
     }
     else

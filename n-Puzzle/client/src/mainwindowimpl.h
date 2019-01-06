@@ -134,6 +134,8 @@ private:
         void getInternetImage();
         QString getCache();
 
+        void cacheUsage();
+
         QPixmap puzzleImage;
         QListView *piecesList;
         PuzzleWidget *puzzleWidget;
@@ -147,10 +149,11 @@ private:
 
         PuzzleStrategy *strategy;
         Heuristic heuristic;
-        QVector<int> *nodes;
+        QVector<int> nodes;
         bool busy;
 
         FileDownloader *downloadedImage;
+        int imageIndex;
         // laguage
         QString currLang;
         // Souce of images
