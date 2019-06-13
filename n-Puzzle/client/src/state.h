@@ -27,8 +27,6 @@ class State : public QObject
         QList<State*> *getNextStates(QList<State*>*);
         void calculateCost();
         int getCost() const;
-        int getCostg() const;
-        int getCosth() const;
         int getHeuristicCost();
         int getMisplacedTilesCost();
         int getManhattanDistanceCost();
