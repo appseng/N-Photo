@@ -672,7 +672,7 @@ void MainWindowImpl::getInternetImage() {
     log->append(trUtf8("<i>Загрузка изображения из интернета......</i>"));
 
     imageIndex = qrand()%1000;
-    QUrl imageUrl(trUtf8("https://picsum.photos/400/400/?image=%1").arg(imageIndex));
+    QUrl imageUrl(trUtf8("https://picsum.photos/id/%1/400/400").arg(imageIndex));
     downloadedImage = new FileDownloader(imageUrl, this);
 
     connect(downloadedImage, SIGNAL(downloaded()), SLOT(loadImage()));
@@ -852,6 +852,7 @@ void MainWindowImpl::loadImage()
         int imageNumber = (imageIndex != -1) ? imageIndex : listImage->count()+1;
         puzzleImage.save(trUtf8("%1/%2.jpg").arg(getCache()).arg(imageNumber));
         listImage->addItem(QString::number(imageNumber));
+
         log->append(trUtf8("<i>Изображение загружено из интернета!</i>"));
     }
     else
