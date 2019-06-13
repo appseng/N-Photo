@@ -569,7 +569,7 @@ void MainWindowImpl::solvePuzzle()
         busy = true;
         //try {
             if (strategy != nullptr) {
-                delete strategy;
+                strategy->deleteLater();
             }
 
             strategy = new PuzzleStrategy();

@@ -23,7 +23,6 @@ bool State::equals(const State *obj) const
 
 int State::compareTo(const State* that) const
 {
-
     if (that != nullptr)
     {
         if (mCostf > that->mCostf)
@@ -93,16 +92,6 @@ void State::calculateCost()
 int State::getCost() const
 {
     return mCosth + mCostg;
-}
-
-int State::getCostg() const
-{
-    return mCostg;
-}
-
-int State::getCosth() const
-{
-    return mCosth;
 }
 
 int State::getSpaceIndex() const

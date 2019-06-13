@@ -29,11 +29,11 @@ void PuzzleStrategy::IDAStar(QVector<int>* nodes, Heuristic heuristic)
         solution = depthFirstSearch(initState, nextCostBound, minNextThreshold);
         if (solution != nullptr && solution->isFinalState()) break;
         nextCostBound = minNextThreshold;
+
     }
     puzzleSolved(solution, steps);
     onFinalState(solution);
 }
-
 
 State* PuzzleStrategy::depthFirstSearch(State *current, int currentCostBound, int& minNextThreshold)
 {

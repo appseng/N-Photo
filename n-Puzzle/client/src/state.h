@@ -48,7 +48,6 @@ class State : public QObject
         int mCostf;
         int mCosth;
         int mCostg;
-        int mTotalCost;
         State *mParent;
 };
 
