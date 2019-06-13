@@ -615,6 +615,14 @@
       </item>
       <item>
        <widget class="QPushButton" name="download">
+        <property name="font">
+         <font>
+          <underline>true</underline>
+         </font>
+        </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
         <property name="text">
          <string>Загрузить случайную картинку</string>
         </property>
