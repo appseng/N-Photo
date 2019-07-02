@@ -149,7 +149,7 @@ private:
 
         PuzzleStrategy *strategy;
         Heuristic heuristic;
-        QVector<int> nodes;
+        QVector<char> nodes;
         bool busy;
 
         FileDownloader *downloadedImage;

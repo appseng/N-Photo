@@ -12,7 +12,6 @@ HEADERS = src/mainwindowimpl.h \
     src/piecesmodel.h \
     src/aboutdialogimpl.h \
     src/filedownloader.h \
-    src/minpriorityqueue.h \
     src/state.h \
     src/puzzlestrategy.h \
     src/enums.h
@@ -22,7 +21,6 @@ SOURCES = src/mainwindowimpl.cpp \
     src/piecesmodel.cpp \
     src/aboutdialogimpl.cpp \
     src/filedownloader.cpp \
-    src/minpriorityqueue.cpp \
     src/state.cpp \
     src/puzzlestrategy.cpp
 RESOURCES += puzzle.qrc

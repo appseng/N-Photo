@@ -1,24 +1,29 @@
 #include "state.h"
 
-State::State(QObject* qparent, State* parent, QVector<int>* nodes, Heuristic heuristic)
+State::State(QObject* qparent, State* parent, QVector<char>* nodes, Heuristic heuristic)
     :QObject(qparent)
 {
     mNodes = *nodes;
     mParent = parent;
     mHeuristic = heuristic;
     calculateCost();
-    generateStateCode();
     mOldSpaceIndex = (parent != nullptr) ? parent->getSpaceIndex(): -1;
 }
 
-State::State(QObject* qparent, State* parent, QVector<int>* nodes)
+State::State(QObject* qparent, State* parent, QVector<char>* nodes)
     :State(qparent, parent, nodes, parent->mHeuristic)
 {
 }
 
 bool State::equals(const State *obj) const
 {
-    return obj != nullptr && mStateCode == obj->getStateCode();
+    if (obj == nullptr) return false;
+
+    for (int i = 0; i< mNodes.length(); i++) {
+        if (mNodes.at(i) != obj->mNodes.at(i))
+            return false;
+    }
+    return  true;
 }
 
 int State::compareTo(const State* that) const
@@ -36,10 +41,7 @@ bool State::isCostlierThan(State *thatState) const
 {
     return mCostg > thatState->mCostg;
 }
-QString State::getStateCode() const
-{
-    return mStateCode;
-}
+
 bool State::isFinalState() const
 {
     // If all tiles are at correct position, we are into final state.
@@ -91,10 +93,10 @@ void State::calculateCost()
 
 int State::getCost() const
 {
-    return mCosth + mCostg;
+    return mCostf;
 }
 
-int State::getSpaceIndex() const
+char State::getSpaceIndex() const
 {
     return mSpaceIndex;
 }
@@ -112,7 +114,7 @@ int State::getHeuristicCost()
 int State::getMisplacedTilesCost() {
     int heuristicCost = 0;
 
-    for (int i = 0; i < mNodes.length(); i++) {
+    for (char i = 0; i < mNodes.length(); i++) {
         int value = mNodes.at(i) - 1;
 
         // Space tile's value is 11
@@ -131,18 +133,18 @@ int State::getMisplacedTilesCost() {
 int State::getManhattanDistanceCost()
 {
     int heuristicCost = 0;
-    int gridX = int(qSqrt(mNodes.length()));
-    int idealX;
-    int idealY;
-    int currentX;
-    int currentY;
-    int value;
+    char gridX = char(qSqrt(mNodes.length()));
+    char idealX;
+    char idealY;
+    char currentX;
+    char currentY;
+    char value;
 
-    for (int i = 0; i < mNodes.length(); i++) {
+    for (char i = 0; i < mNodes.length(); i++) {
         value = mNodes.at(i) - 1;
         if (value == -2) {
-            value = mNodes.length() - 1;
-            mSpaceIndex = i;
+            value = char(mNodes.length()) - 1;
+            mSpaceIndex = char(i);
         }
 
         if (value != i) {
@@ -152,36 +154,26 @@ int State::getManhattanDistanceCost()
             currentX = i % gridX;
             currentY = i / gridX;
 
-            heuristicCost += (qAbs(idealY - currentY) + qAbs(idealX - currentX));
+            heuristicCost += qAbs(idealY - currentY) + qAbs(idealX - currentX);
         }
     }
 
     return heuristicCost;
 }
 
-void State::generateStateCode()
+QVector<char>* State::getState() const
 {
-    mStateCode.clear();
-    int s = mNodes.size()-1;
-    for (int i = 0; i < s; i++) {
-        mStateCode.append(trUtf8("%1*").arg(mNodes.at(i)));
-    }
-    mStateCode.append(trUtf8("%1").arg(mNodes.last()));
-}
-
-QVector<int>* State::getState() const
-{
-    QVector<int> *state = new QVector<int>(mNodes);
+    QVector<char> *state = new QVector<char>(mNodes);
     return state;
 }
 
 State* State::getNextState(Direction direction)
 {
-    int position = -1;
+    char position = -1;
 
     if (canMove(direction, position))
     {
-        QVector<int> *nodes = new QVector<int>(mNodes);
+        QVector<char> *nodes = new QVector<char>(mNodes);
 
         //swap(nodes, mSpaceIndex, position);
         nodes->replace(mSpaceIndex, nodes->at(position));
@@ -193,20 +185,20 @@ State* State::getNextState(Direction direction)
     return nullptr;
 }
 
-void State::swap(QVector<int> *nodes, int i, int j) const
+void State::swap(QVector<char> *nodes, int i, int j) const
 {
-    int t = nodes->at(i);
+    char t = nodes->at(i);
     nodes->replace(i, nodes->at(j));
     nodes->replace(j, t);
 }
 
-bool State::canMove(Direction direction, int &newPosition) const
+bool State::canMove(Direction direction, char &newPosition) const
 {
-    int newX = -1;
-    int newY = -1;
-    int gridX = int(qSqrt(mNodes.length()));
-    int currentX = mSpaceIndex % gridX;
-    int currentY = mSpaceIndex / gridX;
+    char newX = -1;
+    char newY = -1;
+    char gridX = char(qSqrt(mNodes.length()));
+    char currentX = mSpaceIndex % gridX;
+    char currentY = mSpaceIndex / gridX;
     newPosition = -1;
 
     switch (direction)
@@ -257,7 +249,7 @@ bool State::canMove(Direction direction, int &newPosition) const
     return newPosition != -1;
 }
 
-Param::Param(QObject *parent, QVector<int> *s, bool f)
+Param::Param(QObject *parent, QVector<char> *s, bool f)
     :QObject(parent)
 {
     state = s;
@@ -269,7 +261,7 @@ Param::Param(QObject *parent, int i, int j)
     steps = i;
     states = j;
 }
-QVector<int>* Param::getState() const
+QVector<char>* Param::getState() const
 {
     return state;
 }

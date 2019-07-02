@@ -8,15 +8,7 @@ PuzzleStrategy::PuzzleStrategy(QObject *parent)
     connect(timer, SIGNAL(timeout()), this, SLOT(updateState()));
 }
 
-void PuzzleStrategy::start(QVector<int>* nodes, Heuristic heuristic)
-{
-    if (nodes->count() == 9)
-        AStar(nodes, heuristic);
-    else if (nodes->count() == 16)
-        IDAStar(nodes, heuristic);
-}
-
-void PuzzleStrategy::IDAStar(QVector<int>* nodes, Heuristic heuristic)
+void PuzzleStrategy::IDAStar(QVector<char>* nodes, Heuristic heuristic)
 {
     initState = new State(this, nullptr, nodes, heuristic);
     int nextCostBound  = initState->getCost();
@@ -61,96 +53,6 @@ State* PuzzleStrategy::search(State* current, int bound, int& minCost) {
     return current;
 }
 
-void PuzzleStrategy::AStar(QVector<int>* nodes, Heuristic heuristic)
-{
-    int openStateIndex = -1;
-    int stateCount = -1;
-    State *currentState = nullptr;
-    QList<State*> nextStates;
-    QSet<QString> openStates;
-
-    MinPriorityQueue openStateQueue;
-    QHash<QString, State*> closedQueue;
-
-    initState = new State(this, nullptr, nodes, heuristic);
-    openStateQueue.enqueue(initState);
-    openStates.insert(initState->getStateCode());
-
-    while (!openStateQueue.isEmpty())
-    {
-        currentState = openStateQueue.dequeue();
-        openStates.remove(currentState->getStateCode());
-
-        stateCount++;
-
-        // Is this final state
-        if (currentState->isFinalState())
-        {
-            break;
-        }
-
-        // Look into next state
-        currentState->getNextStates(&nextStates);
-
-        if (nextStates.count() > 0)
-        {
-            State *closedState;
-            State *openState;
-            State *nextState;
-
-            for (int i = 0; i < nextStates.count(); i++)
-            {
-                closedState = nullptr;
-                openState = nullptr;
-                nextState = nextStates.at(i);
-
-                if (openStates.contains(nextState->getStateCode()))
-                {
-                    // We already have same state in the open queue.
-                    openState = openStateQueue.find(nextState, openStateIndex);
-
-                    if (openState != nullptr && openState->isCostlierThan(nextState))
-                    {
-                        // We have found a better way to reach at this state. Discard the costlier one
-                        openStateQueue.remove(openStateIndex);
-                        openStateQueue.enqueue(nextState);
-                    }
-                }
-                else
-                {
-                    // Check if state is in closed queue
-                    QString stateCode = nextState->getStateCode();
-
-                    if (closedQueue.contains(stateCode))
-                    {
-                        closedState = closedQueue.value(stateCode);
-                        // We have found a better way to reach at this state. Discard the costlier one
-                        if (closedState->isCostlierThan(nextState))
-                        {
-                            closedQueue[stateCode] = nextState;
-                        }
-                    }
-                }
-                // Either this is a new state, or better than previous one.
-                if (openState == nullptr && closedState == nullptr)
-                {
-                    openStateQueue.enqueue(nextState);
-                    openStates.insert(nextState->getStateCode());
-                }
-            }
-            //closedQueue.remove(currentState->getStateCode());
-            closedQueue[currentState->getStateCode()] = currentState;
-        }
-    }
-    if (currentState != nullptr && !currentState->isFinalState())
-    {
-        // No solution
-        currentState = nullptr;
-    }
-    puzzleSolved(currentState, stateCount);
-    onFinalState(currentState);
-}
-
 void PuzzleStrategy::onFinalState(State *state)
 {
     if (state != nullptr)
@@ -177,7 +79,7 @@ void PuzzleStrategy::updateState() {
     if (path.count() > 0)
     {
         // Move one by one down the path
-        QVector<int>* nodes = path.pop()->getState();
+        QVector<char>* nodes = path.pop()->getState();
         Param *param = new Param(this, nodes, path.count() == 0);
         emit onStateChanged(param);
     } else {

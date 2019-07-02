@@ -377,11 +377,11 @@ void PuzzleWidget::countMatches()
             inPlace++;
     }
 }
-void PuzzleWidget::setPieces(const QVector<int>* nodes)
+void PuzzleWidget::setPieces(const QVector<char>* nodes)
 {
     if (nodes == nullptr) return;
 
-    int num;
+    char num;
     int range = nodes->length();
     for (int i = 0; i < range; i++) {// i: position in solved state
         num = nodes->at(i) - 1; // number on tile minus one

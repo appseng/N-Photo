@@ -68,7 +68,7 @@ public:
     void shuffle();
     int getTargetIndex(const QPoint&) const;
     const QPoint getRelation() const;
-    void setPieces(const QVector<int>* nodes);
+    void setPieces(const QVector<char>* nodes);
 signals:
     void puzzleCompleted(bool);
     void blockMoved();

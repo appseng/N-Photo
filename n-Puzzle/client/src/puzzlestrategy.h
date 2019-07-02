@@ -11,7 +11,6 @@
 #include <utility>
 
 #include "state.h"
-#include "minpriorityqueue.h"
 
 class PuzzleStrategy : public QObject
 {
@@ -24,9 +23,7 @@ class PuzzleStrategy : public QObject
         QTimer *timer;
     public:
         PuzzleStrategy(QObject* = nullptr);
-        void start(QVector<int>*, Heuristic);
-        void IDAStar(QVector<int>*, Heuristic);
-        void AStar(QVector<int>*, Heuristic);
+        void IDAStar(QVector<char>*, Heuristic);
     private:
         void onFinalState(State*);
         void puzzleSolved(State*, int);

@@ -576,7 +576,7 @@ void MainWindowImpl::solvePuzzle()
             connect(strategy, SIGNAL(onStateChanged(Param*)), this, SLOT(displayState(Param*)));
             connect(strategy, SIGNAL(onPuzzleSolved(Param*)), this, SLOT(onPuzzleSolved(Param*)));
 
-            strategy->start(&nodes, heuristic);
+            strategy->IDAStar(&nodes, heuristic);
        // }catch(std::exception &e) {
             busy = false;
         //}
@@ -862,7 +862,7 @@ void MainWindowImpl::loadImage()
 }
 void MainWindowImpl::displayState(Param *param)
 {
-    QVector<int>* nodes = param->getState();
+    QVector<char>* nodes = param->getState();
     bool isFinal = param->isFinalState();
     if (isFinal) {
         busy = false;
