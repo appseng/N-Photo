@@ -30,7 +30,7 @@ class PuzzleStrategy : public QObject
     private:
         void onFinalState(State*);
         void puzzleSolved(State*, int);
-        State* depthFirstSearch(State*, int, int&);
+        State* search(State*, int, int&);
     signals:
         void onStateChanged(Param*);
         void onPuzzleSolved(Param*);

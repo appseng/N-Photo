@@ -23,29 +23,23 @@ void PuzzleStrategy::IDAStar(QVector<int>* nodes, Heuristic heuristic)
     int minNextThreshold;
     State* solution = nullptr;
     steps = 0;
+    const int MAX_DEPTH = 80;
 
     while (true) {
         minNextThreshold = INT_MAX;
-        solution = depthFirstSearch(initState, nextCostBound, minNextThreshold);
+        if (nextCostBound > MAX_DEPTH) break;
+        solution = search(initState, nextCostBound, minNextThreshold);
         if (solution != nullptr && solution->isFinalState()) break;
         nextCostBound = minNextThreshold;
-
     }
     puzzleSolved(solution, steps);
     onFinalState(solution);
 }
 
-State* PuzzleStrategy::depthFirstSearch(State *current, int currentCostBound, int& minNextThreshold)
-{
-    if (current->isFinalState()) {
-        return current;
-    }
-
+State* PuzzleStrategy::search(State* current, int bound, int& minCost) {
     int cost = current->getCost();
-    if (cost > currentCostBound) {
-        if (cost < minNextThreshold)
-            minNextThreshold = cost;
-
+    if (cost > bound || current->isFinalState()){
+        minCost = cost;
         return current;
     }
 
@@ -56,11 +50,15 @@ State* PuzzleStrategy::depthFirstSearch(State *current, int currentCostBound, in
 
     for (int i = 0; i < nextStates.size(); i++) {
         State* next = nextStates.at(i);
-
-        State* result = depthFirstSearch(next, currentCostBound, minNextThreshold);
-        if (result != nullptr && result->isFinalState()) return result;
+        int minThreshold = minCost;
+        State* possibleSolution = search(next, bound, minThreshold);
+        if (possibleSolution->isFinalState()) {
+            minCost = minThreshold;
+            return possibleSolution;
+        }
+        if (minThreshold < minCost) minCost = minThreshold;
     }
-    return nullptr;
+    return current;
 }
 
 void PuzzleStrategy::AStar(QVector<int>* nodes, Heuristic heuristic)
