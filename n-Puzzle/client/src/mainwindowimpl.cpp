@@ -862,7 +862,7 @@ void MainWindowImpl::loadImage()
 }
 void MainWindowImpl::displayState(Param *param)
 {
-    QVector<char>* nodes = param->getState();
+    const QVector<char>* nodes = param->getState();
     bool isFinal = param->isFinalState();
     if (isFinal) {
         busy = false;

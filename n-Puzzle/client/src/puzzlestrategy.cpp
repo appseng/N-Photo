@@ -3,6 +3,11 @@
 PuzzleStrategy::PuzzleStrategy(QObject *parent)
     :QObject(parent)
 {
+    statesList.append(Right);
+    statesList.append(Down);
+    statesList.append(Left);
+    statesList.append(Up);
+
     timer = new QTimer(this);
     timer->setInterval(1200);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateState()));
@@ -10,7 +15,7 @@ PuzzleStrategy::PuzzleStrategy(QObject *parent)
 
 void PuzzleStrategy::IDAStar(QVector<char>* nodes, Heuristic heuristic)
 {
-    initState = new State(this, nullptr, nodes, heuristic);
+    initState = new State(this, nullptr, new QVector<char>(*nodes), heuristic);
     int nextCostBound  = initState->getCost();
     int minNextThreshold;
     State* solution = nullptr;
@@ -22,6 +27,9 @@ void PuzzleStrategy::IDAStar(QVector<char>* nodes, Heuristic heuristic)
         if (nextCostBound > MAX_DEPTH) break;
         solution = search(initState, nextCostBound, minNextThreshold);
         if (solution != nullptr && solution->isFinalState()) break;
+        initState->setParent(nullptr);
+        delete initState;
+        initState = new State(this, nullptr, new QVector<char>(*nodes), heuristic);
         nextCostBound = minNextThreshold;
     }
     puzzleSolved(solution, steps);
@@ -29,27 +37,33 @@ void PuzzleStrategy::IDAStar(QVector<char>* nodes, Heuristic heuristic)
 }
 
 State* PuzzleStrategy::search(State* current, int bound, int& minCost) {
+    steps++;
+
     int cost = current->getCost();
     if (cost > bound || current->isFinalState()){
         minCost = cost;
         return current;
     }
 
-    steps++;
+    State *next;
 
-    QList<State*> nextStates;
-    current->getNextStates(&nextStates);
+    foreach (Direction direction, statesList)
+    {
+        next = current->getNextState(direction);
 
-    for (int i = 0; i < nextStates.size(); i++) {
-        State* next = nextStates.at(i);
-        int minThreshold = minCost;
-        State* possibleSolution = search(next, bound, minThreshold);
-        if (possibleSolution->isFinalState()) {
-            minCost = minThreshold;
-            return possibleSolution;
+        if (next != nullptr)
+        {
+            int minThreshold = minCost;
+            State* possibleSolution = search(next, bound, minThreshold);
+            if (possibleSolution->isFinalState()) {
+                minCost = minThreshold;
+                return possibleSolution;
+            }
+            if (minThreshold < minCost) minCost = minThreshold;
+            delete next;
         }
-        if (minThreshold < minCost) minCost = minThreshold;
     }
+
     return current;
 }
 
@@ -79,7 +93,7 @@ void PuzzleStrategy::updateState() {
     if (path.count() > 0)
     {
         // Move one by one down the path
-        QVector<char>* nodes = path.pop()->getState();
+        const QVector<char>* nodes = path.pop()->getState();
         Param *param = new Param(this, nodes, path.count() == 0);
         emit onStateChanged(param);
     } else {

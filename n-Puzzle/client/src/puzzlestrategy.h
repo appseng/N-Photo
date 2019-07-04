@@ -21,6 +21,7 @@ class PuzzleStrategy : public QObject
         State *initState;
         QStack<State*> path;
         QTimer *timer;
+        QVector<Direction> statesList;
     public:
         PuzzleStrategy(QObject* = nullptr);
         void IDAStar(QVector<char>*, Heuristic);
