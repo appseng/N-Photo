@@ -279,10 +279,8 @@ void PuzzleWidget::shuffle()
     QRect nRect;
     int iRect;
     int i = qrand()%maxid + 100;
-    while (i)
-    {
-        switch(int(qrand()%4))
-        {
+    while (i) {
+        switch(int(qrand()%4)) {
         case Up:
             nRect = QRect(freeRect.x(),freeRect.y()-pnt.y(),pnt.x(),pnt.y());
             iRect = pieceRects.indexOf(nRect);

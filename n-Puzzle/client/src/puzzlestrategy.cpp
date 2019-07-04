@@ -40,19 +40,17 @@ State* PuzzleStrategy::search(State* current, int bound, int& minCost) {
     steps++;
 
     int cost = current->getCost();
-    if (cost > bound || current->isFinalState()){
+    if (cost > bound || current->isFinalState()) {
         minCost = cost;
         return current;
     }
 
     State *next;
 
-    foreach (Direction direction, statesList)
-    {
+    foreach (Direction direction, statesList) {
         next = current->getNextState(direction);
 
-        if (next != nullptr)
-        {
+        if (next != nullptr) {
             int minThreshold = minCost;
             State* possibleSolution = search(next, bound, minThreshold);
             if (possibleSolution->isFinalState()) {
@@ -69,30 +67,21 @@ State* PuzzleStrategy::search(State* current, int bound, int& minCost) {
 
 void PuzzleStrategy::onFinalState(State *state)
 {
-    if (state != nullptr)
-    {
-        // We have a solution for this puzzle
-        // Backtrac to the root of the path in the tree
+    if (state != nullptr) {
         path.clear();
-        while (state != nullptr)
-        {
+        while (state != nullptr) {
             path.push(state);
             state = state->getParent();
         }
         timer->start();
-    }
-    else
-    {
-        // No solution
+    } else {
         Param *param = new Param(this, nullptr, true);
         emit onStateChanged(param);
     }
 }
 
 void PuzzleStrategy::updateState() {
-    if (path.count() > 0)
-    {
-        // Move one by one down the path
+    if (path.count() > 0) {
         const QVector<char>* nodes = path.pop()->getState();
         Param *param = new Param(this, nodes, path.count() == 0);
         emit onStateChanged(param);
@@ -104,8 +93,7 @@ void PuzzleStrategy::updateState() {
 void PuzzleStrategy::puzzleSolved(State *state, int states)
 {
     steps = -1;
-    while (state != nullptr)
-    {
+    while (state != nullptr) {
         state = state->getParent();
         steps++;
     }

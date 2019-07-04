@@ -32,8 +32,7 @@ bool State::equals(const State *obj) const
 
 int State::compareTo(const State* that) const
 {
-    if (that != nullptr)
-    {
+    if (that != nullptr) {
         if (mCostf > that->mCostf)
             return 1;
         else if (mCostf < that->mCostf)
@@ -48,7 +47,6 @@ bool State::isCostlierThan(State *thatState) const
 
 bool State::isFinalState() const
 {
-    // If all tiles are at correct position, we are into final state.
     return mCosth == 0;
 }
 State* State::getParent() const
@@ -77,18 +75,12 @@ void State::getNextStates(QList<State*> *nextStates) {
 
 void State::calculateCost()
 {
-    if (mParent == nullptr)
-    {
-        // We are at the first state - we assume we have been asked to be at this state, so no cost.
+    if (mParent == nullptr) {
         mCostg = 0;
-    }
-    else
-    {
-        // Here, state transition cost is 1 unit. Since transition from one state to another is by moving he tile one step.
+    } else {
         mCostg = mParent->mCostg + 1;
     }
 
-    // Heuristic cost
     mCosth = getHeuristicCost();
 
     mCostf = mCosth + mCostg;
@@ -108,8 +100,7 @@ int State::getHeuristicCost()
 {
     if (mHeuristic == ManhattanDistance) {
         return getManhattanDistanceCost();
-    }
-    else {
+    } else {
         return getMisplacedTilesCost();
     }
 }
@@ -174,8 +165,7 @@ State* State::getNextState(Direction direction)
 {
     char position = -1;
 
-    if (canMove(direction, position))
-    {
+    if (canMove(direction, position)) {
         QVector<char> *nodes = new QVector<char>(*mNodes);
 
         //swap(nodes, mSpaceIndex, position);
@@ -208,24 +198,21 @@ bool State::canMove(Direction direction, char &newPosition) const
     {
         case Up:
             // Can not move up if we are at the top
-            if (currentY != 0)
-            {
+            if (currentY != 0) {
                 newX = currentX;
                 newY = currentY - 1;
             }
             break;
         case Down:
             // Can not move down if we are the lowest level
-            if (currentY < (gridX - 1))
-            {
+            if (currentY < (gridX - 1)) {
                 newX = currentX;
                 newY = currentY + 1;
             }
             break;
         case Left:
             // Can not move left if we are at the left most position
-            if (currentX != 0)
-            {
+            if (currentX != 0) {
                 newX = currentX - 1;
                 newY = currentY;
             }
@@ -233,16 +220,14 @@ bool State::canMove(Direction direction, char &newPosition) const
 
         case Right:
             // Can not move right if we are at the right most position
-            if (currentX < (gridX - 1))
-            {
+            if (currentX < (gridX - 1)) {
                 newX = currentX + 1;
                 newY = currentY;
             }
             break;
     }
 
-    if (newX != -1 && newY != -1)
-    {
+    if (newX != -1 && newY != -1) {
         newPosition = newY * gridX + newX;
     }
 

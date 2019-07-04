@@ -231,8 +231,7 @@ void MainWindowImpl::readSettings()
     int rBut = settings.value(trUtf8("complication"), 4).toInt();
     if (rBut == 3) {
         rButton_3->setChecked(true);
-    }
-    else {
+    } else {
         rButton_4->setChecked(true);
     }
     setComplication();
@@ -241,12 +240,10 @@ void MainWindowImpl::readSettings()
     if (lang == QString("ru_RU")) {
         aRussian->setEnabled(false);
         aRussian->setChecked(true);
-    }
-    else if (lang == QString("es_ES")) {
+    } else if (lang == QString("es_ES")) {
         aSpanish->setEnabled(false);
         aSpanish->setChecked(true);
-    }
-    else {
+    } else {
         lang = QString("en_US");
         aEnglish->setEnabled(false);
         aEnglish->setChecked(true);
@@ -396,8 +393,7 @@ void MainWindowImpl::setLogVisible()
     if (ch) {
         height = ss.height() + log->height();
         setMinimumHeight(minimumHeight() + log->height());
-    }
-    else {
+    } else {
         height = ss.height() - log->height();
         setMinimumHeight(minimumHeight() - log->height());
     }
@@ -443,6 +439,7 @@ void MainWindowImpl::setupPuzzle()
 
     if (puzzleImage.isNull())
         return;
+
     puzzleWidget->clear();
     setComplication();
     detectGameType();
@@ -452,8 +449,7 @@ void MainWindowImpl::setupPuzzle()
     if (multi) {
         puzzleWidget->addPieces(puzzleImage);
         setTimer(true);
-    }
-    else {
+    } else {
         model->addPieces(puzzleImage, relation);
         timerReset();
         if (timerText->isEnabled())
@@ -468,6 +464,7 @@ void MainWindowImpl::saveImage()
 {
     if (puzzleImage.isNull())
         return;
+
     QString fileName = QFileDialog::getSaveFileName(this,
                                                     trUtf8("Сохранить изображение"),
                                                     "", trUtf8("Изображения (*.png *.jpg *.bmp)"));
@@ -491,8 +488,7 @@ void MainWindowImpl::setTimer(const bool reset, const QTime time)
     if (reset) {
         ptimer->stop();
         timerText->setText(trUtf8("00:00:00"));
-    }
-    else
+    } else
         timerText->setText(time.toString(TimeFormat));
 }
 void MainWindowImpl::timerReset()
@@ -630,8 +626,7 @@ void MainWindowImpl::getRandomImage()
         else
             while ((newCur = qrand()%count) == curRow);
         listImage->setCurrentRow(newCur);
-    }
-    else
+    } else
         getFileList();
 }
 QString MainWindowImpl::getCache() {
@@ -747,8 +742,7 @@ void MainWindowImpl::tcpConnected()
             setupPuzzle();
             log->append(trUtf8("<i>Изображение загружено из кэша!</i>"));
             return;
-        }
-        else
+        } else
             out << curRow + 1;
     }
     socket.write(block);
@@ -864,13 +858,11 @@ void MainWindowImpl::displayState(Param *param)
 {
     const QVector<char>* nodes = param->getState();
     bool isFinal = param->isFinalState();
-    if (isFinal) {
+    if (isFinal)
         busy = false;
-    }
+
     if (nodes != nullptr)
-    {
         puzzleWidget->setPieces(nodes);
-    }
 }
 void MainWindowImpl::onPuzzleSolved(Param* param) {
     int steps = param->getSteps();
