@@ -16,32 +16,32 @@ PuzzleStrategy::PuzzleStrategy(QObject *parent)
 void PuzzleStrategy::IDAStar(QVector<char>* nodes, Heuristic heuristic)
 {
     initState = new State(this, nullptr, new QVector<char>(*nodes), heuristic);
-    int nextCostBound  = initState->getCost();
-    int minNextThreshold;
+    threshold  = initState->getCost();
     State* solution = nullptr;
     steps = 0;
-    const int MAX_DEPTH = 80;
 
     while (true) {
-        minNextThreshold = INT_MAX;
-        if (nextCostBound > MAX_DEPTH) break;
-        solution = search(initState, nextCostBound, minNextThreshold);
+        minThreshold = INT_MAX;
+        solution = dfs(initState);
         if (solution != nullptr && solution->isFinalState()) break;
-        initState->setParent(nullptr);
         delete initState;
         initState = new State(this, nullptr, new QVector<char>(*nodes), heuristic);
-        nextCostBound = minNextThreshold;
+        threshold = minThreshold;
     }
     puzzleSolved(solution, steps);
     onFinalState(solution);
 }
 
-State* PuzzleStrategy::search(State* current, int bound, int& minCost) {
+State* PuzzleStrategy::dfs(State* current) {
     steps++;
 
     int cost = current->getCost();
-    if (cost > bound || current->isFinalState()) {
-        minCost = cost;
+    if (cost <= threshold && current->isFinalState()) {
+        return current;
+    }
+
+    if (cost > threshold) {
+        if (cost < minThreshold) minThreshold = cost;
         return current;
     }
 
@@ -51,13 +51,10 @@ State* PuzzleStrategy::search(State* current, int bound, int& minCost) {
         next = current->getNextState(direction);
 
         if (next != nullptr) {
-            int minThreshold = minCost;
-            State* possibleSolution = search(next, bound, minThreshold);
+            State* possibleSolution = dfs(next);
             if (possibleSolution->isFinalState()) {
-                minCost = minThreshold;
                 return possibleSolution;
             }
-            if (minThreshold < minCost) minCost = minThreshold;
             delete next;
         }
     }

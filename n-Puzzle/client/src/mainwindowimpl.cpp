@@ -833,7 +833,7 @@ void MainWindowImpl::chooseDirectory()
 }
 void MainWindowImpl::loadImage()
 {
-    QByteArray buf = downloadedImage->downloadedData();
+    QByteArray buf = downloadedImage->getDownloadedData();
     if (!buf.isNull() && !buf.isEmpty()) {
         puzzleImage.loadFromData(buf);
         if (puzzleImage.size() != puzzleWidget->size()) {

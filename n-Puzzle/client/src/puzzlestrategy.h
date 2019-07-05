@@ -22,13 +22,15 @@ class PuzzleStrategy : public QObject
         QStack<State*> path;
         QTimer *timer;
         QVector<Direction> statesList;
+        int threshold;
+        int minThreshold;
     public:
         PuzzleStrategy(QObject* = nullptr);
         void IDAStar(QVector<char>*, Heuristic);
     private:
         void onFinalState(State*);
         void puzzleSolved(State*, int);
-        State* search(State*, int, int&);
+        State* dfs(State*);
     signals:
         void onStateChanged(Param*);
         void onPuzzleSolved(Param*);

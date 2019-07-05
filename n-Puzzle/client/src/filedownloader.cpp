@@ -3,23 +3,23 @@
 FileDownloader::FileDownloader(QUrl imageUrl, QObject *parent) :
     QObject(parent)
 {
-    connect(&m_WebCtrl, SIGNAL(finished(QNetworkReply*)),
+    connect(&webCtrl, SIGNAL(finished(QNetworkReply*)),
                 SLOT(fileDownloaded(QNetworkReply*)));
 
     QNetworkRequest request(imageUrl);
-    m_WebCtrl.get(request);
+    webCtrl.get(request);
 }
 
 void FileDownloader::fileDownloaded(QNetworkReply* pReply)
 {
-    m_DownloadedData = pReply->readAll();
+    downloadedData = pReply->readAll();
     //emit a signal
     pReply->deleteLater();
     emit downloaded();
 }
 
-QByteArray FileDownloader::downloadedData() const
+QByteArray FileDownloader::getDownloadedData() const
 {
-    return m_DownloadedData;
+    return downloadedData;
 }
 

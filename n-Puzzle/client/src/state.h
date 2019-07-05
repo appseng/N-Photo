@@ -24,7 +24,6 @@ class State : public QObject
         bool isCostlierThan(State*) const;
         bool isFinalState() const;
         State* getParent() const;
-        void getNextStates(QList<State*>*);
         void calculateCost();
         int getCost() const;
         int getHeuristicCost();
@@ -35,15 +34,16 @@ class State : public QObject
         void swap(QVector<char>*, int, int) const;
         bool canMove(Direction, char&) const;
         char getSpaceIndex() const;
-        Heuristic mHeuristic;
+        int getCostG() const;
+        Heuristic heuristic;
     private:
-        QVector<char> *mNodes;
-        char mSpaceIndex;
-        char mOldSpaceIndex;
-        int mCostf;
-        int mCosth;
-        int mCostg;
-        State *mParent;
+        QVector<char> *qNodes;
+        char spaceIndex;
+        char oldSpaceIndex;
+        int costf;
+        int costh;
+        int costg;
+        State *parent;
 };
 
 class Param : public QObject
