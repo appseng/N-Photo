@@ -669,8 +669,7 @@ void MainWindowImpl::getInternetImage() {
 
     log->append(trUtf8("<i>Загрузка изображения из интернета......</i>"));
 
-    imageIndex = qrand()%1000;
-    QUrl imageUrl(trUtf8("https://i.picsum.photos/id/%1/400/400.jpg").arg(imageIndex));
+    QUrl imageUrl(trUtf8("https://placekitten.com/400/400"));
     downloadedImage = new FileDownloader(imageUrl, this);
 
     connect(downloadedImage, SIGNAL(downloaded()), SLOT(loadImage()));
