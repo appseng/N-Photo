@@ -353,7 +353,7 @@ void MainWindowImpl::setInternetSettings()
     aAll->setChecked(!checked && !gameTypeBox->isVisible() && !complicationBox->isVisible());
     imageSource = Internet;
     setSettingsAll();
-    getInternetImage();
+    getFileList();
 }
 void MainWindowImpl::setLocalFolderSettings()
 {
@@ -639,25 +639,28 @@ QString MainWindowImpl::getCache() {
 void MainWindowImpl::getFileList()
 {
     log->append(trUtf8("<i>Получение списка изображений......</i>"));
-    QString lf = localFolder->text();
+
     switch (imageSource) {
-    case (Net):
-        dataSize = 0;
-        cacheUsed = false;
-        messageType = 8;
-        socket.abort();
-        socket.connectToHost(host->text(), ip->text().toInt());
-        break;
-    case (Local):
-        if (!lf.trimmed().isEmpty() && QDir().exists(lf)) {
-           listImage->clear();
-           QStringList dirList = QDir(lf).entryList(QDir::Files);
-           listImage->addItems(dirList);
+        case (Net):
+            dataSize = 0;
+            cacheUsed = false;
+            messageType = 8;
+            socket.abort();
+            socket.connectToHost(host->text(), ip->text().toInt());
+            break;
+        case (Local): {
+            QString lf = localFolder->text();
+            if (!lf.trimmed().isEmpty() && QDir().exists(lf)) {
+               listImage->clear();
+               QStringList dirList = QDir(lf).entryList(QDir::Files);
+               listImage->addItems(dirList);
+            }
+            break;
         }
-        break;
-    case (Internet):
-        cacheUsage();
-        break;
+        case (Internet):
+            cacheUsage();
+            getInternetImage();
+            break;
     }
 }
 void MainWindowImpl::getInternetImage() {
