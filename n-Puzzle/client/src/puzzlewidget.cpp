@@ -270,7 +270,7 @@ void PuzzleWidget::addPieces(const QPixmap& pixmap)
 
 void PuzzleWidget::shuffle()
 {
-    qsrand(QCursor::pos().x() ^ QCursor::pos().y());
+    qsrand(QCursor::pos().x() * QCursor::pos().y());
     moves = 0;
     int maxid = pieceRects.length()-1;
     QRect freeRect = QRect((relation.x()-1)*pnt.x(), (relation.y()-1)*pnt.y(), pnt.x(), pnt.y());
@@ -278,51 +278,31 @@ void PuzzleWidget::shuffle()
     int missing = rect;
     QRect nRect;
     int iRect;
-    int i = qrand()%maxid + 100;
+    int i = qrand()%maxid + 150;
     while (i) {
         switch(int(qrand()%4)) {
         case Up:
             nRect = QRect(freeRect.x(),freeRect.y()-pnt.y(),pnt.x(),pnt.y());
-            iRect = pieceRects.indexOf(nRect);
-            if (iRect != -1) {
-                pieceRects.swap(iRect, rect);
-                //rect = iRect;
-                freeRect = nRect;
-                i--;
-            }
             break;
         case Left:
             nRect = QRect(freeRect.x()-pnt.x(),freeRect.y(),pnt.x(),pnt.y());
-            iRect = pieceRects.indexOf(nRect);
-            if (iRect != -1) {
-                pieceRects.swap(iRect, rect);
-                //rect = iRect;
-                freeRect = nRect;
-                i--;
-            }
             break;
-
         case Down:
             nRect = QRect(freeRect.x(),freeRect.y()+pnt.y(),pnt.x(),pnt.y());
-            iRect = pieceRects.indexOf(nRect);
-            if (iRect != -1) {
-                pieceRects.swap(iRect, rect);
-                //rect = iRect;
-                freeRect = nRect;
-                i--;
-            }
             break;
         default: //right
             nRect = QRect(freeRect.x()+pnt.x(),freeRect.y(),pnt.x(),pnt.y());
-            iRect = pieceRects.indexOf(nRect);
-            if (iRect != -1) {
-                pieceRects.swap(iRect, rect);
-                //rect = iRect;
-                freeRect = nRect;
-                i--;
-            }
+        }
+        iRect = pieceRects.indexOf(nRect);
+        if (iRect != -1) {
+            pieceRects.swap(iRect, rect);
+            freeRect = nRect;
+            i--;
         }
     }
+
+    missingLocation.setX(freeRect.x()/pnt.x());
+    missingLocation.setY(freeRect.y()/pnt.y());
 
     pieceLocations.removeAt(missing);
     piecePixmaps.removeAt(missing);
@@ -404,4 +384,40 @@ void PuzzleWidget::setPieces(const QVector<char>* nodes)
 
     if (inPlace == relation.x()*relation.y()-1)
         emit puzzleCompleted(false);
+}
+
+void PuzzleWidget::moveMissingRectangle(Direction direction)
+{
+    QPoint point(missingLocation.x() * pnt.x() + 1 ,  missingLocation.y() * pnt.y() + 1);
+    QPoint oldPoint(point);
+    switch (direction) {
+        case Left:
+            if (missingLocation.x() > 0) {
+                point.setX(point.x() - pnt.x());
+                missingLocation.setX(missingLocation.x() - 1);
+            }
+            break;
+        case Up:
+            if (missingLocation.y() > 0) {
+                point.setY(point.y() - pnt.y());
+                missingLocation.setY(missingLocation.y() - 1);
+            }
+            break;
+        case Down:
+            if (missingLocation.y() < relation.y() - 1) {
+                point.setY(point.y() + pnt.y());
+                missingLocation.setY(missingLocation.y() + 1);
+            }
+            break;
+        default: // right
+            if (missingLocation.x() < relation.x() - 1) {
+                point.setX(point.x() + pnt.x());
+                missingLocation.setX(missingLocation.x() + 1);
+            }
+            break;
+    }
+    if (oldPoint != point) {
+        QMouseEvent event(QEvent::GraphicsSceneMousePress, point, Qt::NoButton, Qt::NoButton, Qt::NoModifier);
+        mousePressEvent(&event);
+    }
 }

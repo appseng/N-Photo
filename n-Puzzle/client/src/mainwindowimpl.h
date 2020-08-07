@@ -97,6 +97,10 @@ private slots:
         void setManhattanDistance();
         void displayState(Param*);
         void onPuzzleSolved(Param*);
+        void moveMissingRectangleLeft();
+        void moveMissingRectangleUp();
+        void moveMissingRectangleDown();
+        void moveMissingRectangleRight();
         // menu "Help"
         void about();
         void aboutQt();

@@ -53,6 +53,7 @@
 #include <QVector>
 #include <QMimeData>
 #include <QDrag>
+#include <QEvent>
 
 #include "enums.h"
 
@@ -69,6 +70,7 @@ public:
     int getTargetIndex(const QPoint&) const;
     const QPoint getRelation() const;
     void setPieces(const QVector<char>* nodes);
+    void moveMissingRectangle(Direction);
 signals:
     void puzzleCompleted(bool);
     void blockMoved();
@@ -79,7 +81,6 @@ protected:
     void dropEvent(QDropEvent *);
     void mousePressEvent(QMouseEvent *);
     void paintEvent(QPaintEvent *);
-
 private:
     int findPiece(const QRect &) const;
     QRect findPieceToMove(const QRect) const;
@@ -95,6 +96,7 @@ private:
     QPoint relation;
     int gameType;
     int moves;
+    QPoint missingLocation;
 };
 
 #endif // PUZZLEWIDGET_H

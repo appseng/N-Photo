@@ -67,6 +67,7 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     : QMainWindow(parent, f)
 {
     setupUi(this);
+    setupWidgets();
 
     readSettings();
 
@@ -103,6 +104,11 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     connect(aSolvePuzzle, SIGNAL(triggered()), this, SLOT(solvePuzzle()));
     connect(aMisplacedTiles, SIGNAL(triggered()), this, SLOT(setMisplacedTiles()));
     connect(aManhattanDistance, SIGNAL(triggered()), this, SLOT(setManhattanDistance()));
+    // solution=>moves
+    connect(aLeft, SIGNAL(triggered()), this, SLOT(moveMissingRectangleLeft()));
+    connect(aUp, SIGNAL(triggered()), this, SLOT(moveMissingRectangleUp()));
+    connect(aDown, SIGNAL(triggered()), this, SLOT(moveMissingRectangleDown()));
+    connect(aRight, SIGNAL(triggered()), this, SLOT(moveMissingRectangleRight()));
     /////////
     // кнопки
     connect(shuffle, SIGNAL(clicked()), this, SLOT (clickShuffle()));
@@ -123,8 +129,6 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     //connect(this, SIGNAL(destroyed()), this, SLOT(show()));
     //connect(this, SIGNAL())
     //
-
-    setupWidgets();
 
     ptimer = new QTimer(this);
     connect(ptimer, SIGNAL(timeout()), this, SLOT(updateTime()));
@@ -870,4 +874,21 @@ void MainWindowImpl::onPuzzleSolved(Param* param) {
     int steps = param->getSteps();
     int states = param->getStates();
     log->append(trUtf8("Решение найдено: %1 шагов, %2 состояний").arg(steps).arg(states));
+}
+
+void MainWindowImpl::moveMissingRectangleLeft()
+{
+    puzzleWidget->moveMissingRectangle(Left);
+}
+void MainWindowImpl::moveMissingRectangleUp()
+{
+    puzzleWidget->moveMissingRectangle(Up);
+}
+void MainWindowImpl::moveMissingRectangleDown()
+{
+    puzzleWidget->moveMissingRectangle(Down);
+}
+void MainWindowImpl::moveMissingRectangleRight()
+{
+    puzzleWidget->moveMissingRectangle(Right);
 }
