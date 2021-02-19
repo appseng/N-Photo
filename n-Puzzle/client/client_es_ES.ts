@@ -47,12 +47,12 @@ border-right-color: rgb(255, 65, 252);</source>
 
 МИФИ 2009 г.</source>
         <translation>El juego &quot;n-Puzzle&quot;.
-   Es una parte práctica de
-un proyecto en curso
-   &quot;Aprender un marco de Qt&quot;
-Acabado por estudiante
-un grupo K8-361
-   Dmitry Kuznetsov
+Es una parte práctica de
+el proyecto de I + D
+&quot;Aprendiendo Qt-framework&quot;
+Competido por el alumno de
+el grupo K8-361
+Dmitry Kuznetsov
 
 MEPhI 2009.</translation>
     </message>

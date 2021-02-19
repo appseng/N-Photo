@@ -6,7 +6,8 @@ TARGET = n-puzzle
 DESTDIR = bin
 MOC_DIR = build
 UI_DIR = build
-FORMS = ui/mainwindow.ui ui/aboutDialog.ui
+FORMS = ui/mainwindow.ui \
+    ui/aboutDialog.ui
 HEADERS = src/mainwindowimpl.h \
     src/puzzlewidget.h \
     src/piecesmodel.h \
@@ -24,7 +25,9 @@ SOURCES = src/mainwindowimpl.cpp \
     src/state.cpp \
     src/puzzlestrategy.cpp
 RESOURCES += puzzle.qrc
-TRANSLATIONS = client_ru_RU.ts client_en_US.ts client_es_ES.ts
+TRANSLATIONS = client_ru_RU.ts \
+    client_en_US.ts \
+    client_es_ES.ts
 RC_FILE += res.rc
 CODECFORTR  = utf8
 

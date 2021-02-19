@@ -47,12 +47,12 @@ border-right-color: rgb(255, 65, 252);</source>
 
 МИФИ 2009 г.</source>
         <translation>The game &quot;n-Puzzle.&quot;
-  It &apos;s  a practical part of
-a course project on
-  &quot;Learning a Qt-framework&quot;
-Competed  by student of
-a group K8-361
-  Dmitry Kuznetsov
+It &apos;s a practical part of
+the RnD-project
+&quot;Learning Qt-framework.&quot;
+Competed  by the student of
+the group K8-361
+Dmitry Kuznetsov
 
 MEPhI 2009.</translation>
     </message>
