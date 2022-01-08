@@ -37,7 +37,32 @@ border-right-color: rgb(255, 65, 252);</source>
         <translation>выход</translation>
     </message>
     <message>
-        <location filename="ui/aboutDialog.ui" line="109"/>
+        <location filename="ui/aboutDialog.ui" line="122"/>
+        <source>Игра &quot;n-Puzzle&quot;
+ Практическая часть
+ исследовательского проекта
+  на тему
+ &quot;Изучение фреймворка Qt&quot;
+Идея и реализация
+ Дмитрий Кузнецов
+2022 г.</source>
+        <oldsource>Игра &quot;n-Puzzle&quot;
+ Практическая часть
+ курсового проекта на тему
+ &quot;Изучение фреймворка Qt&quot;
+Идея и реализация
+ Дмитрий Кузнецов
+2022 г.</oldsource>
+        <translation>Игра &quot;n-Puzzle&quot;
+Практическая часть
+исследовательского проекта
+ на тему
+&quot;Изучение фреймворка Qt&quot;
+Идея и реализация
+Дмитрий Кузнецов
+2022 г.</translation>
+    </message>
+    <message>
         <source>Игра &quot;n-Puzzle&quot;
  Практическая часть
  курсового проекта на тему
@@ -45,15 +70,23 @@ border-right-color: rgb(255, 65, 252);</source>
 Выполнил студент группы К8-361
  Дмитрий Кузнецов
 
-МИФИ 2009 г.</source>
-        <translation>Игра &quot;n-Puzzle&quot;
+2009 г.</source>
+        <oldsource>Игра &quot;n-Puzzle&quot;
+ Практическая часть
+ курсового проекта на тему
+ &quot;Изучение фреймворка Qt&quot;
+Выполнил студент группы К8-361
+ Дмитрий Кузнецов
+
+МИФИ 2009 г.</oldsource>
+        <translation type="vanished">Игра &quot;n-Puzzle&quot;
  Практическая часть
  УИРа на тему
  &quot;Изучение фреймворка Qt&quot;
 Выполнил студент группы К8-361
  Дмитрий Кузнецов
 
-МИФИ 2009 г.</translation>
+2009 г.</translation>
     </message>
 </context>
 <context>

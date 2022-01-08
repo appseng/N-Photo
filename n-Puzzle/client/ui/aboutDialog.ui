@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>260</width>
+    <width>202</width>
     <height>189</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>260</width>
+    <width>202</width>
     <height>189</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>260</width>
+    <width>202</width>
     <height>189</height>
    </size>
   </property>
@@ -26,7 +26,7 @@
    <string>О программе</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../puzzle.qrc">
+   <iconset>
     <normaloff>:/images/images/qtcreator_logo_16.png</normaloff>:/images/images/qtcreator_logo_16.png</iconset>
   </property>
   <widget class="QGroupBox" name="groupBox">
@@ -34,7 +34,7 @@
     <rect>
      <x>10</x>
      <y>0</y>
-     <width>241</width>
+     <width>181</width>
      <height>181</height>
     </rect>
    </property>
@@ -51,8 +51,8 @@ border-right-color: rgb(255, 65, 252);</string>
      <rect>
       <x>10</x>
       <y>20</y>
-      <width>224</width>
-      <height>154</height>
+      <width>161</width>
+      <height>151</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
@@ -103,29 +103,6 @@ border-right-color: rgb(255, 65, 252);</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Игра &quot;n-Puzzle&quot;
- Практическая часть
- курсового проекта на тему
- &quot;Изучение фреймворка Qt&quot;
-Выполнил студент группы К8-361
- Дмитрий Кузнецов
-
-МИФИ 2009 г.</string>
-       </property>
-       <property name="scaledContents">
-        <bool>false</bool>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-       <property name="buddy">
-        <cstring>pushButton</cstring>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="1">
       <spacer name="verticalSpacer">
        <property name="orientation">
@@ -139,12 +116,33 @@ border-right-color: rgb(255, 65, 252);</string>
        </property>
       </spacer>
      </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Игра &quot;n-Puzzle&quot;
+ Практическая часть
+ исследовательского проекта
+  на тему
+ &quot;Изучение фреймворка Qt&quot;
+Идея и реализация
+ Дмитрий Кузнецов
+2022 г.</string>
+       </property>
+       <property name="scaledContents">
+        <bool>false</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="buddy">
+        <cstring>pushButton</cstring>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
   </widget>
  </widget>
- <resources>
-  <include location="../puzzle.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
