@@ -19,23 +19,22 @@ class PuzzleStrategy : public QObject
         int steps;
         bool isFinalState;
         State *initState;
-        QStack<State*> path;
-        QTimer *timer;
+        QStack<State*> *path;
         QVector<Direction> statesList;
         int threshold;
         int minThreshold;
     public:
         PuzzleStrategy(QObject* = nullptr);
         void IDAStar(QVector<char>*, Heuristic);
+        void setTimer(QTimer*);
     private:
-        void onFinalState(State*);
-        void puzzleSolved(State*, int);
         State* dfs(State*);
+        void onFinalState(State*);
+        void onPuzzleSolved(State*, int);
     signals:
         void onStateChanged(Param*);
         void onPuzzleSolved(Param*);
-    private slots:
-        void updateState();
+        void onTimerStart(QStack<State*>*);
 };
 
 #endif // PUZZLESTRATEGY_H

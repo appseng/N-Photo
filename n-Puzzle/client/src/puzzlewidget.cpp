@@ -1,43 +1,3 @@
-/****************************************************************************
- **
- ** Copyright (C) 2009 Digia Plc and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/legal
- **
- ** Copyright (C) 2015 Dmitry Kuznetsov
- **
- ** $QT_BEGIN_LICENSE:BSD$
- ** You may use this file under the terms of the BSD license as follows:
- **
- ** "Redistribution and use in source and binary forms, with or without
- ** modification, are permitted provided that the following conditions are
- ** met:
- **   * Redistributions of source code must retain the above copyright
- **     notice, this list of conditions and the following disclaimer.
- **   * Redistributions in binary form must reproduce the above copyright
- **     notice, this list of conditions and the following disclaimer in
- **     the documentation and/or other materials provided with the
- **     distribution.
- **   * Neither the name of Digia Plc and its Subsidiary(-ies) nor the names
- **     of its contributors may be used to endorse or promote products derived
- **     from this software without specific prior written permission.
- **
- **
- ** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- ** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- ** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- ** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- ** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- ** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- ** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- ** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- ** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- ** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- ** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
- **
- ** $QT_END_LICENSE$
- **
- ****************************************************************************/
-
 #include "puzzlewidget.h"
 
 PuzzleWidget::PuzzleWidget(QWidget *parent, const QSize size)
@@ -71,10 +31,13 @@ void PuzzleWidget::clear()
 {
     if (!pieceLocations.isEmpty())
         pieceLocations.clear();
+
     if (!piecePixmaps.isEmpty())
         piecePixmaps.clear();
+
     if (!pieceRects.isEmpty())
         pieceRects.clear();
+
     highlightedRect = QRect();
     inPlace= 0;
     update();
@@ -84,6 +47,7 @@ void PuzzleWidget::dragEnterEvent(QDragEnterEvent *event)
 {
     if (gameType)
         return;
+
     if (event->mimeData()->hasFormat("image/x-puzzle-piece"))
         event->accept();
     else
@@ -95,6 +59,7 @@ void PuzzleWidget::dragLeaveEvent(QDragLeaveEvent *event)
     event->accept();
     if (gameType)
         return;
+
     QRect updateRect = highlightedRect;
     highlightedRect = QRect();
     update(updateRect);
@@ -174,15 +139,19 @@ QRect PuzzleWidget::findPieceToMove(const QRect found) const
     oldPos.moveTo(oldPos.x()+pnt.x(),oldPos.y());
     if (findPiece(oldPos) == -1 && (oldPos.x() < pnt.x()*relation.x()))
         return oldPos;
+
     oldPos.moveTo(oldPos.x()-2*pnt.x(),oldPos.y());
     if (findPiece(oldPos) == -1 && (oldPos.x() >= 0))
         return oldPos;
+
     oldPos.moveTo(oldPos.x()+pnt.x(),oldPos.y()+pnt.y());
     if (findPiece(oldPos) == -1 && (oldPos.y() < pnt.y()*relation.y()))
         return oldPos;
+
     oldPos.moveTo(oldPos.x(),oldPos.y()-2*pnt.y());
     if (findPiece(oldPos) == -1 && (oldPos.y() >= 0))
         return oldPos;
+
     return found;
 }
 
@@ -191,7 +160,7 @@ void PuzzleWidget::mousePressEvent(QMouseEvent *event)
     QRect square = targetSquare(event->pos());
     int found = findPiece(square);
 
-    if (found == -1)
+    if (found == -1 || busy)
         return;
 
     QPoint location = pieceLocations[found];
@@ -270,7 +239,6 @@ void PuzzleWidget::addPieces(const QPixmap& pixmap)
 
 void PuzzleWidget::shuffle()
 {
-    qsrand(QCursor::pos().x() * QCursor::pos().y());
     moves = 0;
     int maxid = pieceRects.length()-1;
     QRect freeRect = QRect((relation.x()-1)*pnt.x(), (relation.y()-1)*pnt.y(), pnt.x(), pnt.y());
@@ -388,6 +356,9 @@ void PuzzleWidget::setPieces(const QVector<char>* nodes)
 
 void PuzzleWidget::moveMissingRectangle(Direction direction)
 {
+    if (busy)
+        return;
+
     QPoint point(missingLocation.x() * pnt.x() + 1 ,  missingLocation.y() * pnt.y() + 1);
     QPoint oldPoint(point);
     switch (direction) {
@@ -420,4 +391,9 @@ void PuzzleWidget::moveMissingRectangle(Direction direction)
         QMouseEvent event(QEvent::GraphicsSceneMousePress, point, Qt::NoButton, Qt::NoButton, Qt::NoModifier);
         mousePressEvent(&event);
     }
+}
+
+void PuzzleWidget::setBusy(bool busy)
+{
+    this->busy = busy;
 }

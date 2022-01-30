@@ -1,43 +1,3 @@
-/****************************************************************************
- **
- ** Copyright (C) 2009 Digia Plc and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/legal
- **
- ** Copyright (C) 2015 Dmitry Kuznetsov
- **
- ** $QT_BEGIN_LICENSE:BSD$
- ** You may use this file under the terms of the BSD license as follows:
- **
- ** "Redistribution and use in source and binary forms, with or without
- ** modification, are permitted provided that the following conditions are
- ** met:
- **   * Redistributions of source code must retain the above copyright
- **     notice, this list of conditions and the following disclaimer.
- **   * Redistributions in binary form must reproduce the above copyright
- **     notice, this list of conditions and the following disclaimer in
- **     the documentation and/or other materials provided with the
- **     distribution.
- **   * Neither the name of Digia Plc and its Subsidiary(-ies) nor the names
- **     of its contributors may be used to endorse or promote products derived
- **     from this software without specific prior written permission.
- **
- **
- ** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- ** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- ** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- ** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- ** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- ** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- ** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- ** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- ** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- ** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- ** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
- **
- ** $QT_END_LICENSE$
- **
- ****************************************************************************/
-
 #include <QListView>
 #include <QMessageBox>
 #include <QHBoxLayout>
@@ -55,6 +15,7 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QSettings>
+#include <QMessageBox>
 
 #include "aboutdialogimpl.h"
 #include "piecesmodel.h"
@@ -126,8 +87,6 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     connect(&socket, SIGNAL(disconnected()), this, SLOT(tcpDisconnected()));
     //  из локальной папки
     connect(choseFolder, SIGNAL(clicked()), this, SLOT(chooseDirectory()));
-    //connect(this, SIGNAL(destroyed()), this, SLOT(show()));
-    //connect(this, SIGNAL())
     //
 
     ptimer = new QTimer(this);
@@ -139,19 +98,26 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     downloadedImage = nullptr;
     imageIndex = -1;
 
-    qsrand(QCursor::pos().x() ^ QCursor::pos().y());
+    qsrand(QCursor::pos().x() * QCursor::pos().y());
 
     getFileList();
 
     // default heuristic is ManhattanDistance
     heuristic = ManhattanDistance;
     aManhattanDistance->setChecked(true);
-    busy = false;
+    setBusy(false);
     strategy = nullptr;
+    thread = nullptr;
+
+    solutionTimer = new QTimer(this);
+    solutionTimer->setInterval(1200);
+    connect(solutionTimer, SIGNAL(timeout()), this, SLOT(updateState()));
 }
 MainWindowImpl::~MainWindowImpl()
 {
-    strategy->deleteLater();
+    if (strategy != nullptr) {
+        strategy->deleteLater();
+    }
 }
 void MainWindowImpl::writeSettings()
 {
@@ -405,6 +371,9 @@ void MainWindowImpl::setLogVisible()
 }
 void MainWindowImpl::openImage(const QString &path)
 {
+    if (busy)
+        return;
+
     QString fileName = path;
     if (fileName.isNull())
         fileName = QFileDialog::getOpenFileName(this,
@@ -566,22 +535,42 @@ void MainWindowImpl::solvePuzzle()
                 nodes.append(index);
             }
         }
-        busy = true;
-        //try {
-            if (strategy != nullptr) {
-                strategy->deleteLater();
-            }
+           setBusy(true);
 
-            strategy = new PuzzleStrategy();
-            connect(strategy, SIGNAL(onStateChanged(Param*)), this, SLOT(displayState(Param*)));
-            connect(strategy, SIGNAL(onPuzzleSolved(Param*)), this, SLOT(onPuzzleSolved(Param*)));
+           if (strategy != nullptr) {
+               strategy->deleteLater();
+           }
+           strategy = new PuzzleStrategy(this);
+           connect(strategy, SIGNAL(onPuzzleSolved(Param*)), this, SLOT(onPuzzleSolved(Param*)));
+           connect(strategy, SIGNAL(onTimerStart(QStack<State*>*)), this, SLOT(startTimer(QStack<State*>*)));
+           connect(strategy, SIGNAL(onStateChanged(Param*)), this, SLOT(displayState(Param*)));
 
-            strategy->IDAStar(&nodes, heuristic);
-       // }catch(std::exception &e) {
-            busy = false;
-        //}
+           if (thread != nullptr) {
+               thread->deleteLater();
+           }
+           thread = new SolveThread(strategy, &nodes, heuristic);
+           thread->start();
+
+           log->append(trUtf8("Поиск решения начался..."));
     }
 }
+void MainWindowImpl::startTimer(QStack<State*>* path)
+{
+    this->path = path;
+    solutionTimer->start();
+}
+
+void MainWindowImpl::updateState() {
+    if (path->count() > 0) {
+        const QVector<char>* nodes = path->pop()->getState();
+        Param *param = new Param(this, nodes, path->count() == 0);
+        displayState(param);
+    } else {
+        solutionTimer->stop();
+        setBusy(false);
+    }
+}
+
 void MainWindowImpl::setMisplacedTiles()
 {
     aMisplacedTiles->setChecked(true);
@@ -699,7 +688,9 @@ void MainWindowImpl::getImage(const int curRow)
                                 .scaled(puzzleWidget->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
                         puzzleImage.save(file);
                     }
-                    log->append(trUtf8("<i>Изображение загружено из кэша!</i>"));
+                    if (busy == false) {
+                        log->append(trUtf8("<i>Изображение загружено из кэша!</i>"));
+                    }
                 }
                 setupPuzzle();
                 return;
@@ -865,7 +856,7 @@ void MainWindowImpl::displayState(Param *param)
     const QVector<char>* nodes = param->getState();
     bool isFinal = param->isFinalState();
     if (isFinal)
-        busy = false;
+        setBusy(false);
 
     if (nodes != nullptr)
         puzzleWidget->setPieces(nodes);
@@ -875,7 +866,6 @@ void MainWindowImpl::onPuzzleSolved(Param* param) {
     int states = param->getStates();
     log->append(trUtf8("Решение найдено: %1 шагов, %2 состояний").arg(steps).arg(states));
 }
-
 void MainWindowImpl::moveMissingRectangleLeft()
 {
     puzzleWidget->moveMissingRectangle(Left);
@@ -891,4 +881,8 @@ void MainWindowImpl::moveMissingRectangleDown()
 void MainWindowImpl::moveMissingRectangleRight()
 {
     puzzleWidget->moveMissingRectangle(Right);
+}
+void MainWindowImpl::setBusy(bool busy) {
+    this->busy = busy;
+    puzzleWidget->setBusy(busy);
 }
