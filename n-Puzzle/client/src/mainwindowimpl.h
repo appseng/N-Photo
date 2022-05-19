@@ -125,11 +125,11 @@ private:
 
         FileDownloader *downloadedImage;
         int imageIndex;
-        // laguage
+        // language
         QString currLang;
-        // Souce of images
+        // Source of images
         ImageSourceType imageSource;
-        // сеть
+        // network
         QTcpSocket socket;
         quint32 dataSize;
         quint32 messageType; 

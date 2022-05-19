@@ -8,9 +8,8 @@
 #include <QStack>
 #include <QTimer>
 
-#include <utility>
-
 #include "state.h"
+#include "param.h"
 
 class PuzzleStrategy : public QObject
 {
@@ -26,7 +25,6 @@ class PuzzleStrategy : public QObject
     public:
         PuzzleStrategy(QObject* = nullptr);
         void IDAStar(QVector<char>*, Heuristic);
-        void setTimer(QTimer*);
     private:
         State* dfs(State*);
         void onFinalState(State*);

@@ -8,8 +8,6 @@
 #include <QString>
 #include <QList>
 
-#include <cstddef>
-
 #include "enums.h"
 
 class State : public QObject
@@ -46,20 +44,5 @@ class State : public QObject
         State *parent;
 };
 
-class Param : public QObject
-{
-    Q_OBJECT
-public:
-    Param(QObject*, const QVector<char>*, bool);
-    Param(QObject*, int, int);
-    const QVector<char>* getState() const;
-    int getStates() const;
-    int getSteps() const;
-    bool isFinalState() const;
-private:
-    int steps;
-    int states;
-    const QVector<char> *state;
-    bool finalState;
-};
+
 #endif // SOLVER_H

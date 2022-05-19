@@ -9,5 +9,8 @@ SolveThread::SolveThread(PuzzleStrategy* strategy, QVector<char> *nodes, Heurist
 
 void SolveThread::run()
 {
-        strategy->IDAStar(nodes, heuristic);
+    if (strategy == nullptr)
+        return;
+
+    strategy->IDAStar(nodes, heuristic);
 }

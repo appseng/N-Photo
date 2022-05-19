@@ -12,6 +12,9 @@ PuzzleStrategy::PuzzleStrategy(QObject *parent)
 
 void PuzzleStrategy::IDAStar(QVector<char>* nodes, Heuristic heuristic)
 {
+    if (nodes == nullptr)
+        return;
+
     initState = new State(this, nullptr, new QVector<char>(*nodes), heuristic);
     threshold  = initState->getCost();
     State* solution = nullptr;
@@ -55,7 +58,8 @@ void PuzzleStrategy::onFinalState(State *state)
     }
 }
 
-State* PuzzleStrategy::dfs(State* current) {
+State* PuzzleStrategy::dfs(State* current)
+{
     steps++;
 
     int cost = current->getCost();

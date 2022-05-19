@@ -560,7 +560,8 @@ void MainWindowImpl::startTimer(QStack<State*>* path)
     solutionTimer->start();
 }
 
-void MainWindowImpl::updateState() {
+void MainWindowImpl::updateState()
+{
     if (path->count() > 0) {
         const QVector<char>* nodes = path->pop()->getState();
         Param *param = new Param(this, nodes, path->count() == 0);
@@ -748,7 +749,8 @@ void MainWindowImpl::tcpDisconnected()
 {
     socket.close();
 }
-void MainWindowImpl::tcpReady() {
+void MainWindowImpl::tcpReady()
+{
     QDataStream stream(&socket);
     QString fileName;
     stream.setVersion(QDataStream::Qt_4_4);
@@ -882,7 +884,8 @@ void MainWindowImpl::moveMissingRectangleRight()
 {
     puzzleWidget->moveMissingRectangle(Right);
 }
-void MainWindowImpl::setBusy(bool busy) {
+void MainWindowImpl::setBusy(bool busy)
+{
     this->busy = busy;
     puzzleWidget->setBusy(busy);
 }

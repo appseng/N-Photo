@@ -13,8 +13,8 @@ FileDownloader::FileDownloader(QUrl imageUrl, QObject *parent) :
 void FileDownloader::fileDownloaded(QNetworkReply* pReply)
 {
     downloadedData = pReply->readAll();
-    //emit a signal
     pReply->deleteLater();
+
     emit downloaded();
 }
 
