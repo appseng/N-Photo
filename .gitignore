@@ -39,4 +39,5 @@
 *.pro.user
 *.pro.user.*
 
-
+# Thumbs.db
+Thumbs.db
