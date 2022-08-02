@@ -15,7 +15,7 @@ void PuzzleStrategy::IDAStar(QVector<char>* nodes, Heuristic heuristic)
     if (nodes == nullptr)
         return;
 
-    initState = new State(this, nullptr, new QVector<char>(*nodes), heuristic);
+    initState = new State(nullptr, new QVector<char>(*nodes), heuristic, this);
     threshold  = initState->getCost();
     State* solution = nullptr;
     steps = 0;
@@ -25,7 +25,7 @@ void PuzzleStrategy::IDAStar(QVector<char>* nodes, Heuristic heuristic)
         solution = dfs(initState);
         if (solution != nullptr && solution->isFinalState()) break;
         delete initState;
-        initState = new State(this, nullptr, new QVector<char>(*nodes), heuristic);
+        initState = new State(nullptr, new QVector<char>(*nodes), heuristic, this);
         threshold = minThreshold;
     }
     onPuzzleSolved(solution, steps);

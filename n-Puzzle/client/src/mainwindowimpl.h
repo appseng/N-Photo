@@ -9,9 +9,14 @@
 #include <QListView>
 #include <QTranslator>
 
+// UI: widget
 #include "puzzlewidget.h"
 #include "piecesmodel.h"
+
+// UI: dialog
 #include "aboutdialogimpl.h"
+
+// generated UI for this class
 #include "ui_mainwindow.h"
 
 // for downloading images from the Internet
@@ -20,8 +25,6 @@
 // for finding solution
 #include "state.h"
 #include "solvethread.h"
-
-enum  ImageSourceType {Net=1, Internet, Local};
 
 class MainWindowImpl : public QMainWindow, public Ui::MainWindow
 {

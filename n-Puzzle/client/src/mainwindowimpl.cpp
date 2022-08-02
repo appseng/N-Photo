@@ -537,18 +537,10 @@ void MainWindowImpl::solvePuzzle()
         }
            setBusy(true);
 
-           if (strategy != nullptr) {
-               strategy->deleteLater();
-           }
-           strategy = new PuzzleStrategy(this);
-           connect(strategy, SIGNAL(onPuzzleSolved(Param*)), this, SLOT(onPuzzleSolved(Param*)));
-           connect(strategy, SIGNAL(onTimerStart(QStack<State*>*)), this, SLOT(startTimer(QStack<State*>*)));
-           connect(strategy, SIGNAL(onStateChanged(Param*)), this, SLOT(displayState(Param*)));
-
            if (thread != nullptr) {
                thread->deleteLater();
            }
-           thread = new SolveThread(strategy, &nodes, heuristic);
+           thread = new SolveThread(this, &nodes, heuristic);
            thread->start();
 
            log->append(trUtf8("Поиск решения начался..."));
@@ -663,7 +655,7 @@ void MainWindowImpl::getInternetImage() {
 
     log->append(trUtf8("<i>Загрузка изображения из интернета......</i>"));
 
-    QUrl imageUrl(trUtf8("http://placeimg.com/400/400/any"));
+    QUrl imageUrl(trUtf8("https://i.pravatar.cc/400"));
     downloadedImage = new FileDownloader(imageUrl, this);
 
     connect(downloadedImage, SIGNAL(downloaded()), SLOT(loadImage()));

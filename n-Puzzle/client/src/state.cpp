@@ -1,6 +1,6 @@
 #include "state.h"
 
-State::State(QObject* qparent, State* p, QVector<char>* nodes, Heuristic h)
+State::State(State* p, QVector<char>* nodes, Heuristic h, QObject* qparent)
     :QObject(qparent)
 {
     qNodes = nodes;
@@ -10,8 +10,8 @@ State::State(QObject* qparent, State* p, QVector<char>* nodes, Heuristic h)
     oldSpaceIndex = (p != nullptr) ? p->getSpaceIndex(): -1;
 }
 
-State::State(QObject* qparent, State* parent, QVector<char>* nodes)
-    :State(qparent, parent, nodes, parent->heuristic)
+State::State(State* parent, QVector<char>* nodes, QObject* qparent)
+    :State(parent, nodes, parent->heuristic, qparent)
 {
 }
 
@@ -157,7 +157,7 @@ State* State::getNextState(Direction direction)
         nodes->replace(spaceIndex, nodes->at(position));
         nodes->replace(position, -1);
 
-        return new State(this, this, nodes);
+        return new State(this, nodes, this);
     }
 
     return nullptr;

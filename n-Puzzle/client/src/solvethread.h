@@ -10,9 +10,10 @@ class SolveThread : public QThread
 {
     Q_OBJECT
 public:
-    SolveThread(PuzzleStrategy*, QVector<char>*, Heuristic);
+    SolveThread(QObject*, QVector<char>*, Heuristic);
 private:
     void run();
+    QObject *UIThread;
     PuzzleStrategy *strategy;
     QVector<char> *nodes;
     Heuristic heuristic;

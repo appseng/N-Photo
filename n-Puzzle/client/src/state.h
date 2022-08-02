@@ -14,8 +14,8 @@ class State : public QObject
 {
     Q_OBJECT
     public:
-        State(QObject*, State*, QVector<char>*, Heuristic );
-        State(QObject* , State*, QVector<char>*);
+        State(State*, QVector<char>*, Heuristic, QObject* = nullptr);
+        State(State*, QVector<char>*, QObject* = nullptr);
         ~State();
         bool equals(const State*) const;
         int compareTo(const State*) const;

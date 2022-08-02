@@ -15,4 +15,11 @@ enum Direction
     Right
 };
 
+enum  ImageSourceType
+{
+    Net=1,
+    Internet,
+    Local
+};
+
 #endif // ENUMS_H
