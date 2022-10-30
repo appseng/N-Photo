@@ -18,7 +18,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/aboutDialog.ui" line="47"/>
         <source>О n-Puzzle</source>
-        <translation>О n-Puzzle</translation>
+        <translation>О Пятнашках</translation>
     </message>
     <message>
         <location filename="ui/aboutDialog.ui" line="86"/>
@@ -53,7 +53,7 @@ border-right-color: rgb(255, 65, 252);</source>
 Идея и реализация
  Дмитрий Кузнецов
 2022 г.</oldsource>
-        <translation>Игра &quot;n-Puzzle&quot;
+        <translation>Игра &quot;Пятнашки&quot;
 Практическая часть
 исследовательского проекта
  на тему
@@ -95,7 +95,7 @@ border-right-color: rgb(255, 65, 252);</source>
         <location filename="ui/mainwindow.ui" line="35"/>
         <location filename="ui/mainwindow.ui" line="383"/>
         <source>n-Puzzle</source>
-        <translation type="unfinished"></translation>
+        <translation>Пятнашки</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="146"/>
@@ -137,7 +137,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/mainwindow.ui" line="349"/>
         <source>Puzzle</source>
-        <translation type="unfinished"></translation>
+        <translation>Пятнашки</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="373"/>
@@ -473,7 +473,7 @@ border-right-color: rgb(255, 65, 252);</source>
         <location filename="src/mainwindowimpl.cpp" line="124"/>
         <location filename="src/mainwindowimpl.cpp" line="152"/>
         <source>n-Puzzle</source>
-        <translation type="unfinished"></translation>
+        <translation>Пятнашки</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="126"/>

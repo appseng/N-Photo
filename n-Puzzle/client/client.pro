@@ -1,6 +1,6 @@
 TEMPLATE = app
 QT += core network widgets
-CONFIG += qt warn_on c++17
+CONFIG += qt c++17
 OBJECTS_DIR = build
 TARGET = n-puzzle
 DESTDIR = bin

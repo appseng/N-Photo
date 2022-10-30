@@ -15,7 +15,6 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QSettings>
-#include <QMessageBox>
 
 #include "aboutdialogimpl.h"
 #include "piecesmodel.h"
@@ -818,7 +817,10 @@ void MainWindowImpl::cacheUsage()
 }
 void MainWindowImpl::chooseDirectory()
 {
-    QString dir = QFileDialog::getExistingDirectory(this, trUtf8("Выбор папки"),QString(),QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    QString dir = QFileDialog::getExistingDirectory(this, trUtf8("Выбор папки"),localFolder->text(),QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    if (dir.length() == 0)
+        dir = localFolder->text();
+
     localFolder->setText(dir);
     getFileList();
 }
@@ -833,10 +835,6 @@ void MainWindowImpl::loadImage()
                                        (puzzleImage.height() - size)/2, size, size)
             .scaled(puzzleWidget->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
         }
-
-        int imageNumber = (imageIndex != -1) ? imageIndex : listImage->count()+1;
-        puzzleImage.save(trUtf8("%1/%2.jpg").arg(getCache()).arg(imageNumber));
-        listImage->addItem(QString::number(imageNumber));
 
         log->append(trUtf8("<i>Изображение загружено из интернета!</i>"));
     }

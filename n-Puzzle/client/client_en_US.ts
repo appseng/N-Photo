@@ -95,7 +95,7 @@ Dmitry Kuznetsov
         <location filename="ui/mainwindow.ui" line="35"/>
         <location filename="ui/mainwindow.ui" line="383"/>
         <source>n-Puzzle</source>
-        <translation type="unfinished"></translation>
+        <translation>n-Puzzle</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="146"/>
@@ -137,7 +137,7 @@ Dmitry Kuznetsov
     <message>
         <location filename="ui/mainwindow.ui" line="349"/>
         <source>Puzzle</source>
-        <translation type="unfinished"></translation>
+        <translation>Puzzle</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="373"/>
@@ -473,7 +473,7 @@ Dmitry Kuznetsov
         <location filename="src/mainwindowimpl.cpp" line="124"/>
         <location filename="src/mainwindowimpl.cpp" line="152"/>
         <source>n-Puzzle</source>
-        <translation type="unfinished"></translation>
+        <translation>n-Puzzle</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="126"/>

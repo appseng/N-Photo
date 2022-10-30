@@ -18,7 +18,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/aboutDialog.ui" line="47"/>
         <source>О n-Puzzle</source>
-        <translation>Acerca de N-Puzzle</translation>
+        <translation>Acerca de Rompecabezas-n</translation>
     </message>
     <message>
         <location filename="ui/aboutDialog.ui" line="86"/>
@@ -53,7 +53,7 @@ border-right-color: rgb(255, 65, 252);</source>
 Идея и реализация
  Дмитрий Кузнецов
 2022 г.</oldsource>
-        <translation>Juego &quot;n-Puzzle&quot;
+        <translation>Juego &quot; Rompecabezas-n&quot;
 parte práctica de
 Proyecto RnD
 &quot;Aprender el Marco Qt&quot;
@@ -94,7 +94,7 @@ Dmitry Kuznetsov
         <location filename="ui/mainwindow.ui" line="35"/>
         <location filename="ui/mainwindow.ui" line="383"/>
         <source>n-Puzzle</source>
-        <translation type="unfinished"></translation>
+        <translation>Rompecabezas-n</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="146"/>
@@ -136,7 +136,7 @@ Dmitry Kuznetsov
     <message>
         <location filename="ui/mainwindow.ui" line="349"/>
         <source>Puzzle</source>
-        <translation type="unfinished"></translation>
+        <translation>Rompecabezas-n</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="373"/>
@@ -472,7 +472,7 @@ Dmitry Kuznetsov
         <location filename="src/mainwindowimpl.cpp" line="124"/>
         <location filename="src/mainwindowimpl.cpp" line="152"/>
         <source>n-Puzzle</source>
-        <translation type="unfinished"></translation>
+        <translation>Rompecabezas-n</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="126"/>
