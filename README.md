@@ -18,6 +18,12 @@ The last versions of the software include:
 
 How to make from the sources:
 
+$ sudo apt-get install qtdeclarative5-dev
+
 $ qmake client.pro
 
 $ make
+
+Then launch n-Puzzle:
+
+$ bin/n-puzzle
