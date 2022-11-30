@@ -1,13 +1,13 @@
 ;--------------------------------
 
 ; The name of the installer
-Name "n-Puzzle"
+Name "N-Photo"
 
 ; The file to write
-OutFile "n-Puzzle.exe"
+OutFile "N-Photo.exe"
 
 ; The default installation directory
-InstallDir $TEMP\n-Puzzle
+InstallDir $TEMP\N-Photo
 
 ; Request application privileges for Windows Vista
 RequestExecutionLevel user
@@ -30,7 +30,7 @@ UninstPage instfiles
 
  
 ; The stuff to install
-Section "n-Puzzle (required)"
+Section "N-Photo (required)"
 
   SectionIn RO
 
@@ -49,16 +49,16 @@ Section "n-Puzzle (required)"
   File "puzzle\libgcc_s_dw2-1.dll"
   File "puzzle\libstdc++-6.dll"
   File "puzzle\libwinpthread-1.dll"
-  File "puzzle\n-puzzle.exe"
+  File "puzzle\n-photo.exe"
 
   ; Write the installation path into the registry
-  WriteRegStr HKLM SOFTWARE\n-Puzzle "Install_Dir" "$INSTDIR"
+  WriteRegStr HKLM SOFTWARE\N-Photo "Install_Dir" "$INSTDIR"
 
   ; Write the uninstall keys for Windows
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\n-Puzzle" "DisplayName" "n-Puzzle"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\n-Puzzle" "UninstallString" '"$INSTDIR\uninstall.exe"'
-  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\n-Puzzle" "NoModify" 1
-  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\n-Puzzle" "NoRepair" 1
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\N-Photo" "DisplayName" "N-Photo"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\N-Photo" "UninstallString" '"$INSTDIR\uninstall.exe"'
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\N-Photo" "NoModify" 1
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\N-Photo" "NoRepair" 1
   WriteUninstaller "$INSTDIR\uninstall.exe"
 
 SectionEnd
@@ -66,9 +66,9 @@ SectionEnd
 ; Optional section (can be disabled by the user)
 Section "Start Menu Shortcuts"
 
-  CreateDirectory "$SMPROGRAMS\n-Puzzle"
-  CreateShortcut "$SMPROGRAMS\n-Puzzle\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
-  CreateShortcut "$SMPROGRAMS\n-Puzzle\n-Puzzle.lnk" "$INSTDIR\n-puzzle.exe" "" "$INSTDIR\n-puzzle.exe" 0
+  CreateDirectory "$SMPROGRAMS\N-Photo"
+  CreateShortcut "$SMPROGRAMS\N-Photo\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
+  CreateShortcut "$SMPROGRAMS\N-Photo\N-Photo.lnk" "$INSTDIR\N-Photo.exe" "" "$INSTDIR\n-photo.exe" 0
 
 SectionEnd
 ; Uninstaller
@@ -76,7 +76,7 @@ SectionEnd
 Section "Uninstall"
 
   ; Remove registry keys
-  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\n-Puzzle"
+  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\N-Photo"
   DeleteRegKey HKLM SOFTWARE\n-Puzzle
 
   ; Remove files and uninstaller
@@ -88,10 +88,10 @@ Section "Uninstall"
   Delete $INSTDIR\uninstall.exe
 
   ; Remove shortcuts, if any
-  Delete "$SMPROGRAMS\n-Puzzle\*.*"
+  Delete "$SMPROGRAMS\N-Photo\*.*"
 
   ; Remove directories used
-  RMDir "$SMPROGRAMS\n-Puzzle"
+  RMDir "$SMPROGRAMS\N-Photo"
   RMDir "$INSTDIR"
 
 SectionEnd

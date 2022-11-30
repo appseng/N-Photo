@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="en_US">
+<TS version="2.1" language="es_ES">
 <context>
     <name>Dialog</name>
     <message>
         <location filename="ui/aboutDialog.ui" line="26"/>
         <source>О программе</source>
-        <translation>About the program</translation>
+        <translation>Sobre el programa</translation>
     </message>
     <message>
         <location filename="ui/aboutDialog.ui" line="42"/>
@@ -18,12 +18,12 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/aboutDialog.ui" line="47"/>
         <source>О n-Puzzle</source>
-        <translation>About n-Puzzle</translation>
+        <translation>Acerca de n-Photo</translation>
     </message>
     <message>
         <location filename="ui/aboutDialog.ui" line="86"/>
         <source>Нажмите для закрытия окна</source>
-        <translation>Click to close</translation>
+        <translation>Haga clic para cerrar</translation>
     </message>
     <message>
         <location filename="ui/aboutDialog.ui" line="95"/>
@@ -34,7 +34,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/aboutDialog.ui" line="99"/>
         <source>выход</source>
-        <translation>Close</translation>
+        <translation>cerrar</translation>
     </message>
     <message>
         <location filename="ui/aboutDialog.ui" line="122"/>
@@ -53,12 +53,12 @@ border-right-color: rgb(255, 65, 252);</source>
 Идея и реализация
  Дмитрий Кузнецов
 2022 г.</oldsource>
-        <translation>Game &quot;n-Puzzle&quot;
-Practical part of
-RnD-project
-&quot;Learning the Qt Framework&quot;
-Idea and implementation
-Dmitry Kuznetsov
+        <translation>Juego &quot;N-Photo&quot;
+parte práctica de
+Proyecto RnD
+&quot;Aprender el Marco Qt&quot;
+Idea e implementación
+Dmitri Kuznetsov
 2022.</translation>
     </message>
     <message>
@@ -78,12 +78,11 @@ Dmitry Kuznetsov
  Дмитрий Кузнецов
 
 МИФИ 2009 г.</oldsource>
-        <translation type="vanished">The game &quot;n-Puzzle.&quot;
-It &apos;s a practical part of
-the RnD-project
-&quot;Learning Qt-framework.&quot;
-Competed  by the student of
-the group K8-361
+        <translation type="vanished">El juego &quot;n-Puzzle&quot;.
+Es una parte práctica de
+el proyecto de I + D
+&quot;Aprendiendo Qt-framework&quot;
+Competido por el alumno de
 Dmitry Kuznetsov
 
 2009.</translation>
@@ -95,19 +94,19 @@ Dmitry Kuznetsov
         <location filename="ui/mainwindow.ui" line="35"/>
         <location filename="ui/mainwindow.ui" line="383"/>
         <source>n-Puzzle</source>
-        <translation>n-Puzzle</translation>
+        <translation>N-Photo</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="146"/>
         <location filename="ui/mainwindow.ui" line="711"/>
         <source>Настройки</source>
-        <translation>Settings</translation>
+        <translation>Configuración</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="170"/>
         <location filename="ui/mainwindow.ui" line="942"/>
         <source>Локальная папка</source>
-        <translation>Local directory</translation>
+        <translation>Directorio local</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="216"/>
@@ -117,7 +116,7 @@ Dmitry Kuznetsov
     <message>
         <location filename="ui/mainwindow.ui" line="244"/>
         <source>Адрес сервера</source>
-        <translation>Server address</translation>
+        <translation>Dirección del servidor</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="277"/>
@@ -137,17 +136,17 @@ Dmitry Kuznetsov
     <message>
         <location filename="ui/mainwindow.ui" line="349"/>
         <source>Puzzle</source>
-        <translation>Puzzle</translation>
+        <translation>N-Photo</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="373"/>
         <source>Классический</source>
-        <translation>Jigsaw</translation>
+        <translation>Rompecabezas</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="429"/>
         <source>Сложность</source>
-        <translation>Complication</translation>
+        <translation>Complejidad</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="486"/>
@@ -162,62 +161,62 @@ Dmitry Kuznetsov
     <message>
         <location filename="ui/mainwindow.ui" line="543"/>
         <source>Перемешать</source>
-        <translation>Shuffle</translation>
+        <translation>Barajar</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="599"/>
         <source>Заново</source>
-        <translation>Reset</translation>
+        <translation>Reajustar</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="627"/>
         <source>Загрузить случайную картинку</source>
-        <translation>Load a random picture</translation>
+        <translation>Cargar una foto al azar</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="686"/>
         <source>Файл</source>
-        <translation>File</translation>
+        <translation>Expediente</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="695"/>
         <source>Таймер</source>
-        <translation>Timer</translation>
+        <translation>Minutero</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="704"/>
         <source>Справка</source>
-        <translation>Help</translation>
+        <translation>Ayudar</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="715"/>
         <source>Источник</source>
-        <translation>Source</translation>
+        <translation>Origen</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="731"/>
         <source>Язык</source>
-        <translation>Language</translation>
+        <translation>Idioma</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="739"/>
         <source>Решение</source>
-        <translation>Solution</translation>
+        <translation>Solución</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="743"/>
         <source>Эвристика</source>
-        <translation>Heuristic</translation>
+        <translation>Heurístico</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="750"/>
         <source>Движения</source>
-        <translation>Movements</translation>
+        <translation>Movimiento</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="771"/>
         <source>Открыть</source>
-        <translation>Open</translation>
+        <translation>Abierto</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="774"/>
@@ -227,7 +226,7 @@ Dmitry Kuznetsov
     <message>
         <location filename="ui/mainwindow.ui" line="779"/>
         <source>Сохранить</source>
-        <translation>Save</translation>
+        <translation>Salvar</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="782"/>
@@ -237,7 +236,7 @@ Dmitry Kuznetsov
     <message>
         <location filename="ui/mainwindow.ui" line="787"/>
         <source>Выход</source>
-        <translation>Close</translation>
+        <translation>Cerrar</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="790"/>
@@ -247,7 +246,7 @@ Dmitry Kuznetsov
     <message>
         <location filename="ui/mainwindow.ui" line="804"/>
         <source>Вкл.</source>
-        <translation>Turn on</translation>
+        <translation>Encender</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="807"/>
@@ -257,7 +256,7 @@ Dmitry Kuznetsov
     <message>
         <location filename="ui/mainwindow.ui" line="824"/>
         <source>Выкл.</source>
-        <translation>Turn off</translation>
+        <translation>Apagar</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="827"/>
@@ -267,7 +266,7 @@ Dmitry Kuznetsov
     <message>
         <location filename="ui/mainwindow.ui" line="835"/>
         <source>О проекте</source>
-        <translation>About the project</translation>
+        <translation>Sobre el proyecto</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="838"/>
@@ -277,7 +276,7 @@ Dmitry Kuznetsov
     <message>
         <location filename="ui/mainwindow.ui" line="843"/>
         <source>Сбросить</source>
-        <translation>Reset</translation>
+        <translation>Reajustar</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="846"/>
@@ -287,12 +286,12 @@ Dmitry Kuznetsov
     <message>
         <location filename="ui/mainwindow.ui" line="851"/>
         <source>О Qt</source>
-        <translation>About Qt</translation>
+        <translation>Acerca de Qt</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="862"/>
         <source>Показать лог</source>
-        <translation>Show log</translation>
+        <translation>Mostrar registro</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="865"/>
@@ -312,7 +311,7 @@ Dmitry Kuznetsov
     <message>
         <location filename="ui/mainwindow.ui" line="956"/>
         <source>Сервер</source>
-        <translation>Server</translation>
+        <translation>Servidor</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="959"/>
@@ -352,7 +351,7 @@ Dmitry Kuznetsov
     <message>
         <location filename="ui/mainwindow.ui" line="1009"/>
         <source>Решить</source>
-        <translation>Solve</translation>
+        <translation>Resolver</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="1012"/>
@@ -362,7 +361,7 @@ Dmitry Kuznetsov
     <message>
         <location filename="ui/mainwindow.ui" line="1020"/>
         <source>Влево</source>
-        <translation>To the left</translation>
+        <translation>A la izquierda</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="1023"/>
@@ -372,7 +371,7 @@ Dmitry Kuznetsov
     <message>
         <location filename="ui/mainwindow.ui" line="1028"/>
         <source>Вверх</source>
-        <translation>Up</translation>
+        <translation>Arriba</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="1031"/>
@@ -382,7 +381,7 @@ Dmitry Kuznetsov
     <message>
         <location filename="ui/mainwindow.ui" line="1036"/>
         <source>Вниз</source>
-        <translation>Down</translation>
+        <translation>Abajo</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="1039"/>
@@ -392,7 +391,7 @@ Dmitry Kuznetsov
     <message>
         <location filename="ui/mainwindow.ui" line="1044"/>
         <source>Вправо</source>
-        <translation>To the right</translation>
+        <translation>A la derecha</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="1047"/>
@@ -402,7 +401,7 @@ Dmitry Kuznetsov
     <message>
         <location filename="ui/mainwindow.ui" line="873"/>
         <source>Типа игры</source>
-        <translation>Game type</translation>
+        <translation>Tipo de juego</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="876"/>
@@ -412,7 +411,7 @@ Dmitry Kuznetsov
     <message>
         <location filename="ui/mainwindow.ui" line="884"/>
         <source>Сложности</source>
-        <translation>Difficulty</translation>
+        <translation>Dificultad</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="887"/>
@@ -422,7 +421,7 @@ Dmitry Kuznetsov
     <message>
         <location filename="ui/mainwindow.ui" line="895"/>
         <source>Скрыть все</source>
-        <translation>Hide all</translation>
+        <translation>Ocultar</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="898"/>
@@ -432,7 +431,7 @@ Dmitry Kuznetsov
     <message>
         <location filename="ui/mainwindow.ui" line="906"/>
         <source>Русский</source>
-        <translation>Russian</translation>
+        <translation>Ruso</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="909"/>
@@ -442,7 +441,7 @@ Dmitry Kuznetsov
     <message>
         <location filename="ui/mainwindow.ui" line="917"/>
         <source>Английский</source>
-        <translation>English</translation>
+        <translation>Inglés</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="920"/>
@@ -452,7 +451,7 @@ Dmitry Kuznetsov
     <message>
         <location filename="ui/mainwindow.ui" line="928"/>
         <source>Испанский</source>
-        <translation>Spanish</translation>
+        <translation>Español</translation>
     </message>
 </context>
 <context>
@@ -460,7 +459,7 @@ Dmitry Kuznetsov
     <message>
         <location filename="src/mainwindowimpl.cpp" line="36"/>
         <source>&lt;b&gt;Добро пожаловать!&lt;/b&gt;&lt;br&gt;На данный момент &lt;b&gt;%1&lt;/b&gt; день года, &lt;b&gt;%2:%3:%4&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Welcome!&lt;/b&gt;&lt;br&gt;At the moment, it&apos;s the &lt;b&gt;%1&lt;/b&gt; day of the year, &lt;b&gt;%2:%3:%4&lt;/b&gt;</translation>
+        <translation>&lt;b&gt;¡Bienvenido!&lt;/b&gt;&lt;br&gt;Por el momento, es el &lt;b&gt;%1&lt;/b&gt; Día del año, &lt;b&gt;%2:%3:%4&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="623"/>
@@ -473,7 +472,7 @@ Dmitry Kuznetsov
         <location filename="src/mainwindowimpl.cpp" line="124"/>
         <location filename="src/mainwindowimpl.cpp" line="152"/>
         <source>n-Puzzle</source>
-        <translation>n-Puzzle</translation>
+        <translation>N-Photo</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="126"/>
@@ -548,62 +547,62 @@ Dmitry Kuznetsov
     <message>
         <location filename="src/mainwindowimpl.cpp" line="551"/>
         <source>Поиск решения начался...</source>
-        <translation>Started solving...</translation>
+        <translation>Comenzó a resolver...</translation>
     </message>
     <message>
         <source>Прекращение поиска решения. Решиние может занять слишком много времени.</source>
         <oldsource>Прикращение поиска решения. Решиние может занять слишком много времени.</oldsource>
-        <translation type="vanished">The solving process is terminated. It would take so much time.</translation>
+        <translation type="vanished">El proceso de resolución finaliza. Tomaría mucho tiempo.</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="800"/>
         <source>Ошибка TCP: %1</source>
         <oldsource>ÐÑÐ¸Ð±ÐºÐ° TCP: %1</oldsource>
-        <translation>A TCP error: %1</translation>
+        <translation>Un error de TCP: %1</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="377"/>
         <source>Открыть файл</source>
-        <translation>Open a file</translation>
+        <translation>Abrir un archivo</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="378"/>
         <source>Файлы изображений (*.png *.jpg *.bmp)</source>
         <oldsource>Ð¤Ð°Ð¹Ð»Ñ Ð¸Ð·Ð¾Ð±ÑÐ°Ð¶ÐµÐ½Ð¸Ð¹ (*.png *.jpg *.bmp)</oldsource>
-        <translation>Image file (*.png *.jpg *.bmp)</translation>
+        <translation>Archivo de imagen (*.png *.jpg *.bmp)</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="383"/>
         <source>Открытие файла : изображение не может быть загружено.</source>
-        <translation>Opening a file: the image could not be loaded.</translation>
+        <translation>La apertura de un archivo: la imagen no se pudo cargar.</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="395"/>
         <source>Головоломка решена за %1 ходов и время %2</source>
-        <translation>Puzzle has been solved for %1 moves and time %2</translation>
+        <translation>Rompecabezas se resuelve por %1 se mueve y el tiempo %2</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="399"/>
         <source>Головоломка решена.</source>
-        <translation>Puzzle has been solved.</translation>
+        <translation>Rompecabezas ha sido resuelto.</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="400"/>
         <source>Поздравляем! Вы решили головоломку успешно.
 Нажмите OK для продолжения.</source>
-        <translation>Congratulations! You have successfully solved the puzzle.
-Click OK to continue.</translation>
+        <translation>¡Enhorabuena! Usted ha resuelto el puzzle correctamente.
+Haga OK en Aceptar para continuar.</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="439"/>
         <source>Сохранить изображение</source>
-        <translation>Save image</translation>
+        <translation>Salvar el imagen</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="440"/>
         <source>Изображения (*.png *.jpg *.bmp)</source>
         <oldsource>ÐÐ·Ð¾Ð±ÑÐ°Ð¶ÐµÐ½Ð¸Ñ (*.png *.jpg *.bmp)</oldsource>
-        <translation>Images (*.png *.jpg *.bmp)</translation>
+        <translation>Imágenes (*.png *.jpg *.bmp)</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="460"/>
@@ -613,27 +612,27 @@ Click OK to continue.</translation>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="674"/>
         <source>&lt;i&gt;Загрузка изображения из кэша......&lt;/i&gt;</source>
-        <translation>&lt;i&gt;The image is being loaded from a cache.....&lt;/i&gt;</translation>
+        <translation>&lt;i&gt; La imagen se carga desde una caché ..... &lt;/ i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="660"/>
         <source>&lt;i&gt;Загрузка изображения из интернета......&lt;/i&gt;</source>
-        <translation>&lt;i&gt;The image is being downloaded from the Internet,,,,,&lt;/i&gt;</translation>
+        <translation>&lt;i&gt; La imagen se está descargando desde Internet,,,,, &lt;/ i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="703"/>
         <source>&lt;i&gt;Загрузка изображения из папки......&lt;/i&gt;</source>
-        <translation>&lt;i&gt;The image is being loaded.....&lt;/i&gt;</translation>
+        <translation>&lt;i&gt; La imagen se carga ..... &lt;/ i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="822"/>
         <source>Выбор папки</source>
-        <translation>Chose directory</translation>
+        <translation>Elija el directorio</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="606"/>
         <source>&lt;i&gt;Загрузка произвольного изображения......&lt;/i&gt;</source>
-        <translation>&lt;i&gt;Downloading an arbitrary image......&lt;/i&gt;</translation>
+        <translation>&lt;i&gt;Descargar una imagen arbitraria......&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="124"/>
@@ -655,12 +654,12 @@ Click OK to continue.</translation>
     </message>
     <message>
         <source>Поиск решения начался....</source>
-        <translation type="vanished">Started solving....</translation>
+        <translation type="vanished">Comenzó a resolver....</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="631"/>
         <source>&lt;i&gt;Получение списка изображений......&lt;/i&gt;</source>
-        <translation>&lt;i&gt;Getting a list of images......&lt;/i&gt;</translation>
+        <translation>&lt;i&gt;Obtenga una lista de imágenes......&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="662"/>
@@ -679,12 +678,12 @@ Click OK to continue.</translation>
         <location filename="src/mainwindowimpl.cpp" line="688"/>
         <location filename="src/mainwindowimpl.cpp" line="735"/>
         <source>&lt;i&gt;Изображение загружено из кэша!&lt;/i&gt;</source>
-        <translation>&lt;i&gt;The image&apos;s been loaded from the cache!&lt;/i&gt;</translation>
+        <translation>&lt;i&gt;La imagen ha sido cargado desde la caché!&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="693"/>
         <source>&lt;i&gt;Загрузка изображения с сервера......&lt;/i&gt;</source>
-        <translation>&lt;i&gt;Downloading of an image from the server......&lt;/i&gt;</translation>
+        <translation>&lt;i&gt;La descarga de una imagen desde el servidor......&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="704"/>
@@ -694,42 +693,42 @@ Click OK to continue.</translation>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="716"/>
         <source>&lt;i&gt;Изображение загружено из папки!&lt;/i&gt;</source>
-        <translation>&lt;i&gt;The image has been loaded from the directory!&lt;/i&gt;</translation>
+        <translation>&lt;i&gt;La imagen se ha cargado desde el directorio!&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="767"/>
         <source>&lt;i&gt;Изображение загружено!&lt;/i&gt;</source>
-        <translation>&lt;i&gt;The image has been downloaded!&lt;/i&gt;</translation>
+        <translation>&lt;i&gt;La imagen se ha descargado&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="773"/>
         <source>&lt;i&gt;Ошибка при получении изображения!&lt;/i&gt;</source>
-        <translation>&lt;i&gt;An error occurred while the program was retrieving images!&lt;/i&gt;</translation>
+        <translation>&lt;i&gt;Se ha producido un error mientras el programa estaba recuperando imágenes!&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="787"/>
         <source>&lt;i&gt;Список доступных файлов загружен.&lt;/i&gt;</source>
-        <translation>&lt;i&gt;The list of available files has been downloaded.&lt;/i&gt;</translation>
+        <translation>&lt;i&gt;La lista de archivos se ha descargado.&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="790"/>
         <source>&lt;i&gt;Неизвестный тип - %1&lt;/i&gt;</source>
-        <translation>&lt;i&gt;An unknown type - %1&lt;/i&gt;</translation>
+        <translation>&lt;i&gt;Un tipo desconocido - %1&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="808"/>
         <source>Используется кэш.</source>
-        <translation>The cache has been used.</translation>
+        <translation>La memoria caché se ha usado.</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="842"/>
         <source>&lt;i&gt;Изображение загружено из интернета!&lt;/i&gt;</source>
-        <translation>&lt;i&gt;The image has been downloaded from the Internet!&lt;/i&gt;</translation>
+        <translation>&lt;i&gt;La imagen ha sido descargado de Internet!&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="862"/>
         <source>Решение найдено: %1 шагов, %2 состояний</source>
-        <translation>The solution is found: %1 step(s), %2 states</translation>
+        <translation>La solución se encuentra: %1 paso(s), %2 estados</translation>
     </message>
 </context>
 </TS>

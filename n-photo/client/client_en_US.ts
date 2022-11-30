@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ru_RU">
+<TS version="2.1" language="en_US">
 <context>
     <name>Dialog</name>
     <message>
         <location filename="ui/aboutDialog.ui" line="26"/>
         <source>О программе</source>
-        <translation>О программе</translation>
+        <translation>About N-Photo</translation>
     </message>
     <message>
         <location filename="ui/aboutDialog.ui" line="42"/>
@@ -18,12 +18,12 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/aboutDialog.ui" line="47"/>
         <source>О n-Puzzle</source>
-        <translation>О Пятнашках</translation>
+        <translation>About n-Photo</translation>
     </message>
     <message>
         <location filename="ui/aboutDialog.ui" line="86"/>
         <source>Нажмите для закрытия окна</source>
-        <translation>Нажмите для закрытия окна</translation>
+        <translation>Click to close</translation>
     </message>
     <message>
         <location filename="ui/aboutDialog.ui" line="95"/>
@@ -34,7 +34,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/aboutDialog.ui" line="99"/>
         <source>выход</source>
-        <translation>выход</translation>
+        <translation>Close</translation>
     </message>
     <message>
         <location filename="ui/aboutDialog.ui" line="122"/>
@@ -53,14 +53,13 @@ border-right-color: rgb(255, 65, 252);</source>
 Идея и реализация
  Дмитрий Кузнецов
 2022 г.</oldsource>
-        <translation>Игра &quot;Пятнашки&quot;
-Практическая часть
-исследовательского проекта
- на тему
-&quot;Изучение фреймворка Qt&quot;
-Идея и реализация
-Дмитрий Кузнецов
-2022 г.</translation>
+        <translation>Game &quot;N-Photo&quot;
+Practical part of
+RnD-project
+&quot;Learning the Qt Framework&quot;
+Idea and implementation
+Dmitry Kuznetsov
+2022.</translation>
     </message>
     <message>
         <source>Игра &quot;n-Puzzle&quot;
@@ -79,14 +78,15 @@ border-right-color: rgb(255, 65, 252);</source>
  Дмитрий Кузнецов
 
 МИФИ 2009 г.</oldsource>
-        <translation type="vanished">Игра &quot;n-Puzzle&quot;
- Практическая часть
- УИРа на тему
- &quot;Изучение фреймворка Qt&quot;
-Выполнил студент группы К8-361
- Дмитрий Кузнецов
+        <translation type="vanished">The game &quot;n-Puzzle.&quot;
+It &apos;s a practical part of
+the RnD-project
+&quot;Learning Qt-framework.&quot;
+Competed  by the student of
+the group K8-361
+Dmitry Kuznetsov
 
-2009 г.</translation>
+2009.</translation>
     </message>
 </context>
 <context>
@@ -95,19 +95,19 @@ border-right-color: rgb(255, 65, 252);</source>
         <location filename="ui/mainwindow.ui" line="35"/>
         <location filename="ui/mainwindow.ui" line="383"/>
         <source>n-Puzzle</source>
-        <translation>Пятнашки</translation>
+        <translation>N-Photo</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="146"/>
         <location filename="ui/mainwindow.ui" line="711"/>
         <source>Настройки</source>
-        <translation>Настройки</translation>
+        <translation>Settings</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="170"/>
         <location filename="ui/mainwindow.ui" line="942"/>
         <source>Локальная папка</source>
-        <translation>Локальная папка</translation>
+        <translation>Local directory</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="216"/>
@@ -117,7 +117,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/mainwindow.ui" line="244"/>
         <source>Адрес сервера</source>
-        <translation>Адрес сервера</translation>
+        <translation>Server address</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="277"/>
@@ -137,17 +137,17 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/mainwindow.ui" line="349"/>
         <source>Puzzle</source>
-        <translation>Пятнашки</translation>
+        <translation>N-Photo</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="373"/>
         <source>Классический</source>
-        <translation>Картинка-загадка</translation>
+        <translation>Jigsaw</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="429"/>
         <source>Сложность</source>
-        <translation>Сложность</translation>
+        <translation>Complication</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="486"/>
@@ -162,62 +162,62 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/mainwindow.ui" line="543"/>
         <source>Перемешать</source>
-        <translation>Перемешать</translation>
+        <translation>Shuffle</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="599"/>
         <source>Заново</source>
-        <translation>Заново</translation>
+        <translation>Reset</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="627"/>
         <source>Загрузить случайную картинку</source>
-        <translation>Загрузить случайную картинку</translation>
+        <translation>Load a random picture</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="686"/>
         <source>Файл</source>
-        <translation>Файл</translation>
+        <translation>File</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="695"/>
         <source>Таймер</source>
-        <translation>Секундомер</translation>
+        <translation>Timer</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="704"/>
         <source>Справка</source>
-        <translation>Справка</translation>
+        <translation>Help</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="715"/>
         <source>Источник</source>
-        <translation>Источник</translation>
+        <translation>Source</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="731"/>
         <source>Язык</source>
-        <translation>Язык</translation>
+        <translation>Language</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="739"/>
         <source>Решение</source>
-        <translation>Решение</translation>
+        <translation>Solution</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="743"/>
         <source>Эвристика</source>
-        <translation>Эвристика</translation>
+        <translation>Heuristic</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="750"/>
         <source>Движения</source>
-        <translation>Движения</translation>
+        <translation>Movements</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="771"/>
         <source>Открыть</source>
-        <translation>Открыть</translation>
+        <translation>Open</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="774"/>
@@ -227,7 +227,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/mainwindow.ui" line="779"/>
         <source>Сохранить</source>
-        <translation>Сохранить</translation>
+        <translation>Save</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="782"/>
@@ -237,7 +237,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/mainwindow.ui" line="787"/>
         <source>Выход</source>
-        <translation>Выход</translation>
+        <translation>Close</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="790"/>
@@ -247,7 +247,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/mainwindow.ui" line="804"/>
         <source>Вкл.</source>
-        <translation>Вкл.</translation>
+        <translation>Turn on</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="807"/>
@@ -257,7 +257,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/mainwindow.ui" line="824"/>
         <source>Выкл.</source>
-        <translation>Выкл.</translation>
+        <translation>Turn off</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="827"/>
@@ -267,7 +267,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/mainwindow.ui" line="835"/>
         <source>О проекте</source>
-        <translation>О проекте</translation>
+        <translation>About the project</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="838"/>
@@ -277,7 +277,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/mainwindow.ui" line="843"/>
         <source>Сбросить</source>
-        <translation>Сбросить</translation>
+        <translation>Reset</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="846"/>
@@ -287,12 +287,12 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/mainwindow.ui" line="851"/>
         <source>О Qt</source>
-        <translation>О Qt</translation>
+        <translation>About Qt</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="862"/>
         <source>Показать лог</source>
-        <translation>Показать лог</translation>
+        <translation>Show log</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="865"/>
@@ -312,7 +312,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/mainwindow.ui" line="956"/>
         <source>Сервер</source>
-        <translation>Сервер</translation>
+        <translation>Server</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="959"/>
@@ -322,7 +322,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/mainwindow.ui" line="970"/>
         <source>Интернет</source>
-        <translation>Интернет</translation>
+        <translation>Internet</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="973"/>
@@ -352,7 +352,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/mainwindow.ui" line="1009"/>
         <source>Решить</source>
-        <translation>Решить</translation>
+        <translation>Solve</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="1012"/>
@@ -362,7 +362,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/mainwindow.ui" line="1020"/>
         <source>Влево</source>
-        <translation>Влево</translation>
+        <translation>To the left</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="1023"/>
@@ -372,7 +372,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/mainwindow.ui" line="1028"/>
         <source>Вверх</source>
-        <translation>Вверх</translation>
+        <translation>Up</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="1031"/>
@@ -382,7 +382,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/mainwindow.ui" line="1036"/>
         <source>Вниз</source>
-        <translation>Вниз</translation>
+        <translation>Down</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="1039"/>
@@ -392,7 +392,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/mainwindow.ui" line="1044"/>
         <source>Вправо</source>
-        <translation>Вправо</translation>
+        <translation>To the right</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="1047"/>
@@ -402,7 +402,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/mainwindow.ui" line="873"/>
         <source>Типа игры</source>
-        <translation>Типа игры</translation>
+        <translation>Game type</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="876"/>
@@ -412,7 +412,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/mainwindow.ui" line="884"/>
         <source>Сложности</source>
-        <translation>Сложности</translation>
+        <translation>Difficulty</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="887"/>
@@ -422,7 +422,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/mainwindow.ui" line="895"/>
         <source>Скрыть все</source>
-        <translation>Скрыть все</translation>
+        <translation>Hide all</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="898"/>
@@ -432,7 +432,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/mainwindow.ui" line="906"/>
         <source>Русский</source>
-        <translation>Русский</translation>
+        <translation>Russian</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="909"/>
@@ -442,7 +442,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/mainwindow.ui" line="917"/>
         <source>Английский</source>
-        <translation>Английский</translation>
+        <translation>English</translation>
     </message>
     <message>
         <location filename="ui/mainwindow.ui" line="920"/>
@@ -452,7 +452,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="ui/mainwindow.ui" line="928"/>
         <source>Испанский</source>
-        <translation>Испанский</translation>
+        <translation>Spanish</translation>
     </message>
 </context>
 <context>
@@ -460,7 +460,7 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="36"/>
         <source>&lt;b&gt;Добро пожаловать!&lt;/b&gt;&lt;br&gt;На данный момент &lt;b&gt;%1&lt;/b&gt; день года, &lt;b&gt;%2:%3:%4&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Добро пожаловать!&lt;/b&gt;&lt;br&gt;На данный момент &lt;b&gt;%1&lt;/b&gt; день года, &lt;b&gt;%2:%3:%4&lt;/b&gt;</translation>
+        <translation>&lt;b&gt;Welcome!&lt;/b&gt;&lt;br&gt;At the moment, it&apos;s the &lt;b&gt;%1&lt;/b&gt; day of the year, &lt;b&gt;%2:%3:%4&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="623"/>
@@ -473,7 +473,7 @@ border-right-color: rgb(255, 65, 252);</source>
         <location filename="src/mainwindowimpl.cpp" line="124"/>
         <location filename="src/mainwindowimpl.cpp" line="152"/>
         <source>n-Puzzle</source>
-        <translation>Пятнашки</translation>
+        <translation>N-Photo</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="126"/>
@@ -548,62 +548,62 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="551"/>
         <source>Поиск решения начался...</source>
-        <translation>Поиск решения начался...</translation>
+        <translation>Started solving...</translation>
     </message>
     <message>
         <source>Прекращение поиска решения. Решиние может занять слишком много времени.</source>
         <oldsource>Прикращение поиска решения. Решиние может занять слишком много времени.</oldsource>
-        <translation type="vanished">Прекращение поиска решения. Решиние может занять слишком много времени.</translation>
+        <translation type="vanished">The solving process is terminated. It would take so much time.</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="800"/>
         <source>Ошибка TCP: %1</source>
         <oldsource>ÐÑÐ¸Ð±ÐºÐ° TCP: %1</oldsource>
-        <translation>Ошибка TCP: %1</translation>
+        <translation>A TCP error: %1</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="377"/>
         <source>Открыть файл</source>
-        <translation>Открыть файл</translation>
+        <translation>Open a file</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="378"/>
         <source>Файлы изображений (*.png *.jpg *.bmp)</source>
         <oldsource>Ð¤Ð°Ð¹Ð»Ñ Ð¸Ð·Ð¾Ð±ÑÐ°Ð¶ÐµÐ½Ð¸Ð¹ (*.png *.jpg *.bmp)</oldsource>
-        <translation>Файлы изображений (*.png *.jpg *.bmp)</translation>
+        <translation>Image file (*.png *.jpg *.bmp)</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="383"/>
         <source>Открытие файла : изображение не может быть загружено.</source>
-        <translation>Открытие файла : изображение не может быть загружено.</translation>
+        <translation>Opening a file: the image could not be loaded.</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="395"/>
         <source>Головоломка решена за %1 ходов и время %2</source>
-        <translation>Головоломка решена за %1 ходов и время %2</translation>
+        <translation>Puzzle has been solved for %1 moves and time %2</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="399"/>
         <source>Головоломка решена.</source>
-        <translation>Головоломка решена.</translation>
+        <translation>Puzzle has been solved.</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="400"/>
         <source>Поздравляем! Вы решили головоломку успешно.
 Нажмите OK для продолжения.</source>
-        <translation>Поздравляем! Вы решили головоломку успешно.
-Нажмите OK для продолжения.</translation>
+        <translation>Congratulations! You have successfully solved the puzzle.
+Click OK to continue.</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="439"/>
         <source>Сохранить изображение</source>
-        <translation>Сохранить изображение</translation>
+        <translation>Save image</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="440"/>
         <source>Изображения (*.png *.jpg *.bmp)</source>
         <oldsource>ÐÐ·Ð¾Ð±ÑÐ°Ð¶ÐµÐ½Ð¸Ñ (*.png *.jpg *.bmp)</oldsource>
-        <translation>Изображения (*.png *.jpg *.bmp)</translation>
+        <translation>Images (*.png *.jpg *.bmp)</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="460"/>
@@ -613,27 +613,27 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="674"/>
         <source>&lt;i&gt;Загрузка изображения из кэша......&lt;/i&gt;</source>
-        <translation>&lt;i&gt;Загрузка изображения из кэша......&lt;/i&gt;</translation>
+        <translation>&lt;i&gt;The image is being loaded from a cache.....&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="660"/>
         <source>&lt;i&gt;Загрузка изображения из интернета......&lt;/i&gt;</source>
-        <translation>&lt;i&gt;Загрузка изображения из интернета......&lt;/i&gt;</translation>
+        <translation>&lt;i&gt;The image is being downloaded from the Internet,,,,,&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="703"/>
         <source>&lt;i&gt;Загрузка изображения из папки......&lt;/i&gt;</source>
-        <translation>&lt;i&gt;Загрузка изображения из папки......&lt;/i&gt;</translation>
+        <translation>&lt;i&gt;The image is being loaded.....&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="822"/>
         <source>Выбор папки</source>
-        <translation>Выбор папки</translation>
+        <translation>Chose directory</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="606"/>
         <source>&lt;i&gt;Загрузка произвольного изображения......&lt;/i&gt;</source>
-        <translation>&lt;i&gt;Загрузка произвольного изображения......&lt;/i&gt;</translation>
+        <translation>&lt;i&gt;Downloading an arbitrary image......&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="124"/>
@@ -655,12 +655,12 @@ border-right-color: rgb(255, 65, 252);</source>
     </message>
     <message>
         <source>Поиск решения начался....</source>
-        <translation type="vanished">Поиск решения начался....</translation>
+        <translation type="vanished">Started solving....</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="631"/>
         <source>&lt;i&gt;Получение списка изображений......&lt;/i&gt;</source>
-        <translation>&lt;i&gt;Получение списка изображений......&lt;/i&gt;</translation>
+        <translation>&lt;i&gt;Getting a list of images......&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="662"/>
@@ -679,12 +679,12 @@ border-right-color: rgb(255, 65, 252);</source>
         <location filename="src/mainwindowimpl.cpp" line="688"/>
         <location filename="src/mainwindowimpl.cpp" line="735"/>
         <source>&lt;i&gt;Изображение загружено из кэша!&lt;/i&gt;</source>
-        <translation>&lt;i&gt;Изображение загружено из кэша!&lt;/i&gt;</translation>
+        <translation>&lt;i&gt;The image&apos;s been loaded from the cache!&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="693"/>
         <source>&lt;i&gt;Загрузка изображения с сервера......&lt;/i&gt;</source>
-        <translation>&lt;i&gt;Загрузка изображения с сервера......&lt;/i&gt;</translation>
+        <translation>&lt;i&gt;Downloading of an image from the server......&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="704"/>
@@ -694,42 +694,42 @@ border-right-color: rgb(255, 65, 252);</source>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="716"/>
         <source>&lt;i&gt;Изображение загружено из папки!&lt;/i&gt;</source>
-        <translation>&lt;i&gt;Изображение загружено из папки!&lt;/i&gt;</translation>
+        <translation>&lt;i&gt;The image has been loaded from the directory!&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="767"/>
         <source>&lt;i&gt;Изображение загружено!&lt;/i&gt;</source>
-        <translation>&lt;i&gt;Изображение загружено!&lt;/i&gt;</translation>
+        <translation>&lt;i&gt;The image has been downloaded!&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="773"/>
         <source>&lt;i&gt;Ошибка при получении изображения!&lt;/i&gt;</source>
-        <translation>&lt;i&gt;Ошибка при получении изображения!&lt;/i&gt;</translation>
+        <translation>&lt;i&gt;An error occurred while the program was retrieving images!&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="787"/>
         <source>&lt;i&gt;Список доступных файлов загружен.&lt;/i&gt;</source>
-        <translation>&lt;i&gt;Список доступных файлов загружен.&lt;/i&gt;</translation>
+        <translation>&lt;i&gt;The list of available files has been downloaded.&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="790"/>
         <source>&lt;i&gt;Неизвестный тип - %1&lt;/i&gt;</source>
-        <translation>&lt;i&gt;Неизвестный тип - %1&lt;/i&gt;</translation>
+        <translation>&lt;i&gt;An unknown type - %1&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="808"/>
         <source>Используется кэш.</source>
-        <translation>Используется кэш.</translation>
+        <translation>The cache has been used.</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="842"/>
         <source>&lt;i&gt;Изображение загружено из интернета!&lt;/i&gt;</source>
-        <translation>&lt;i&gt;Изображение загружено из интернета!&lt;/i&gt;</translation>
+        <translation>&lt;i&gt;The image has been downloaded from the Internet!&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="862"/>
         <source>Решение найдено: %1 шагов, %2 состояний</source>
-        <translation>Решение найдено: %1 шагов, %2 состояний</translation>
+        <translation>The solution is found: %1 step(s), %2 states</translation>
     </message>
 </context>
 </TS>
