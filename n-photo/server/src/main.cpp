@@ -16,14 +16,14 @@ int main(int argc, char *argv[])
         if (ok || (str == QString("--start"))) {
             Server server;
             if (!server.listen(QHostAddress::Any, (ok) ? port : 5500)) {
-                qCritical() << QApplication::tr("A multi-threaded server n-Puzzle.\n"
+                qCritical() << QApplication::tr("A multi-threaded server N-Photo.\n"
                                                 "It's impossible to launch server: %1.")
                         .arg(server.errorString());
                 QApplication::beep();
                 return -1;
             }
             qDebug() << QApplication::tr("A server started on %1.\n"
-                                         "Later, start client n-Puzzle.")
+                                         "Later, start client N-Photo.")
                     .arg(server.serverPort());
             return app.exec();
         }
@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
             return (ret)? 0 : -3;
         }
         else {//if (str == QString("--help")) {
-            QMessageBox::information(0,QString("n-Puzzle game."),
+            QMessageBox::information(0,QString("N-Photo game."),
                       QString("Usage: %1 [OPTION]\n"
                               "OPTION is the some of\n"
                               "   --start\t\tstart server without GUI\n"
