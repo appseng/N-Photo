@@ -120,7 +120,7 @@ MainWindowImpl::~MainWindowImpl()
 }
 void MainWindowImpl::writeSettings()
 {
-    QSettings settings(trUtf8("bitbucket.org/appseng/n-puzzle"), trUtf8("n-Puzzle"));
+    QSettings settings(trUtf8("github.com/appseng/n-photo"), trUtf8("n-photo"));
 
     settings.setValue(trUtf8("geometry"), geometry());
     settings.setValue(trUtf8("host"), host->text());
@@ -148,7 +148,7 @@ void MainWindowImpl::writeSettings()
 }
 void MainWindowImpl::readSettings()
 {
-    QSettings settings(trUtf8("bitbucket.org/appseng/n-puzzle"),trUtf8("n-Puzzle"));
+    QSettings settings(trUtf8("github.com/appseng/n-photo"),trUtf8("n-photo"));
 
     QRect rect = settings.value(trUtf8("geometry"), QRect(0,0,700,489)).toRect();
     move(rect.topLeft());
