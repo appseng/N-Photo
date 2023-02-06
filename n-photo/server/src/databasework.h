@@ -3,11 +3,13 @@
 #include <QSqlDatabase>
 #include <QMutex>
 #include <QMutexLocker>
+#include <QObject>
 
 class DatabaseWork :QObject
 {
+     Q_OBJECT
 public:
-    DatabaseWork(QObject * = 0, QString = QString("ImageDB"));
+    DatabaseWork(QObject * = nullptr, QString = QString("ImageDB"));
     ~DatabaseWork();
     //work with images
     bool addImage(QString);
@@ -17,9 +19,7 @@ public:
     bool fillDB(QString = QString("images"));
     bool cleanDB();
     bool rebuildDB();
-    void removeDB();
     bool exportDB(QString = QString("export"));
-    QSqlDatabase SqlDatabase();
 
 private:
     bool openConnetion();

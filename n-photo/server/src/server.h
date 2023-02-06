@@ -3,19 +3,18 @@
 
 #include <QTcpServer>
 #include <QTcpSocket>
-#include <QThreadStorage>
 #include "databasework.h"
+#include "connectionsocket.h"
 
 class Server : public QTcpServer
 {
     Q_OBJECT
 public:
-    Server(QObject * = 0);
-protected:
-    void incomingConnection(int);
+    Server(QTcpServer * = nullptr);
 private:
-    DatabaseWork *db;
-
+    void incomingConnection(int);
+    DatabaseWork* db;
+    ConnectionSocket* socket;
 };
 
 #endif // SERVER_H

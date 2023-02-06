@@ -8,7 +8,6 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QByteArray>
-#include <QMessageBox>
 #include <QImageWriter>
 #include <QFileInfoList>
 #include "databasework.h"
@@ -16,27 +15,18 @@
 DatabaseWork::DatabaseWork(QObject *parent, QString Name)
         :QObject(parent), dbName(Name)
 {
+    db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName(dbName);
 }
 DatabaseWork::~DatabaseWork()
 {
-    QMutexLocker mut(&mutex);
-    removeDB();
-    //~QObject();
+    closeConnetion();
 }
-QSqlDatabase DatabaseWork::SqlDatabase()
-{
-    QMutexLocker mut(&mutex);
-    if (openConnetion())
-        return db;
-    return QSqlDatabase();
-}
+
 bool DatabaseWork::createConnection()
 {
-    db.close();
-    db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(dbName);
     if (!db.open()) {
-        qDebug() << db.lastError().text();
+        qDebug() << "Error:" << db.lastError();
         return false;
     }
     return true;
@@ -45,12 +35,14 @@ bool DatabaseWork::openConnetion()
 {
     if (db.isOpen() || db.open())
         return true;
+
     return createConnection();
 }
 bool DatabaseWork::closeConnetion()
 {
     if (db.isOpen())
         db.close();
+
     return !db.isOpen();
 }
 bool DatabaseWork::addImage(QString name)
@@ -116,6 +108,7 @@ QList<QString> DatabaseWork::listImages(bool &ok)
     ok = query.exec("SELECT name FROM images");
     while (query.next())
         imageList.append(query.value(0).toString());
+
     ok = closeConnetion() && ok;
     return imageList;
 }
@@ -154,6 +147,7 @@ bool DatabaseWork::fillDB(QString folder)
         QImage image = QImage(df.absoluteFilePath());
         if (image.isNull())
             continue;
+
         int size = qMin(image.width(), image.height());
         image = image.copy((image.width() - size)/2,
                            (image.height() - size)/2, size, size)
@@ -169,19 +163,16 @@ bool DatabaseWork::fillDB(QString folder)
     }
     return ret;
 }
-void DatabaseWork::removeDB()
-{
-    db.close();
-    db.removeDatabase(db.connectionName());
-}
 bool DatabaseWork::exportDB(QString exportPath)
 {
     QMutexLocker mut(&mutex);
     if (!openConnetion())
         return false;
+
     QDir exp(exportPath);
     if (!exp.exists())
         QDir().mkdir(exportPath);
+
     QDir::setCurrent(exportPath);
     QFile file;
     QSqlQuery query(db);

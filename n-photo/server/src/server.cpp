@@ -1,14 +1,11 @@
-#include <QMessageBox>
 #include "server.h"
-#include "clientsocket.h"
 
-Server::Server(QObject *parent)
+Server::Server(QTcpServer *parent)
         :QTcpServer(parent)
 {
     db = new DatabaseWork(this);
 }
-void Server::incomingConnection(int descriptor)
+void Server::incomingConnection(int desctiptor)
 {
-    ClientSocket *socket = new ClientSocket(db,this);
-    socket->setSocketDescriptor(descriptor);
+    socket = new ConnectionSocket(desctiptor, db, this);
 }

@@ -97,7 +97,7 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     downloadedImage = nullptr;
     imageIndex = -1;
 
-    qsrand(QCursor::pos().x() * QCursor::pos().y());
+    qsrand(uint(QCursor::pos().x() * QCursor::pos().y()));
 
     getFileList();
 
@@ -111,6 +111,8 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     solutionTimer = new QTimer(this);
     solutionTimer->setInterval(1200);
     connect(solutionTimer, SIGNAL(timeout()), this, SLOT(updateState()));
+
+    dataSize = 0;
 }
 MainWindowImpl::~MainWindowImpl()
 {
@@ -531,7 +533,7 @@ void MainWindowImpl::solvePuzzle()
                 if (index != -1)
                     index++;
 
-                nodes.append(index);
+                nodes.append(char(index));
             }
         }
            setBusy(true);
@@ -598,14 +600,17 @@ void MainWindowImpl::detectGameType()
 }
 void MainWindowImpl::getRandomImage()
 {
+    if (busy)
+        return;
+
     log->append(trUtf8("<i>Загрузка произвольного изображения......</i>"));
     if (imageSource == Internet) {
         getInternetImage();
         return;
     }
-    int count;
+    int count = listImage->count();
     int newCur;
-    if ((count = listImage->count()) > 0) {
+    if (count > 0) {
         if (count == 1)
             newCur = 0;
         else
@@ -614,24 +619,23 @@ void MainWindowImpl::getRandomImage()
     } else
         getFileList();
 }
-QString MainWindowImpl::getCache() {
-    if (!QDir(trUtf8("cache")).exists())
-        QDir().mkdir(trUtf8("cache"));
-
-    return trUtf8("cache");
+void MainWindowImpl::tcpConnect(MessageType type)
+{
+    messageType = type;
+    dataSize = 0;
+    socket.abort();
+    socket.connectToHost(host->text(), ip->text().toUShort());
 }
-
 void MainWindowImpl::getFileList()
 {
+    if (busy)
+        return;
+
     log->append(trUtf8("<i>Получение списка изображений......</i>"));
 
     switch (imageSource) {
         case (Net):
-            dataSize = 0;
-            cacheUsed = false;
-            messageType = 8;
-            socket.abort();
-            socket.connectToHost(host->text(), ip->text().toInt());
+            tcpConnect(List);
             break;
         case (Local): {
             QString lf = localFolder->text();
@@ -643,7 +647,6 @@ void MainWindowImpl::getFileList()
             break;
         }
         case (Internet):
-            cacheUsage();
             getInternetImage();
             break;
     }
@@ -661,79 +664,56 @@ void MainWindowImpl::getInternetImage() {
 }
 void MainWindowImpl::getImage(const int curRow)
 {
+    if (busy)
+        return;
+
     if (listImage && curRow != -1) {
         switch(imageSource) {
-        case (Net):
-        case (Internet):
-            if (cacheUsed) {
-                log->append(trUtf8("<i>Загрузка изображения из кэша......</i>"));
-                QString file (trUtf8("%1/%2.jpg").arg(getCache()).arg(listImage->item(curRow)->text()));
-                QPixmap image = QPixmap(file);
-                if (image.isNull())
-                    puzzleImage = QPixmap(QString::fromUtf8(":/images/images/example.jpg"));
-                else {
-                    puzzleImage = image;
-                    if (puzzleImage.size() != puzzleWidget->size()) {
-                        int size = qMin(puzzleImage.width(), puzzleImage.height());
-                        puzzleImage = puzzleImage.copy((puzzleImage.width() - size)/2,
-                                                       (puzzleImage.height() - size)/2, size, size)
-                                .scaled(puzzleWidget->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-                        puzzleImage.save(file);
+            case (Net):
+                log->append(trUtf8("<i>Загрузка изображения с сервера......</i>"));
+                this->curRow = curRow;
+
+                tcpConnect(File);
+                break;
+            case (Local): {
+                QString lf = localFolder->text();
+                if (!lf.trimmed().isEmpty() && QDir().exists(lf)) {
+                    log->append(trUtf8("<i>Загрузка изображения из папки......</i>"));
+                    QString file (trUtf8("%1/%2").arg(lf).arg(listImage->currentItem()->text()));
+                    QPixmap image = QPixmap(file);
+                    if (image.isNull())
+                        puzzleImage = QPixmap(QString::fromUtf8(":/images/images/example.jpg"));
+                    else {
+                        puzzleImage = image;
+                        if (puzzleImage.size() != puzzleWidget->size()) {
+                            int size = qMin(puzzleImage.width(), puzzleImage.height());
+                            puzzleImage = puzzleImage.copy((puzzleImage.width() - size)/2,
+                                                           (puzzleImage.height() - size)/2, size, size)
+                                    .scaled(puzzleWidget->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+                        }
+                        log->append(trUtf8("<i>Изображение загружено из папки!</i>"));
                     }
-                    if (busy == false) {
-                        log->append(trUtf8("<i>Изображение загружено из кэша!</i>"));
-                    }
+                    setupPuzzle();
                 }
-                setupPuzzle();
-                return;
+                break;
             }
-            log->append(trUtf8("<i>Загрузка изображения с сервера......</i>"));
-            dataSize = 0;
-            messageType = 4;
-            this->curRow = curRow;
-            socket.abort();
-            socket.connectToHost(host->text(), ip->text().toInt());
-            break;
-        case (Local):
-            QString lf = localFolder->text();
-            if (!lf.trimmed().isEmpty() && QDir().exists(lf)) {
-                log->append(trUtf8("<i>Загрузка изображения из папки......</i>"));
-                QString file (trUtf8("%1/%2").arg(lf).arg(listImage->item(curRow)->text()));
-                QPixmap image = QPixmap(file);
-                if (image.isNull())
-                    puzzleImage = QPixmap(QString::fromUtf8(":/images/images/example.jpg"));
-                else {
-                    puzzleImage = image;
-                    if (puzzleImage.size() != puzzleWidget->size()) {
-                        int size = qMin(puzzleImage.width(), puzzleImage.height());
-                        puzzleImage = puzzleImage.copy((puzzleImage.width() - size)/2,
-                                                       (puzzleImage.height() - size)/2, size, size)
-                                .scaled(puzzleWidget->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-                    }
-                    log->append(trUtf8("<i>Изображение загружено из папки!</i>"));
-                }
-                setupPuzzle();
-            }
-            break;
+            default:
+                break;
         }
     }
 }
 void MainWindowImpl::tcpConnected()
 {
     QByteArray block;
-    QDataStream out(&block, QIODevice::WriteOnly);
-    out.setVersion(QDataStream::Qt_4_4);
+    QDataStream out(&block, QIODevice::ReadWrite);
     out << messageType;
-    if (messageType == 4) {
-        QString file (trUtf8("%1/%2.jpg").arg(getCache()).arg(listImage->item(curRow)->text()));
-        if (QFile(file).exists()) {
-            puzzleImage = QPixmap(file);
-            setupPuzzle();
-            log->append(trUtf8("<i>Изображение загружено из кэша!</i>"));
-            return;
-        } else
-            out << curRow + 1;
+
+    if (messageType == File) {
+        out << listImage->currentRow();
     }
+    else
+        out << int(0);
+
     socket.write(block);
 }
 void MainWindowImpl::tcpDisconnected()
@@ -742,47 +722,40 @@ void MainWindowImpl::tcpDisconnected()
 }
 void MainWindowImpl::tcpReady()
 {
-    QDataStream stream(&socket);
-    QString fileName;
-    stream.setVersion(QDataStream::Qt_4_4);
-    if (dataSize == 0) {
-        if (socket.bytesAvailable() < 2*sizeof(quint32))
-            return;
-        stream >> messageType >> dataSize;
-    }
+    if (socket.bytesAvailable() < 2*sizeof(int)) return;
 
-    if (messageType == 4) {   // get image file
-        if (dataSize > socket.bytesAvailable())
-            return;
-        stream >> fileName;
+    QDataStream stream(&socket);
+    if (dataSize == 0)
+        stream >> messageType >> dataSize;
+
+    if (messageType == File) {   // get image file
         if (socket.bytesAvailable() < dataSize)
             return;
-        QByteArray block = socket.read(dataSize);
-        QImage image = QImage::fromData(block);
+
+        QImage image = QImage::fromData(socket.read(dataSize));
         if (!image.isNull()) {
             puzzleImage = QPixmap::fromImage(image);
             setupPuzzle();
             log->append(trUtf8("<i>Изображение загружено!</i>"));
-            QString file (trUtf8("%1/%2.jpg").arg(getCache()).arg(fileName));
-            if (!QFile(file).exists())
-                image.save(file);
         }
         else
             log->append(trUtf8("<i>Ошибка при получении изображения!</i>"));
+
+        dataSize = 0;
     }
-    else if (messageType == 8) { // get directory list
-        //fileInfoList.clear();
+    else if (messageType == List) { // get directory list
         listImage->clear();
+
+        QString name;
         int separator;
-        if (socket.bytesAvailable() < dataSize)
-            return;
-        stream >> dataSize;
-        while (dataSize--) {
-            stream >> fileName >> separator;
-            listImage->addItem(fileName);
+        while (dataSize > 0) {
+            stream >> name >> separator;
+            listImage->addItem(name);
+            dataSize--;
         }
         listImage->update();
         log->append(trUtf8("<i>Список доступных файлов загружен.</i>"));
+        dataSize = 0;
     }
     else // incorrect type
         log->append(trUtf8("<i>Неизвестный тип - %1</i>").arg(messageType));
@@ -796,24 +769,6 @@ void MainWindowImpl::tcpError(QAbstractSocket::SocketError error)
        return;
 
    log->append(trUtf8("Ошибка TCP: %1").arg(socket.errorString()));
-   if (error == QAbstractSocket::ConnectionRefusedError)
-   {
-        cacheUsage();
-   }
-}
-void MainWindowImpl::cacheUsage()
-{
-    log->append(trUtf8("Используется кэш."));
-    listImage->clear();
-    QDir dir (getCache());
-    dir.setFilter(QDir::Files);
-    QFileInfoList list = dir.entryInfoList();
-    cacheUsed = true;
-    for (int i = 0; i < list.size(); i++)
-        listImage->addItem(list.at(i).baseName());
-
-    listImage->sortItems();
-
 }
 void MainWindowImpl::chooseDirectory()
 {

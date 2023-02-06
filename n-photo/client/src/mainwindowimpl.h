@@ -83,6 +83,7 @@ private slots:
         void tcpError(QAbstractSocket::SocketError);
         void tcpConnected();
         void tcpDisconnected();
+        void tcpConnect(MessageType);
         // // from a local directory
         void chooseDirectory();
         // // from the Internet
@@ -102,9 +103,6 @@ private:
         void showPuzzleField();
 
         void getInternetImage();
-        QString getCache();
-
-        void cacheUsage();
 
         void setBusy(bool);
         QPixmap puzzleImage;
@@ -116,7 +114,6 @@ private:
         QPoint relation;
         int moves;
         int curRow;
-        bool cacheUsed;
 
         PuzzleStrategy *strategy;
         SolveThread *thread;
@@ -134,8 +131,8 @@ private:
         ImageSourceType imageSource;
         // network
         QTcpSocket socket;
-        quint32 dataSize;
-        quint32 messageType; 
+        int dataSize;
+        unsigned int messageType;
 protected:
         void closeEvent(QCloseEvent *);
 };

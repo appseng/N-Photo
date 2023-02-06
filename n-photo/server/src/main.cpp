@@ -1,74 +1,71 @@
 #include <QApplication>
-#include <QTextCodec>
 #include <QFileInfo>
-#include <QMessageBox>
-#include "dialog.h"
+#include "server.h"
 #include "databasework.h"
-//#include "view.h"
 
+const quint16 defPort = 5500;
+
+bool start (Server &server,bool ok = false, quint16 port = defPort) {
+
+    if (!server.listen(QHostAddress::Any, (ok) ? port : defPort)) {
+        qCritical() << "A server for N-Photo." << endl
+                    << "It's impossible to launch server: " << server.errorString() << "."  << endl;
+        return false;
+    }
+    qDebug() << "A server started on " << server.serverPort() << " port." << endl
+             << "Later, start client N-Photo.";
+    return true;
+}
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+    QApplication  app(argc, argv);
+    Server server;
     if (argc > 1) {
         QString str(argv[1]);
         bool ok;
         quint16 port = str.toUShort(&ok);
-        if (ok || (str == QString("--start"))) {
-            Server server;
-            if (!server.listen(QHostAddress::Any, (ok) ? port : 5500)) {
-                qCritical() << QApplication::tr("A multi-threaded server N-Photo.\n"
-                                                "It's impossible to launch server: %1.")
-                        .arg(server.errorString());
-                QApplication::beep();
-                return -1;
-            }
-            qDebug() << QApplication::tr("A server started on %1.\n"
-                                         "Later, start client N-Photo.")
-                    .arg(server.serverPort());
-            return app.exec();
+        if (ok) {
+            return start(server, ok, port) && app.exec();
         }
         else if (str == QString("--rebuild")) {
             DatabaseWork db;
             if (db.rebuildDB()) {
-                qDebug() << QApplication::tr("Rebuild of database has complited.");
+                qDebug() << "Rebuild of database has completed.";
                 return 0;
             }
-            qCritical() << QApplication::tr("An error occured.");
+            qCritical() << "An error occured.";
             return -2;
         }
         else if (str == QString("--export")) {
             DatabaseWork db;
             if (!db.exportDB()) {
-                qCritical() << QApplication::tr("An error has occured during expor.t");
+                qCritical() << "An error has occured during export.";
                 return -2;
             }
-            qDebug() << QApplication::tr("Export has been complited.");
+            qDebug() << "Export has been completed.";
             return 0;
         }
         else if (str == QString("--add-image") && argc > 2) {
             DatabaseWork db;
             str = QString(argv[2]);
             bool ret = db.addImage(QFileInfo(str).absoluteFilePath());
+            qDebug() << "Image added.";
             return (ret)? 0 : -3;
         }
         else {//if (str == QString("--help")) {
-            QMessageBox::information(0,QString("N-Photo game."),
-                      QString("Usage: %1 [OPTION]\n"
-                              "OPTION is the some of\n"
-                              "   --start\t\tstart server without GUI\n"
-                              "   NUMBER\t\tset port to listen to and\n"
-                              "         \t\tstart server without GUI\n"
-                              "   --rebuild\t\trebuild SQLite database\n"
-                              "         \t\tfrom \"images\" folder\n"
-                              "   --export\t\texport files from database\n"
-                              "         \t\tto \"export\" folder\n"
-                              "   --add-image FILENAME\tadd image to database\n"
-                              "   --help\t\tshow this text").arg(argv[0]));
+            qDebug() << "N-Photo game." << endl
+                     << "Usage:" << argv[0] << " [OPTION]" << endl
+                     << "OPTION is the some of" << endl
+                     << "   NUMBER\t\tset port to listen to and" << endl
+                     << "         \t\tstart server without GUI" << endl
+                     << "   --rebuild\t\trebuild SQLite database" << endl
+                     << "         \t\tfrom \"images\" folder" << endl
+                     << "   --export\t\texport files from database" << endl
+                     << "         \t\tto \"export\" folder" << endl
+                     << "   --add-image FILENAME\tadd image to database" << endl
+                     << "   --help\t\tshow this text" << endl;
             return 0;
         }
-        //else
-        //    qDebug() << QApplication::tr("A parameter is incorrect.");
     }
-    Dialog dialog;
-    return dialog.exec();
+    return start(server) && app.exec();
 }
