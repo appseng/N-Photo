@@ -5,7 +5,8 @@
 
 const quint16 defPort = 5500;
 
-bool start (Server &server,bool ok = false, quint16 port = defPort) {
+bool start (Server &server,bool ok = false, quint16 port = defPort)
+{
 
     if (!server.listen(QHostAddress::Any, (ok) ? port : defPort)) {
         qCritical() << "A server for N-Photo." << endl
