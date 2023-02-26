@@ -77,18 +77,6 @@ Section "Installation" Installation
 
 SectionEnd
 
-;--------------------------------
-;Descriptions
-
-  ;Language strings
-  LangString DESC_SecDummy ${LANG_ENGLISH} "A test section."
-
-  ;Assign language strings to sections
-  !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
-    !insertmacro MUI_DESCRIPTION_TEXT ${Installation} $(DESC_SecDummy)
-  !insertmacro MUI_FUNCTION_DESCRIPTION_END
-
-;--------------------------------
 ;Uninstaller Section
 
 Section "Uninstall"
