@@ -32,7 +32,7 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     readSettings();
 
     QTime now = QTime::currentTime();
-    log->append(trUtf8("<b>Добро пожаловать!</b><br>На данный момент <b>%1</b> день года, <b>%2:%3:%4</b>")
+    log->append(tr("<b>Добро пожаловать!</b><br>На данный момент <b>%1</b> день года, <b>%2:%3:%4</b>")
                  .arg(QDate::currentDate().dayOfYear())
                  .arg(now.hour()).arg(now.minute()).arg(now.second()));
     //step->setVisible(false);
@@ -122,57 +122,57 @@ MainWindowImpl::~MainWindowImpl()
 }
 void MainWindowImpl::writeSettings()
 {
-    QSettings settings(trUtf8("github.com/appseng/n-photo"), trUtf8("n-photo"));
+    QSettings settings(tr("github.com/appseng/n-photo"), tr("n-photo"));
 
-    settings.setValue(trUtf8("geometry"), geometry());
-    settings.setValue(trUtf8("host"), host->text());
-    settings.setValue(trUtf8("ip"), ip->text());
-    settings.setValue(trUtf8("gameType"), gameType1->isChecked());
-    settings.setValue(trUtf8("logVisible"), aLog->isChecked());
-    settings.setValue(trUtf8("imageSource"),static_cast<int>(imageSource));
-    settings.setValue(trUtf8("localFolder"), localFolder->text());
-    settings.setValue(trUtf8("gameTypeSettings"),aGameSettings->isChecked());
-    settings.setValue(trUtf8("complicationSettings"),aComplication->isChecked());
+    settings.setValue(tr("geometry"), geometry());
+    settings.setValue(tr("host"), host->text());
+    settings.setValue(tr("ip"), ip->text());
+    settings.setValue(tr("gameType"), gameType1->isChecked());
+    settings.setValue(tr("logVisible"), aLog->isChecked());
+    settings.setValue(tr("imageSource"),static_cast<int>(imageSource));
+    settings.setValue(tr("localFolder"), localFolder->text());
+    settings.setValue(tr("gameTypeSettings"),aGameSettings->isChecked());
+    settings.setValue(tr("complicationSettings"),aComplication->isChecked());
     int rBut = 4;
     if (rButton_3->isChecked())
         rBut = 3;
 
-    settings.setValue(trUtf8("complication"), rBut);
+    settings.setValue(tr("complication"), rBut);
     QString lang("en_US");
     if (aRussian->isChecked())
         lang = QString("ru_RU");
     else if (aSpanish->isChecked())
         lang = QString("es_ES");
 
-    settings.setValue(trUtf8("language"), lang);
+    settings.setValue(tr("language"), lang);
 
-    settings.setValue(trUtf8("heuristic"), aManhattanDistance->isChecked());
+    settings.setValue(tr("heuristic"), aManhattanDistance->isChecked());
 }
 void MainWindowImpl::readSettings()
 {
-    QSettings settings(trUtf8("github.com/appseng/n-photo"),trUtf8("n-photo"));
+    QSettings settings(tr("github.com/appseng/n-photo"),tr("n-photo"));
 
-    QRect rect = settings.value(trUtf8("geometry"), QRect(0,0,700,489)).toRect();
+    QRect rect = settings.value(tr("geometry"), QRect(0,0,700,489)).toRect();
     move(rect.topLeft());
 
     resize(rect.size());
 
-    localFolder->setText(settings.value(trUtf8("localFolder")).toString());
+    localFolder->setText(settings.value(tr("localFolder")).toString());
 
-    host->setText(settings.value(trUtf8("host"), trUtf8("localhost")).toString());
-    ip->setText(settings.value(trUtf8("ip"), trUtf8("5500")).toString());
+    host->setText(settings.value(tr("host"), tr("localhost")).toString());
+    ip->setText(settings.value(tr("ip"), tr("5500")).toString());
 
-    bool gameType = settings.value(trUtf8("gameType"), false).toBool();
+    bool gameType = settings.value(tr("gameType"), false).toBool();
     gameType1->setChecked(gameType);
 
-    bool actLog = settings.value(trUtf8("logVisible"), false).toBool();
+    bool actLog = settings.value(tr("logVisible"), false).toBool();
     aLog->setChecked(actLog);
     int minHeight = qMin(rect.size().height(),(actLog)?600:489);
     setMinimumHeight(minHeight);
     resize(rect.size());
     log->setVisible(actLog);
 
-    imageSource = static_cast<ImageSourceType>(settings.value(trUtf8("imageSource"),Internet).toInt());
+    imageSource = static_cast<ImageSourceType>(settings.value(tr("imageSource"),Internet).toInt());
     switch(imageSource) {
     case (Net):
         aServerSource->setEnabled(false);
@@ -191,15 +191,15 @@ void MainWindowImpl::readSettings()
         serverAddressBox->setVisible(false);
         break;
     }
-    bool gameSettingsVisible = settings.value(trUtf8("gameTypeSettings"),true).toBool();
+    bool gameSettingsVisible = settings.value(tr("gameTypeSettings"),true).toBool();
     gameTypeBox->setVisible(gameSettingsVisible);
     aGameSettings->setChecked(gameSettingsVisible);
 
-    bool complicationSettingsVisible = settings.value(trUtf8("complicationSettings"),true).toBool();
+    bool complicationSettingsVisible = settings.value(tr("complicationSettings"),true).toBool();
     complicationBox->setVisible(complicationSettingsVisible);
     aComplication->setChecked(complicationSettingsVisible);;
 
-    int rBut = settings.value(trUtf8("complication"), 4).toInt();
+    int rBut = settings.value(tr("complication"), 4).toInt();
     if (rBut == 3) {
         rButton_3->setChecked(true);
     } else {
@@ -207,7 +207,7 @@ void MainWindowImpl::readSettings()
     }
     setComplication();
 
-    QString lang = settings.value(trUtf8("language"),QString("en_US")).toString();
+    QString lang = settings.value(tr("language"),QString("en_US")).toString();
     if (lang == QString("ru_RU")) {
         aRussian->setEnabled(false);
         aRussian->setChecked(true);
@@ -221,7 +221,7 @@ void MainWindowImpl::readSettings()
     }
     loadLanguage(lang);
 
-    bool heuristic = settings.value(trUtf8("heuristic"), true).toBool();
+    bool heuristic = settings.value(tr("heuristic"), true).toBool();
     if (heuristic) {
         aManhattanDistance->setChecked(true);
     } else {
@@ -378,13 +378,13 @@ void MainWindowImpl::openImage(const QString &path)
     QString fileName = path;
     if (fileName.isNull())
         fileName = QFileDialog::getOpenFileName(this,
-                                                trUtf8("Открыть файл"),
-                                                "", trUtf8("Файлы изображений (*.png *.jpg *.bmp)"));
+                                                tr("Открыть файл"),
+                                                "", tr("Файлы изображений (*.png *.jpg *.bmp)"));
 
     if (!fileName.isEmpty()) {
         QPixmap newImage;
         if (!newImage.load(fileName)) {
-            log->append(trUtf8("Открытие файла : изображение не может быть загружено."));
+            log->append(tr("Открытие файла : изображение не может быть загружено."));
             return;
         }
         int size = qMin(newImage.width(), newImage.height());
@@ -396,12 +396,12 @@ void MainWindowImpl::openImage(const QString &path)
 }
 void MainWindowImpl::setCompleted(bool byHuman)
 {
-    log->append(trUtf8("Головоломка решена за %1 ходов и время %2")
+    log->append(tr("Головоломка решена за %1 ходов и время %2")
                 .arg(step->intValue())
                 .arg(timerText->text()));
     if (byHuman) {
-        QMessageBox::information(this, trUtf8("Головоломка решена."),
-                                 trUtf8("Поздравляем! Вы решили головоломку успешно.\nНажмите OK для продолжения."),
+        QMessageBox::information(this, tr("Головоломка решена."),
+                                 tr("Поздравляем! Вы решили головоломку успешно.\nНажмите OK для продолжения."),
                                  QMessageBox::Ok);
     }
     setupPuzzle();
@@ -440,8 +440,8 @@ void MainWindowImpl::saveImage()
         return;
 
     QString fileName = QFileDialog::getSaveFileName(this,
-                                                    trUtf8("Сохранить изображение"),
-                                                    "", trUtf8("Изображения (*.png *.jpg *.bmp)"));
+                                                    tr("Сохранить изображение"),
+                                                    "", tr("Изображения (*.png *.jpg *.bmp)"));
     puzzleImage.save(fileName);
 }
 void MainWindowImpl::timerOn()
@@ -461,7 +461,7 @@ void MainWindowImpl::setTimer(const bool reset, const QTime time)
 {
     if (reset) {
         ptimer->stop();
-        timerText->setText(trUtf8("00:00:00"));
+        timerText->setText(tr("00:00:00"));
     } else
         timerText->setText(time.toString(TimeFormat));
 }
@@ -486,7 +486,7 @@ void MainWindowImpl::loadLanguage(const QString& rLanguage)
         {
             qApp->installTranslator(&translator);
             retranslateUi(this);
-            //log->append(trUtf8("Язык изменён на %1").arg(languageName));
+            //log->append(tr("Язык изменён на %1").arg(languageName));
         }
     }
 }
@@ -544,7 +544,7 @@ void MainWindowImpl::solvePuzzle()
            thread = new SolveThread(this, &nodes, heuristic);
            thread->start();
 
-           log->append(trUtf8("Поиск решения начался..."));
+           log->append(tr("Поиск решения начался..."));
     }
 }
 void MainWindowImpl::startTimer(QStack<State*>* path)
@@ -603,7 +603,7 @@ void MainWindowImpl::getRandomImage()
     if (busy)
         return;
 
-    log->append(trUtf8("<i>Загрузка произвольного изображения......</i>"));
+    log->append(tr("<i>Загрузка произвольного изображения......</i>"));
     if (imageSource == Internet) {
         getInternetImage();
         return;
@@ -631,7 +631,7 @@ void MainWindowImpl::getFileList()
     if (busy)
         return;
 
-    log->append(trUtf8("<i>Получение списка изображений......</i>"));
+    log->append(tr("<i>Получение списка изображений......</i>"));
 
     switch (imageSource) {
         case (Net):
@@ -655,12 +655,12 @@ void MainWindowImpl::getInternetImage() {
     if (downloadedImage != nullptr)
         downloadedImage->deleteLater();
 
-    log->append(trUtf8("<i>Загрузка изображения из интернета......</i>"));
+    log->append(tr("<i>Загрузка изображения из интернета......</i>"));
 
-    QUrl imageUrl(trUtf8("https://i.pravatar.cc/400"));
+    QUrl imageUrl(tr("https://i.pravatar.cc/400"));
     downloadedImage = new FileDownloader(imageUrl, this);
 
-    connect(downloadedImage, SIGNAL(downloaded()), SLOT(loadImage()));
+    connect(downloadedImage, SIGNAL(downloaded()), this, SLOT(loadImage()));
 }
 void MainWindowImpl::getImage(const int curRow)
 {
@@ -668,37 +668,36 @@ void MainWindowImpl::getImage(const int curRow)
         return;
 
     if (listImage && curRow != -1) {
-        switch(imageSource) {
-            case (Net):
-                log->append(trUtf8("<i>Загрузка изображения с сервера......</i>"));
-                this->curRow = curRow;
+        if(imageSource == Net) {
+            log->append(tr("<i>Загрузка изображения с сервера......</i>"));
+            this->curRow = curRow;
 
-                tcpConnect(File);
-                break;
-            case (Local): {
-                QString lf = localFolder->text();
-                if (!lf.trimmed().isEmpty() && QDir().exists(lf)) {
-                    log->append(trUtf8("<i>Загрузка изображения из папки......</i>"));
-                    QString file (trUtf8("%1/%2").arg(lf).arg(listImage->currentItem()->text()));
-                    QPixmap image = QPixmap(file);
-                    if (image.isNull())
-                        puzzleImage = QPixmap(QString::fromUtf8(":/images/images/example.jpg"));
-                    else {
-                        puzzleImage = image;
-                        if (puzzleImage.size() != puzzleWidget->size()) {
-                            int size = qMin(puzzleImage.width(), puzzleImage.height());
-                            puzzleImage = puzzleImage.copy((puzzleImage.width() - size)/2,
-                                                           (puzzleImage.height() - size)/2, size, size)
-                                    .scaled(puzzleWidget->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-                        }
-                        log->append(trUtf8("<i>Изображение загружено из папки!</i>"));
+            tcpConnect(File);
+        }
+        else if (imageSource == Local) {
+            QString lf = localFolder->text();
+            if (!lf.trimmed().isEmpty() && QDir().exists(lf)) {
+                log->append(tr("<i>Загрузка изображения из папки......</i>"));
+                QString file (tr("%1/%2").arg(lf).arg(listImage->currentItem()->text()));
+                QPixmap image = QPixmap(file);
+                if (image.isNull())
+                    puzzleImage = QPixmap(QString::fromUtf8(":/images/images/example.jpg"));
+                else {
+                    puzzleImage = image;
+                    if (puzzleImage.size() != puzzleWidget->size()) {
+                        int size = qMin(puzzleImage.width(), puzzleImage.height());
+                        puzzleImage = puzzleImage.copy((puzzleImage.width() - size)/2,
+                                                       (puzzleImage.height() - size)/2, size, size)
+                                .scaled(puzzleWidget->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
                     }
-                    setupPuzzle();
+                    log->append(tr("<i>Изображение загружено из папки!</i>"));
                 }
-                break;
+                setupPuzzle();
             }
-            default:
-                break;
+        }
+        else if (imageSource == Internet) {
+            puzzleImage = images[listImage->currentRow()];
+            setupPuzzle();
         }
     }
 }
@@ -736,10 +735,10 @@ void MainWindowImpl::tcpReady()
         if (!image.isNull()) {
             puzzleImage = QPixmap::fromImage(image);
             setupPuzzle();
-            log->append(trUtf8("<i>Изображение загружено!</i>"));
+            log->append(tr("<i>Изображение загружено!</i>"));
         }
         else
-            log->append(trUtf8("<i>Ошибка при получении изображения!</i>"));
+            log->append(tr("<i>Ошибка при получении изображения!</i>"));
 
         dataSize = 0;
     }
@@ -754,11 +753,11 @@ void MainWindowImpl::tcpReady()
             dataSize--;
         }
         listImage->update();
-        log->append(trUtf8("<i>Список доступных файлов загружен.</i>"));
+        log->append(tr("<i>Список доступных файлов загружен.</i>"));
         dataSize = 0;
     }
     else // incorrect type
-        log->append(trUtf8("<i>Неизвестный тип - %1</i>").arg(messageType));
+        log->append(tr("<i>Неизвестный тип - %1</i>").arg(messageType));
 }
 void MainWindowImpl::tcpError(QAbstractSocket::SocketError error)
 {
@@ -768,11 +767,11 @@ void MainWindowImpl::tcpError(QAbstractSocket::SocketError error)
    if (imageSource != Net)
        return;
 
-   log->append(trUtf8("Ошибка TCP: %1").arg(socket.errorString()));
+   log->append(tr("Ошибка TCP: %1").arg(socket.errorString()));
 }
 void MainWindowImpl::chooseDirectory()
 {
-    QString dir = QFileDialog::getExistingDirectory(this, trUtf8("Выбор папки"),localFolder->text(),QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Выбор папки"),localFolder->text(),QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     if (dir.length() == 0)
         dir = localFolder->text();
 
@@ -789,9 +788,11 @@ void MainWindowImpl::loadImage()
             puzzleImage = puzzleImage.copy((puzzleImage.width() - size)/2,
                                        (puzzleImage.height() - size)/2, size, size)
             .scaled(puzzleWidget->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-        }
+        }        
+        images.append(puzzleImage);
+        listImage->addItem(tr("Картинка").append(" #%1").arg(images.count()));
 
-        log->append(trUtf8("<i>Изображение загружено из интернета!</i>"));
+        log->append(tr("<i>Изображение загружено из интернета!</i>"));
     }
     else
         puzzleImage = QPixmap(QString::fromUtf8(":/images/images/example.jpg"));
@@ -811,7 +812,7 @@ void MainWindowImpl::displayState(Param *param)
 void MainWindowImpl::onPuzzleSolved(Param* param) {
     int steps = param->getSteps();
     int states = param->getStates();
-    log->append(trUtf8("Решение найдено: %1 шагов, %2 состояний").arg(steps).arg(states));
+    log->append(tr("Решение найдено: %1 шагов, %2 состояний").arg(steps).arg(states));
 }
 void MainWindowImpl::moveMissingRectangleLeft()
 {

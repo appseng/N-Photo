@@ -457,97 +457,94 @@ Dmitry Kuznetsov
 <context>
     <name>MainWindowImpl</name>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="36"/>
+        <location filename="src/mainwindowimpl.cpp" line="35"/>
         <source>&lt;b&gt;Добро пожаловать!&lt;/b&gt;&lt;br&gt;На данный момент &lt;b&gt;%1&lt;/b&gt; день года, &lt;b&gt;%2:%3:%4&lt;/b&gt;</source>
         <translation>&lt;b&gt;¡Bienvenido!&lt;/b&gt;&lt;br&gt;Por el momento, es el &lt;b&gt;%1&lt;/b&gt; Día del año, &lt;b&gt;%2:%3:%4&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="623"/>
-        <location filename="src/mainwindowimpl.cpp" line="624"/>
-        <location filename="src/mainwindowimpl.cpp" line="626"/>
-        <source>cache</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/mainwindowimpl.cpp" line="124"/>
-        <location filename="src/mainwindowimpl.cpp" line="152"/>
         <source>n-Puzzle</source>
-        <translation>N-Photo</translation>
-    </message>
-    <message>
-        <location filename="src/mainwindowimpl.cpp" line="126"/>
-        <location filename="src/mainwindowimpl.cpp" line="154"/>
-        <source>geometry</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">N-Photo</translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="127"/>
-        <location filename="src/mainwindowimpl.cpp" line="161"/>
-        <source>host</source>
+        <location filename="src/mainwindowimpl.cpp" line="155"/>
+        <source>geometry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="128"/>
         <location filename="src/mainwindowimpl.cpp" line="162"/>
-        <source>ip</source>
+        <source>host</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="129"/>
-        <location filename="src/mainwindowimpl.cpp" line="164"/>
-        <source>gameType</source>
+        <location filename="src/mainwindowimpl.cpp" line="163"/>
+        <source>ip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/mainwindowimpl.cpp" line="130"/>
-        <location filename="src/mainwindowimpl.cpp" line="167"/>
+        <location filename="src/mainwindowimpl.cpp" line="165"/>
+        <source>gameType</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/mainwindowimpl.cpp" line="131"/>
+        <location filename="src/mainwindowimpl.cpp" line="168"/>
         <source>logVisible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="132"/>
-        <location filename="src/mainwindowimpl.cpp" line="159"/>
+        <location filename="src/mainwindowimpl.cpp" line="133"/>
+        <location filename="src/mainwindowimpl.cpp" line="160"/>
         <source>localFolder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="133"/>
-        <location filename="src/mainwindowimpl.cpp" line="193"/>
+        <location filename="src/mainwindowimpl.cpp" line="134"/>
+        <location filename="src/mainwindowimpl.cpp" line="194"/>
         <source>gameTypeSettings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="134"/>
-        <location filename="src/mainwindowimpl.cpp" line="197"/>
+        <location filename="src/mainwindowimpl.cpp" line="135"/>
+        <location filename="src/mainwindowimpl.cpp" line="198"/>
         <source>complicationSettings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="139"/>
-        <location filename="src/mainwindowimpl.cpp" line="201"/>
+        <location filename="src/mainwindowimpl.cpp" line="140"/>
+        <location filename="src/mainwindowimpl.cpp" line="202"/>
         <source>complication</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="146"/>
-        <location filename="src/mainwindowimpl.cpp" line="209"/>
+        <location filename="src/mainwindowimpl.cpp" line="147"/>
+        <location filename="src/mainwindowimpl.cpp" line="210"/>
         <source>language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="161"/>
+        <location filename="src/mainwindowimpl.cpp" line="162"/>
         <source>localhost</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="162"/>
+        <location filename="src/mainwindowimpl.cpp" line="163"/>
         <source>5500</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="551"/>
+        <location filename="src/mainwindowimpl.cpp" line="547"/>
         <source>Поиск решения начался...</source>
         <translation>Comenzó a resolver...</translation>
+    </message>
+    <message>
+        <location filename="src/mainwindowimpl.cpp" line="793"/>
+        <source>Картинка</source>
+        <oldsource>Картинка </oldsource>
+        <translation>Foto</translation>
     </message>
     <message>
         <source>Прекращение поиска решения. Решиние может занять слишком много времени.</source>
@@ -555,77 +552,93 @@ Dmitry Kuznetsov
         <translation type="vanished">El proceso de resolución finaliza. Tomaría mucho tiempo.</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="800"/>
+        <location filename="src/mainwindowimpl.cpp" line="770"/>
         <source>Ошибка TCP: %1</source>
         <oldsource>ÐÑÐ¸Ð±ÐºÐ° TCP: %1</oldsource>
         <translation>Un error de TCP: %1</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="377"/>
+        <location filename="src/mainwindowimpl.cpp" line="381"/>
         <source>Открыть файл</source>
         <translation>Abrir un archivo</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="378"/>
+        <location filename="src/mainwindowimpl.cpp" line="125"/>
+        <location filename="src/mainwindowimpl.cpp" line="153"/>
+        <source>github.com/appseng/n-photo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/mainwindowimpl.cpp" line="125"/>
+        <location filename="src/mainwindowimpl.cpp" line="153"/>
+        <source>n-photo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/mainwindowimpl.cpp" line="382"/>
         <source>Файлы изображений (*.png *.jpg *.bmp)</source>
         <oldsource>Ð¤Ð°Ð¹Ð»Ñ Ð¸Ð·Ð¾Ð±ÑÐ°Ð¶ÐµÐ½Ð¸Ð¹ (*.png *.jpg *.bmp)</oldsource>
         <translation>Archivo de imagen (*.png *.jpg *.bmp)</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="383"/>
+        <location filename="src/mainwindowimpl.cpp" line="387"/>
         <source>Открытие файла : изображение не может быть загружено.</source>
         <translation>La apertura de un archivo: la imagen no se pudo cargar.</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="395"/>
+        <location filename="src/mainwindowimpl.cpp" line="399"/>
         <source>Головоломка решена за %1 ходов и время %2</source>
         <translation>Rompecabezas se resuelve por %1 se mueve y el tiempo %2</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="399"/>
+        <location filename="src/mainwindowimpl.cpp" line="403"/>
         <source>Головоломка решена.</source>
         <translation>Rompecabezas ha sido resuelto.</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="400"/>
+        <location filename="src/mainwindowimpl.cpp" line="404"/>
         <source>Поздравляем! Вы решили головоломку успешно.
 Нажмите OK для продолжения.</source>
         <translation>¡Enhorabuena! Usted ha resuelto el puzzle correctamente.
 Haga OK en Aceptar para continuar.</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="439"/>
+        <location filename="src/mainwindowimpl.cpp" line="443"/>
         <source>Сохранить изображение</source>
         <translation>Salvar el imagen</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="440"/>
+        <location filename="src/mainwindowimpl.cpp" line="444"/>
         <source>Изображения (*.png *.jpg *.bmp)</source>
         <oldsource>ÐÐ·Ð¾Ð±ÑÐ°Ð¶ÐµÐ½Ð¸Ñ (*.png *.jpg *.bmp)</oldsource>
         <translation>Imágenes (*.png *.jpg *.bmp)</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="460"/>
+        <location filename="src/mainwindowimpl.cpp" line="464"/>
         <source>00:00:00</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="674"/>
         <source>&lt;i&gt;Загрузка изображения из кэша......&lt;/i&gt;</source>
-        <translation>&lt;i&gt; La imagen se carga desde una caché ..... &lt;/ i&gt;</translation>
+        <translation type="vanished">&lt;i&gt; La imagen se carga desde una caché ..... &lt;/ i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="660"/>
+        <location filename="src/mainwindowimpl.cpp" line="658"/>
         <source>&lt;i&gt;Загрузка изображения из интернета......&lt;/i&gt;</source>
         <translation>&lt;i&gt; La imagen se está descargando desde Internet,,,,, &lt;/ i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="703"/>
+        <location filename="src/mainwindowimpl.cpp" line="660"/>
+        <source>https://i.pravatar.cc/400</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/mainwindowimpl.cpp" line="680"/>
         <source>&lt;i&gt;Загрузка изображения из папки......&lt;/i&gt;</source>
         <translation>&lt;i&gt; La imagen se carga ..... &lt;/ i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="822"/>
+        <location filename="src/mainwindowimpl.cpp" line="774"/>
         <source>Выбор папки</source>
         <translation>Elija el directorio</translation>
     </message>
@@ -635,20 +648,14 @@ Haga OK en Aceptar para continuar.</translation>
         <translation>&lt;i&gt;Descargar una imagen arbitraria......&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="124"/>
-        <location filename="src/mainwindowimpl.cpp" line="152"/>
-        <source>bitbucket.org/appseng/n-puzzle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/mainwindowimpl.cpp" line="131"/>
-        <location filename="src/mainwindowimpl.cpp" line="174"/>
+        <location filename="src/mainwindowimpl.cpp" line="132"/>
+        <location filename="src/mainwindowimpl.cpp" line="175"/>
         <source>imageSource</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="148"/>
-        <location filename="src/mainwindowimpl.cpp" line="223"/>
+        <location filename="src/mainwindowimpl.cpp" line="149"/>
+        <location filename="src/mainwindowimpl.cpp" line="224"/>
         <source>heuristic</source>
         <translation type="unfinished"></translation>
     </message>
@@ -657,76 +664,60 @@ Haga OK en Aceptar para continuar.</translation>
         <translation type="vanished">Comenzó a resolver....</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="631"/>
+        <location filename="src/mainwindowimpl.cpp" line="634"/>
         <source>&lt;i&gt;Получение списка изображений......&lt;/i&gt;</source>
         <translation>&lt;i&gt;Obtenga una lista de imágenes......&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="662"/>
-        <source>http://placeimg.com/400/400/any</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/mainwindowimpl.cpp" line="675"/>
-        <location filename="src/mainwindowimpl.cpp" line="731"/>
-        <location filename="src/mainwindowimpl.cpp" line="768"/>
-        <location filename="src/mainwindowimpl.cpp" line="839"/>
-        <source>%1/%2.jpg</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/mainwindowimpl.cpp" line="688"/>
-        <location filename="src/mainwindowimpl.cpp" line="735"/>
         <source>&lt;i&gt;Изображение загружено из кэша!&lt;/i&gt;</source>
-        <translation>&lt;i&gt;La imagen ha sido cargado desde la caché!&lt;/i&gt;</translation>
+        <translation type="vanished">&lt;i&gt;La imagen ha sido cargado desde la caché!&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="693"/>
+        <location filename="src/mainwindowimpl.cpp" line="672"/>
         <source>&lt;i&gt;Загрузка изображения с сервера......&lt;/i&gt;</source>
         <translation>&lt;i&gt;La descarga de una imagen desde el servidor......&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="704"/>
+        <location filename="src/mainwindowimpl.cpp" line="681"/>
         <source>%1/%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="716"/>
+        <location filename="src/mainwindowimpl.cpp" line="693"/>
         <source>&lt;i&gt;Изображение загружено из папки!&lt;/i&gt;</source>
         <translation>&lt;i&gt;La imagen se ha cargado desde el directorio!&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="767"/>
+        <location filename="src/mainwindowimpl.cpp" line="738"/>
         <source>&lt;i&gt;Изображение загружено!&lt;/i&gt;</source>
         <translation>&lt;i&gt;La imagen se ha descargado&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="773"/>
+        <location filename="src/mainwindowimpl.cpp" line="741"/>
         <source>&lt;i&gt;Ошибка при получении изображения!&lt;/i&gt;</source>
         <translation>&lt;i&gt;Se ha producido un error mientras el programa estaba recuperando imágenes!&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="787"/>
+        <location filename="src/mainwindowimpl.cpp" line="756"/>
         <source>&lt;i&gt;Список доступных файлов загружен.&lt;/i&gt;</source>
         <translation>&lt;i&gt;La lista de archivos se ha descargado.&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="790"/>
+        <location filename="src/mainwindowimpl.cpp" line="760"/>
         <source>&lt;i&gt;Неизвестный тип - %1&lt;/i&gt;</source>
         <translation>&lt;i&gt;Un tipo desconocido - %1&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="808"/>
         <source>Используется кэш.</source>
-        <translation>La memoria caché se ha usado.</translation>
+        <translation type="vanished">La memoria caché se ha usado.</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="842"/>
+        <location filename="src/mainwindowimpl.cpp" line="795"/>
         <source>&lt;i&gt;Изображение загружено из интернета!&lt;/i&gt;</source>
         <translation>&lt;i&gt;La imagen ha sido descargado de Internet!&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="862"/>
+        <location filename="src/mainwindowimpl.cpp" line="815"/>
         <source>Решение найдено: %1 шагов, %2 состояний</source>
         <translation>La solución se encuentra: %1 paso(s), %2 estados</translation>
     </message>

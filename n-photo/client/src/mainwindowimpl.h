@@ -115,6 +115,8 @@ private:
         int moves;
         int curRow;
 
+        QList<QPixmap> images;
+
         PuzzleStrategy *strategy;
         SolveThread *thread;
         QTimer *solutionTimer;
