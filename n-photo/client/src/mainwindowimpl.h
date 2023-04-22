@@ -20,7 +20,7 @@
 #include "ui_mainwindow.h"
 
 // for downloading images from the Internet
-#include "filedownloader.h"
+#include "downloader.h"
 
 // for finding solution
 #include "state.h"
@@ -125,7 +125,7 @@ private:
         QStack<State*> *path;
         bool busy;
 
-        FileDownloader *downloadedImage;
+        Downloader downloader;
         int imageIndex;
         // language
         QString currLang;

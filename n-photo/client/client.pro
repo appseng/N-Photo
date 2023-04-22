@@ -12,22 +12,22 @@ HEADERS = src/mainwindowimpl.h \
     src/puzzlewidget.h \
     src/piecesmodel.h \
     src/aboutdialogimpl.h \
-    src/filedownloader.h \
     src/state.h \
     src/puzzlestrategy.h \
     src/enums.h \
     src/solvethread.h \
-    src/param.h
+    src/param.h \
+    src/downloader.h
 SOURCES = src/mainwindowimpl.cpp \
     src/main.cpp \
     src/puzzlewidget.cpp \
     src/piecesmodel.cpp \
     src/aboutdialogimpl.cpp \
-    src/filedownloader.cpp \
     src/state.cpp \
     src/puzzlestrategy.cpp \
     src/solvethread.cpp \
-    src/param.cpp
+    src/param.cpp \
+    src/downloader.cpp
 RESOURCES += puzzle.qrc
 TRANSLATIONS = client_ru_RU.ts \
     client_en_US.ts \

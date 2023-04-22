@@ -78,6 +78,7 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     // загрузка изображения
     connect(listImage, SIGNAL(currentRowChanged(int)), this, SLOT(getImage(int)));
     connect(download, SIGNAL(clicked()), this, SLOT(getRandomImage()));
+    connect(&downloader, SIGNAL(downloaded()), this, SLOT(loadImage()));
     // через сеть
     connect(&socket, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(tcpError(QAbstractSocket::SocketError)));
@@ -94,12 +95,9 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     timerOn();
     multi = true;
     curRow = -1;
-    downloadedImage = nullptr;
     imageIndex = -1;
 
     qsrand(uint(QCursor::pos().x() * QCursor::pos().y()));
-
-    getFileList();
 
     // default heuristic is ManhattanDistance
     heuristic = ManhattanDistance;
@@ -113,6 +111,8 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     connect(solutionTimer, SIGNAL(timeout()), this, SLOT(updateState()));
 
     dataSize = 0;
+
+    getFileList();
 }
 MainWindowImpl::~MainWindowImpl()
 {
@@ -653,15 +653,9 @@ void MainWindowImpl::getFileList()
     }
 }
 void MainWindowImpl::getInternetImage() {
-    if (downloadedImage != nullptr)
-        downloadedImage->deleteLater();
-
     log->append(tr("<i>Загрузка изображения из интернета......</i>"));
 
-    QUrl imageUrl(tr("https://i.pravatar.cc/400"));
-    downloadedImage = new FileDownloader(imageUrl, this);
-
-    connect(downloadedImage, SIGNAL(downloaded()), this, SLOT(loadImage()));
+    downloader.sendRequest();
 }
 void MainWindowImpl::getImage(const int curRow)
 {
@@ -781,7 +775,7 @@ void MainWindowImpl::chooseDirectory()
 }
 void MainWindowImpl::loadImage()
 {
-    QByteArray buf = downloadedImage->getDownloadedData();
+    QByteArray buf = downloader.getData();
     if (!buf.isNull() && !buf.isEmpty()) {
         puzzleImage.loadFromData(buf);
         if (puzzleImage.size() != puzzleWidget->size()) {
