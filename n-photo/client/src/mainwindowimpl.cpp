@@ -633,22 +633,23 @@ void MainWindowImpl::getFileList()
 
     log->append(tr("<i>Получение списка изображений......</i>"));
 
-    switch (imageSource) {
-        case (Net):
-            tcpConnect(List);
-            break;
-        case (Local): {
-            QString lf = localFolder->text();
-            if (!lf.trimmed().isEmpty() && QDir().exists(lf)) {
-               listImage->clear();
-               QStringList dirList = QDir(lf).entryList(QDir::Files);
-               listImage->addItems(dirList);
-            }
-            break;
+    if (imageSource == Net) {
+        tcpConnect(List);
+    }
+    else if (imageSource == Local) {
+        QString lf = localFolder->text();
+        if (!lf.trimmed().isEmpty() && QDir().exists(lf)) {
+            listImage->clear();
+            QStringList dirList = QDir(lf).entryList(QDir::Files);
+            listImage->addItems(dirList);
         }
-        case (Internet):
-            getInternetImage();
-            break;
+    }
+    else if (imageSource == Internet) {
+        listImage->clear();
+        for (int i = 1; i <= images.count(); i++) {
+            listImage->addItem(tr("Картинка").append(" #%1").arg(i));
+        }
+        getInternetImage();
     }
 }
 void MainWindowImpl::getInternetImage() {

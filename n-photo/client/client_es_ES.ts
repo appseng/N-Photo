@@ -541,7 +541,7 @@ Dmitry Kuznetsov
         <translation>Comenzó a resolver...</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="793"/>
+        <location filename="src/mainwindowimpl.cpp" line="797"/>
         <source>Картинка</source>
         <oldsource>Картинка </oldsource>
         <translation>Foto</translation>
@@ -552,7 +552,7 @@ Dmitry Kuznetsov
         <translation type="vanished">El proceso de resolución finaliza. Tomaría mucho tiempo.</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="770"/>
+        <location filename="src/mainwindowimpl.cpp" line="774"/>
         <source>Ошибка TCP: %1</source>
         <oldsource>ÐÑÐ¸Ð±ÐºÐ° TCP: %1</oldsource>
         <translation>Un error de TCP: %1</translation>
@@ -628,17 +628,17 @@ Haga OK en Aceptar para continuar.</translation>
         <translation>&lt;i&gt; La imagen se está descargando desde Internet,,,,, &lt;/ i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="660"/>
+        <location filename="src/mainwindowimpl.cpp" line="664"/>
         <source>https://i.pravatar.cc/400</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="680"/>
+        <location filename="src/mainwindowimpl.cpp" line="684"/>
         <source>&lt;i&gt;Загрузка изображения из папки......&lt;/i&gt;</source>
         <translation>&lt;i&gt; La imagen se carga ..... &lt;/ i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="774"/>
+        <location filename="src/mainwindowimpl.cpp" line="778"/>
         <source>Выбор папки</source>
         <translation>Elija el directorio</translation>
     </message>
@@ -673,37 +673,37 @@ Haga OK en Aceptar para continuar.</translation>
         <translation type="vanished">&lt;i&gt;La imagen ha sido cargado desde la caché!&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="672"/>
+        <location filename="src/mainwindowimpl.cpp" line="676"/>
         <source>&lt;i&gt;Загрузка изображения с сервера......&lt;/i&gt;</source>
         <translation>&lt;i&gt;La descarga de una imagen desde el servidor......&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="681"/>
+        <location filename="src/mainwindowimpl.cpp" line="685"/>
         <source>%1/%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="693"/>
+        <location filename="src/mainwindowimpl.cpp" line="697"/>
         <source>&lt;i&gt;Изображение загружено из папки!&lt;/i&gt;</source>
         <translation>&lt;i&gt;La imagen se ha cargado desde el directorio!&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="738"/>
+        <location filename="src/mainwindowimpl.cpp" line="742"/>
         <source>&lt;i&gt;Изображение загружено!&lt;/i&gt;</source>
         <translation>&lt;i&gt;La imagen se ha descargado&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="741"/>
+        <location filename="src/mainwindowimpl.cpp" line="745"/>
         <source>&lt;i&gt;Ошибка при получении изображения!&lt;/i&gt;</source>
         <translation>&lt;i&gt;Se ha producido un error mientras el programa estaba recuperando imágenes!&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="756"/>
+        <location filename="src/mainwindowimpl.cpp" line="760"/>
         <source>&lt;i&gt;Список доступных файлов загружен.&lt;/i&gt;</source>
         <translation>&lt;i&gt;La lista de archivos se ha descargado.&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="760"/>
+        <location filename="src/mainwindowimpl.cpp" line="764"/>
         <source>&lt;i&gt;Неизвестный тип - %1&lt;/i&gt;</source>
         <translation>&lt;i&gt;Un tipo desconocido - %1&lt;/i&gt;</translation>
     </message>
@@ -712,12 +712,12 @@ Haga OK en Aceptar para continuar.</translation>
         <translation type="vanished">La memoria caché se ha usado.</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="795"/>
+        <location filename="src/mainwindowimpl.cpp" line="799"/>
         <source>&lt;i&gt;Изображение загружено из интернета!&lt;/i&gt;</source>
         <translation>&lt;i&gt;La imagen ha sido descargado de Internet!&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="src/mainwindowimpl.cpp" line="815"/>
+        <location filename="src/mainwindowimpl.cpp" line="819"/>
         <source>Решение найдено: %1 шагов, %2 состояний</source>
         <translation>La solución se encuentra: %1 paso(s), %2 estados</translation>
     </message>
