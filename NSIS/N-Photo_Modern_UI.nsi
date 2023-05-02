@@ -6,9 +6,12 @@
 ;--------------------------------
 ;General
 
+  ;Version
+  !define version 1.1.10.2
+
   ;Name and file
-  Name "N-Photo"
-  OutFile "N-Photo.exe"
+  Name "N-Photo ${version}"
+  OutFile N-Photo-${version}.exe
 
   ;Default installation folder
   InstallDir "$LOCALAPPDATA\N-Photo"
@@ -18,6 +21,18 @@
 
   ;Request application privileges for Windows Vista
   RequestExecutionLevel user
+
+  ;Brand
+  BrandingText "/appseng/n-photo"
+  
+  ;Version information
+  VIProductVersion ${version}
+  VIAddVersionKey "ProductVersion" ${version}
+  VIAddVersionKey "ProductName" "N-Photo"
+  VIAddVersionKey "LegalCopyright" "© appseng"
+  VIAddVersionKey "FileDescription" "N-Photo-${version}.exe"
+  VIAddVersionKey "CompanyName" "appseng"
+  VIAddVersionKey "FileVersion" ${version}
 
 ;--------------------------------
 ;Interface Settings
@@ -45,9 +60,8 @@
 Section "Installation" Installation
 
   ; Set output path to the installation directory.
-  SetOutPath $INSTDIR\platforms
-
   ; Put file there
+  SetOutPath $INSTDIR\platforms
   File "puzzle\platforms\qwindows.dll"
   SetOutPath $INSTDIR\imageformats
   File "puzzle\imageformats\qjpeg.dll"
@@ -64,9 +78,6 @@ Section "Installation" Installation
   CreateDirectory "$SMPROGRAMS\N-Photo"
   CreateShortcut "$SMPROGRAMS\N-Photo\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
   CreateShortcut "$SMPROGRAMS\N-Photo\N-Photo.lnk" "$INSTDIR\n-photo.exe" "" "$INSTDIR\n-photo.exe" 0
-
-  ; Write the installation path into the registry
-  WriteRegStr HKLM SOFTWARE\N-Photo "Install_Dir" "$INSTDIR"
 
   ; Write the uninstall keys for Windows
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\N-Photo" "DisplayName" "N-Photo"
