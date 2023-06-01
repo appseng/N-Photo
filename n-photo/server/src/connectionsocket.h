@@ -9,7 +9,7 @@ class ConnectionSocket : public QTcpSocket
 {
     Q_OBJECT
 public:
-    ConnectionSocket(int, DatabaseWork *, QObject* = nullptr);
+    ConnectionSocket(QObject*, int, DatabaseWork*);
 private:
     DatabaseWork* db;
 public slots:

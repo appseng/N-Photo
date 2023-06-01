@@ -10,7 +10,7 @@
 #include "connectionsocket.h"
 #include "enums.h"
 
-ConnectionSocket::ConnectionSocket(int descriptor, DatabaseWork* dbase, QObject* parent)
+ConnectionSocket::ConnectionSocket(QObject* parent, int descriptor, DatabaseWork* dbase)
     :QTcpSocket(parent), db(dbase)
 {
    connect(this, SIGNAL(readyRead()), this, SLOT(readMessage()));

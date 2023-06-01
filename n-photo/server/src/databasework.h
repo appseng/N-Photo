@@ -9,7 +9,6 @@ class DatabaseWork :QObject
 {
      Q_OBJECT
 public:
-    DatabaseWork(QObject * = nullptr, QString = QString("ImageDB"));
     ~DatabaseWork();
     //work with images
     bool addImage(QString);
@@ -21,13 +20,20 @@ public:
     bool rebuildDB();
     bool exportDB(QString = QString("export"));
 
+    static DatabaseWork* Instance();
+
+protected:
+    DatabaseWork();
+
 private:
     bool openConnetion();
     bool createConnection();
     bool closeConnetion();
+
     QSqlDatabase db;
-    QString dbName;
     QMutex mutex;
+
+    static DatabaseWork* instance;
 };
 
 #endif // DATABASEWORK_H

@@ -12,17 +12,27 @@
 #include <QFileInfoList>
 #include "databasework.h"
 
-DatabaseWork::DatabaseWork(QObject *parent, QString Name)
-        :QObject(parent), dbName(Name)
+DatabaseWork* DatabaseWork::instance = nullptr;
+
+DatabaseWork::DatabaseWork()
 {
     db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(dbName);
+    db.setDatabaseName("ImageDB");
 }
 DatabaseWork::~DatabaseWork()
 {
     closeConnetion();
 }
+DatabaseWork* DatabaseWork::Instance()
+{
+    if(instance != nullptr)
+        return instance;
 
+    if(instance == nullptr) {
+        instance = new DatabaseWork();
+    }
+    return instance;
+}
 bool DatabaseWork::createConnection()
 {
     if (!db.open()) {

@@ -13,8 +13,6 @@ public:
     Server(QTcpServer * = nullptr);
 private:
     void incomingConnection(int);
-    DatabaseWork* db;
-    ConnectionSocket* socket;
 };
 
 #endif // SERVER_H

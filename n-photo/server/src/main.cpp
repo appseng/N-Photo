@@ -29,27 +29,32 @@ int main(int argc, char *argv[])
             return start(server, ok, port) && app.exec();
         }
         else if (str == QString("--rebuild")) {
-            DatabaseWork db;
-            if (db.rebuildDB()) {
+            DatabaseWork* db = DatabaseWork::Instance();
+            if (db->rebuildDB()) {
+                delete db;
                 qDebug() << "Rebuild of database has completed.";
                 return 0;
             }
+            delete db;
             qCritical() << "An error occured.";
             return -2;
         }
         else if (str == QString("--export")) {
-            DatabaseWork db;
-            if (!db.exportDB()) {
+            DatabaseWork* db = DatabaseWork::Instance();
+            if (!db->exportDB()) {
+                delete db;
                 qCritical() << "An error has occured during export.";
                 return -2;
             }
+            delete db;
             qDebug() << "Export has been completed.";
             return 0;
         }
         else if (str == QString("--add-image") && argc > 2) {
-            DatabaseWork db;
+            DatabaseWork* db = DatabaseWork::Instance();
             str = QString(argv[2]);
-            bool ret = db.addImage(QFileInfo(str).absoluteFilePath());
+            bool ret = db->addImage(QFileInfo(str).absoluteFilePath());
+            delete db;
             qDebug() << "Image added.";
             return (ret)? 0 : -3;
         }
