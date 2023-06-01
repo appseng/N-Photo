@@ -472,7 +472,7 @@ void MainWindowImpl::timerReset()
 
 void MainWindowImpl::loadLanguage(const QString& rLanguage)
 {
-    if(currLang != rLanguage)
+    if (currLang != rLanguage)
     {
         currLang = rLanguage;
         QLocale locale = QLocale(currLang);
@@ -482,7 +482,7 @@ void MainWindowImpl::loadLanguage(const QString& rLanguage)
         // remove the old translator
         qApp->removeTranslator(&translator);
         // load the new translator
-        if(translator.load(QString(":/language/client_%1.qm").arg(rLanguage)))
+        if (translator.load(QString(":/language/client_%1.qm").arg(rLanguage)))
         {
             qApp->installTranslator(&translator);
             retranslateUi(this);
@@ -646,9 +646,8 @@ void MainWindowImpl::getFileList()
     }
     else if (imageSource == Internet) {
         listImage->clear();
-        for (int i = 1; i <= images.count(); i++) {
-            listImage->addItem(tr("Картинка").append(" #%1").arg(i));
-        }
+        images.clear();
+
         getInternetImage();
     }
 }
@@ -663,9 +662,15 @@ void MainWindowImpl::getImage(const int curRow)
         return;
 
     if (listImage && curRow != -1) {
-        if(imageSource == Net) {
-            log->append(tr("<i>Загрузка изображения с сервера......</i>"));
+        if (imageSource == Net) {
             this->curRow = curRow;
+
+            if (images[curRow] != QPixmap()){
+                puzzleImage = images[curRow];
+                setupPuzzle();
+                return;
+            }
+            log->append(tr("<i>Загрузка изображения с сервера......</i>"));
 
             tcpConnect(File);
         }
@@ -731,6 +736,8 @@ void MainWindowImpl::tcpReady()
             puzzleImage = QPixmap::fromImage(image);
             setupPuzzle();
             log->append(tr("<i>Изображение загружено!</i>"));
+
+            images.replace(this->curRow, puzzleImage);
         }
         else
             log->append(tr("<i>Ошибка при получении изображения!</i>"));
@@ -739,12 +746,14 @@ void MainWindowImpl::tcpReady()
     }
     else if (messageType == List) { // get directory list
         listImage->clear();
+        images.clear();
 
         QString name;
         int separator;
         while (dataSize > 0) {
             stream >> name >> separator;
             listImage->addItem(name);
+            images.append(QPixmap());
             dataSize--;
         }
         listImage->update();
