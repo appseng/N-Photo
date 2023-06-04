@@ -17,7 +17,7 @@ public:
 signals:
     void downloaded();
 private slots:
-    void fileDownloaded(QNetworkReply* pReply);
+    void ready(QNetworkReply* pReply);
 private:
     QUrl url;
     QNetworkAccessManager webCtrl;

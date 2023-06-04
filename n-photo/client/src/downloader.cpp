@@ -1,20 +1,20 @@
-#include "Downloader.h"
+#include "downloader.h"
 
 Downloader::Downloader(QObject *parent) :
     QObject(parent)
 {
     url = QUrl("https://i.pravatar.cc/400");
-    connect(&webCtrl, SIGNAL(finished(QNetworkReply*)), this, SLOT(fileDownloaded(QNetworkReply*)));
+    connect(&webCtrl, SIGNAL(finished(QNetworkReply*)), this, SLOT(ready(QNetworkReply*)));
 }
 void Downloader::sendRequest()
 {
     QNetworkRequest request(url);
     webCtrl.get(request);
 }
-void Downloader::fileDownloaded(QNetworkReply* pReply)
+void Downloader::ready(QNetworkReply* reply)
 {
-    downloadedData = pReply->readAll();
-    pReply->deleteLater();
+    downloadedData = reply->readAll();
+    reply->deleteLater();
 
     emit downloaded();
 }
