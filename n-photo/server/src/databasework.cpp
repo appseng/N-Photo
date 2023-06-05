@@ -21,14 +21,14 @@ DatabaseWork::DatabaseWork()
 }
 DatabaseWork::~DatabaseWork()
 {
-    closeConnetion();
+    closeConnection();
 }
-DatabaseWork* DatabaseWork::Instance()
+DatabaseWork* DatabaseWork::getInstance()
 {
-    if(instance != nullptr)
+    if (instance != nullptr)
         return instance;
 
-    if(instance == nullptr) {
+    if (instance == nullptr) {
         instance = new DatabaseWork();
     }
     return instance;
@@ -41,56 +41,56 @@ bool DatabaseWork::createConnection()
     }
     return true;
 }
-bool DatabaseWork::openConnetion()
+bool DatabaseWork::openConnection()
 {
     if (db.isOpen() || db.open())
         return true;
 
     return createConnection();
 }
-bool DatabaseWork::closeConnetion()
+bool DatabaseWork::closeConnection()
 {
     if (db.isOpen())
         db.close();
 
     return !db.isOpen();
 }
-bool DatabaseWork::addImage(QString name)
+bool DatabaseWork::addImage(const QString fileName)
 {
-    QMutexLocker mut(&mutex);
-    if (!openConnetion())
+    QMutexLocker lock(&mutex);
+    if (!openConnection())
         return false;
 
-    QFile image (name);
-    QFileInfo imageInfo(image);
+    QFile file (fileName);
+    QFileInfo imageInfo(file);
     bool ret = false;
-    if (image.exists()) {
-        QImage im(name);
-        if (!im.isNull()) {
-            int size = qMin(im.width(), im.height());
-            im = im.copy((im.width() - size)/2,
-                         (im.height() - size)/2, size, size)
+    if (file.exists()) {
+        QImage image(fileName);
+        if (!image.isNull()) {
+            int size = qMin(image.width(), image.height());
+            image = image.copy((image.width() - size)/2,
+                         (image.height() - size)/2, size, size)
             .scaled(400, 400, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
             QBuffer buffer;
             QImageWriter writer(&buffer, "JPG");
-            writer.write(im);
+            writer.write(image);
 
             QSqlQuery query(db);
             query.prepare("INSERT INTO images VALUES (NULL, ?, ?)");
             query.addBindValue(imageInfo.baseName());
-            image.open(QIODevice::ReadOnly);
+            file.open(QIODevice::ReadOnly);
             query.addBindValue(buffer.data());
-            image.close();
+            file.close();
             ret = query.exec();
         }
     }
 
-    return (closeConnetion() && ret);
+    return closeConnection() && ret;
 }
-QByteArray DatabaseWork::Image(bool &ok, int index, QString& name)
+QByteArray DatabaseWork::getImage(bool &ok, int index, QString& name)
 {
-    QMutexLocker mut(&mutex);
-    if (!openConnetion()) {
+    QMutexLocker lock(&mutex);
+    if (!openConnection()) {
         ok = false;
         return QByteArray();
     }
@@ -104,13 +104,13 @@ QByteArray DatabaseWork::Image(bool &ok, int index, QString& name)
         name = query.value(0).toString();
         image = query.value(1).toByteArray();
     }
-    ok = (closeConnetion() && ok);
+    ok = closeConnection() && ok;
     return image;
 }
 QList<QString> DatabaseWork::listImages(bool &ok)
 {
-    QMutexLocker mut(&mutex);
-    if (!openConnetion())
+    QMutexLocker lock(&mutex);
+    if (!openConnection())
         return QList<QString>();
 
     QList<QString> imageList;
@@ -119,13 +119,13 @@ QList<QString> DatabaseWork::listImages(bool &ok)
     while (query.next())
         imageList.append(query.value(0).toString());
 
-    ok = closeConnetion() && ok;
+    ok = closeConnection() && ok;
     return imageList;
 }
 bool DatabaseWork::rebuildDB()
 {
-    QMutexLocker mut(&mutex);
-    if (!openConnetion())
+    QMutexLocker lock(&mutex);
+    if (!openConnection())
         return false;
 
     db.transaction();
@@ -135,9 +135,9 @@ bool DatabaseWork::rebuildDB()
     else
         db.rollback();
 
-    return (closeConnetion() && ret);
+    return closeConnection() && ret;
 }
-bool DatabaseWork::fillDB(QString folder)
+bool DatabaseWork::fillDB(const QString folder)
 {
     if (!db.isOpen())
         return false;
@@ -150,10 +150,10 @@ bool DatabaseWork::fillDB(QString folder)
 
     QDir dir (folder);
     dir.setFilter(QDir::Files);
-    QFileInfoList fil = dir.entryInfoList();
-    int fileListSize = fil.size();
+    QFileInfoList list = dir.entryInfoList();
+    int fileListSize = list.size();
     for (int i = 0; i < fileListSize; i++) {
-        QFileInfo df = fil.at(i);
+        QFileInfo df = list.at(i);
         QImage image = QImage(df.absoluteFilePath());
         if (image.isNull())
             continue;
@@ -173,10 +173,10 @@ bool DatabaseWork::fillDB(QString folder)
     }
     return ret;
 }
-bool DatabaseWork::exportDB(QString exportPath)
+bool DatabaseWork::exportDB(const QString exportPath)
 {
-    QMutexLocker mut(&mutex);
-    if (!openConnetion())
+    QMutexLocker lock(&mutex);
+    if (!openConnection())
         return false;
 
     QDir exp(exportPath);
@@ -193,7 +193,7 @@ bool DatabaseWork::exportDB(QString exportPath)
         file.write(query.value(1).toByteArray());
         file.close();
     }
-    return (closeConnetion() && ret);
+    return closeConnection() && ret;
 }
 bool DatabaseWork::cleanDB()
 {
@@ -202,4 +202,8 @@ bool DatabaseWork::cleanDB()
 
     QSqlQuery query(db);
     return query.exec("DROP TABLE IF EXISTS images");
+}
+QString DatabaseWork::getDBName() const
+{
+    return db.databaseName();
 }

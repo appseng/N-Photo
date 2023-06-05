@@ -11,24 +11,24 @@ class DatabaseWork :QObject
 public:
     ~DatabaseWork();
     //work with images
-    bool addImage(QString);
-    QByteArray Image(bool&, int, QString&);
+    bool addImage(const QString);
+    QByteArray getImage(bool&, const int, QString&);
     QList<QString> listImages(bool &);
     //work with database
-    bool fillDB(QString = QString("images"));
+    bool fillDB(const QString = QString("images"));
     bool cleanDB();
     bool rebuildDB();
-    bool exportDB(QString = QString("export"));
-
-    static DatabaseWork* Instance();
+    bool exportDB(const QString = QString("export"));
+    QString getDBName() const;
+    static DatabaseWork* getInstance();
 
 protected:
     DatabaseWork();
 
 private:
-    bool openConnetion();
+    bool openConnection();
     bool createConnection();
-    bool closeConnetion();
+    bool closeConnection();
 
     QSqlDatabase db;
     QMutex mutex;

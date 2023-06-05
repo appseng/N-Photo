@@ -3,17 +3,14 @@
 
 #include <QTcpSocket>
 #include "databasework.h"
-#define QDATASTEAMVERSION 17
 
 class ConnectionSocket : public QTcpSocket
 {
     Q_OBJECT
 public:
-    ConnectionSocket(QObject*, int, DatabaseWork*);
-private:
-    DatabaseWork* db;
+    ConnectionSocket(QObject*, int);
 public slots:
-    void readMessage();
+    void messageExchange();
 };
 
 #endif // CONNECTIONSOCKET_H

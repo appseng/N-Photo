@@ -6,6 +6,5 @@ Server::Server(QTcpServer *parent)
 }
 void Server::incomingConnection(int desctiptor)
 {
-    DatabaseWork* db = DatabaseWork::Instance();
-    new ConnectionSocket(this, desctiptor, db);
+    new ConnectionSocket(this, desctiptor);
 }
