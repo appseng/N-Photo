@@ -1,6 +1,5 @@
 #include <QApplication>
 #include <QTextCodec>
-#include <QHostAddress>
 
 #include "mainwindowimpl.h"
 

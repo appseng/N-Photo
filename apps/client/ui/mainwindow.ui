@@ -485,12 +485,18 @@
                   <property name="text">
                    <string>3 x 3</string>
                   </property>
+                  <property name="shortcut">
+                   <string>Ctrl+3</string>
+                  </property>
                  </widget>
                 </item>
                 <item>
                  <widget class="QRadioButton" name="rButton_4">
                   <property name="text">
                    <string>4 x 4</string>
+                  </property>
+                  <property name="shortcut">
+                   <string>Ctrl+4</string>
                   </property>
                   <property name="checked">
                    <bool>true</bool>
@@ -541,6 +547,9 @@
         </property>
         <property name="text">
          <string>Перемешать</string>
+        </property>
+        <property name="shortcut">
+         <string>Alt+Shift+R</string>
         </property>
        </widget>
       </item>
@@ -598,6 +607,9 @@
         <property name="text">
          <string>Заново</string>
         </property>
+        <property name="shortcut">
+         <string>Ctrl+N</string>
+        </property>
        </widget>
       </item>
       <item>
@@ -617,6 +629,8 @@
        <widget class="QPushButton" name="download">
         <property name="font">
          <font>
+          <weight>50</weight>
+          <bold>false</bold>
           <underline>true</underline>
          </font>
         </property>
@@ -626,10 +640,28 @@
         <property name="text">
          <string>Загрузить случайную картинку</string>
         </property>
+        <property name="shortcut">
+         <string>Ctrl+R</string>
+        </property>
         <property name="checkable">
          <bool>false</bool>
         </property>
         <property name="checked">
+         <bool>false</bool>
+        </property>
+        <property name="autoRepeat">
+         <bool>false</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>false</bool>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
+        <property name="flat">
          <bool>false</bool>
         </property>
        </widget>
@@ -843,7 +875,7 @@
     <string>Сбросить</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+R</string>
+    <string>Alt+Shift+T</string>
    </property>
   </action>
   <action name="aAboutQt">

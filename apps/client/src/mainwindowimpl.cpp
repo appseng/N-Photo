@@ -436,6 +436,9 @@ void MainWindowImpl::setupPuzzle()
 }
 void MainWindowImpl::saveImage()
 {
+    if (busy)
+        return;
+
     if (puzzleImage.isNull())
         return;
 
@@ -576,7 +579,6 @@ void MainWindowImpl::setManhattanDistance()
     aMisplacedTiles->setChecked(false);
     aManhattanDistance->setChecked(true);
     heuristic = ManhattanDistance;
-
 }
 void MainWindowImpl::about()
 {
@@ -587,12 +589,8 @@ void MainWindowImpl::setComplication()
 {
     if (rButton_3->isChecked())
         relation = QPoint(3,3);
-    else {
-        if (rButton_4->isChecked())
-            relation = QPoint(4,4);
-        else
-            relation = QPoint(5,5);
-    }
+    else
+        relation = QPoint(4,4);
 }
 void MainWindowImpl::detectGameType()
 {

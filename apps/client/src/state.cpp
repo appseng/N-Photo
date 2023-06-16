@@ -40,11 +40,6 @@ int State::compareTo(const State* that) const
     }
     return 0;
 }
-bool State::isCostlierThan(State *thatState) const
-{
-    return costg > thatState->costg;
-}
-
 bool State::isFinalState() const
 {
     return costh == 0;
@@ -53,7 +48,6 @@ State* State::getParent() const
 {
     return parent;
 }
-
 void State::calculateCost()
 {
     if (parent == nullptr) {

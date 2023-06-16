@@ -19,7 +19,6 @@ class State : public QObject
         ~State();
         bool equals(const State*) const;
         int compareTo(const State*) const;
-        bool isCostlierThan(State*) const;
         bool isFinalState() const;
         State* getParent() const;
         void calculateCost();
