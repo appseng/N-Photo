@@ -17,7 +17,8 @@ HEADERS = src/mainwindowimpl.h \
     src/enums.h \
     src/solvethread.h \
     src/param.h \
-    src/downloader.h
+    src/downloader.h \
+    src/clientsocket.h
 SOURCES = src/mainwindowimpl.cpp \
     src/main.cpp \
     src/puzzlewidget.cpp \
@@ -27,7 +28,8 @@ SOURCES = src/mainwindowimpl.cpp \
     src/puzzlestrategy.cpp \
     src/solvethread.cpp \
     src/param.cpp \
-    src/downloader.cpp
+    src/downloader.cpp \
+    src/clientsocket.cpp
 RESOURCES += puzzle.qrc
 TRANSLATIONS = client_ru_RU.ts \
     client_en_US.ts \

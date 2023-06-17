@@ -26,6 +26,9 @@
 #include "state.h"
 #include "solvethread.h"
 
+// for networking
+#include "clientsocket.h"
+
 class MainWindowImpl : public QMainWindow, public Ui::MainWindow
 {
         Q_OBJECT
@@ -79,10 +82,10 @@ private slots:
         void getFileList();
         void getImage(const int);
         // // from a server
-        void tcpReady();
-        void tcpError(QAbstractSocket::SocketError);
-        void tcpConnected();
-        void tcpDisconnected();
+        void getSocketImage(int);
+        void socketError();
+        void socketList(QList<QString>);
+        void socketIncorrect(MessageType);
         void tcpConnect(MessageType);
         // // from a local directory
         void chooseDirectory();
@@ -132,7 +135,7 @@ private:
         // Source of images
         ImageSourceType imageSource;
         // network
-        QTcpSocket socket;
+        ClientSocket socket;
         int dataSize;
         unsigned int messageType;
 protected:
