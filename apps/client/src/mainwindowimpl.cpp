@@ -80,22 +80,21 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     connect(download, SIGNAL(clicked()), this, SLOT(getRandomImage()));
     connect(&downloader, SIGNAL(downloaded()), this, SLOT(loadImage()));
     // через сеть
-    connect(&socket, SIGNAL(getSocketImage(int)), this, SLOT(getSocketImage(int)));
-    connect(&socket, SIGNAL(sendSocketError()), this, SLOT(socketError()));
-    connect(&socket, SIGNAL(sendSocketList(QList<QString>)), this, SLOT(socketList(QList<QString>)));
-    connect(&socket, SIGNAL(socketIncorrect(MessageType)), this, SLOT(socketIncorrect(MessageType)));
+    connect(&socket, SIGNAL(sendImage(int)), this, SLOT(getSocketImage(int)));
+    connect(&socket, SIGNAL(sendError()), this, SLOT(socketError()));
+    connect(&socket, SIGNAL(sendImageList(QList<QString>)), this, SLOT(socketList(QList<QString>)));
+    connect(&socket, SIGNAL(incorrectType(MessageType)), this, SLOT(socketIncorrectType(MessageType)));
 
     //  из локальной папки
     connect(choseFolder, SIGNAL(clicked()), this, SLOT(chooseDirectory()));
     //
 
-    ptimer = new QTimer(this);
-    connect(ptimer, SIGNAL(timeout()), this, SLOT(updateTime()));
-    setTimer(true);
+    guiTimer = new QTimer(this);
+    connect(guiTimer, SIGNAL(timeout()), this, SLOT(updateTime()));
+
     timerOn();
-    multi = true;
+    gameType = NPhoto;
     curRow = -1;
-    imageIndex = -1;
 
     qsrand(uint(QCursor::pos().x() * QCursor::pos().y()));
 
@@ -270,21 +269,23 @@ void MainWindowImpl::clickRefresh()
 }
 void MainWindowImpl::updateTime()
 {
-    QTime curTime = QTime::fromString(timerText->text(), TimeFormat).addSecs(1);
-    setTimer(false, curTime);
+    if (!timerText->isEnabled()) return;
+
+    QTime spendTime = QTime::fromString(timerText->text(), TimeFormat).addSecs(1);
+    setTimer(false, spendTime);
 }
 void MainWindowImpl::clickShuffle()
 {
     if (puzzleWidget) {
         puzzleWidget->shuffle();
         shuffle->setEnabled(false);
-        ptimer->start(1000);
+        timerRestart();
     }
 }
 void MainWindowImpl::showPuzzleField()
 {
-    piecesList->setVisible(!multi);
-    puzzleWidget->changeType(int(multi));
+    piecesList->setVisible(!gameType);
+    puzzleWidget->changeType(gameType);
 }
 void  MainWindowImpl::setSettingsAll()
 {
@@ -370,7 +371,7 @@ void MainWindowImpl::setLogVisible()
 }
 void MainWindowImpl::openImage(const QString &path)
 {
-    if (busy)
+    if (isBusy())
         return;
 
     QString fileName = path;
@@ -404,9 +405,17 @@ void MainWindowImpl::setCompleted(bool byHuman)
     }
     setupPuzzle();
 }
+void MainWindowImpl::timerRestart()
+{
+    if (!timerText->isEnabled()) return;
+
+    timerReset();
+    guiTimer->start(1000);
+}
+
 void MainWindowImpl::setupPuzzle()
 {
-    if (busy)
+    if (isBusy())
         return;
 
     if (puzzleImage.isNull())
@@ -418,23 +427,23 @@ void MainWindowImpl::setupPuzzle()
     showPuzzleField();
     puzzleWidget->changeRelation(relation);
 
-    if (multi) {
+    if (gameType) {
         puzzleWidget->addPieces(puzzleImage);
-        setTimer(true);
-    } else {
-        model->addPieces(puzzleImage, relation);
-        timerReset();
-        if (timerText->isEnabled())
-            ptimer->start(1000);
+        guiTimer->stop();
     }
-    shuffle->setEnabled(multi);
-    step->setEnabled(multi);
+    else {
+        model->addPieces(puzzleImage, relation);
+        timerRestart();
+    }
+
+    shuffle->setEnabled(gameType);
+    step->setEnabled(gameType);
     moves = 0;
     step->display(0);
 }
 void MainWindowImpl::saveImage()
 {
-    if (busy)
+    if (isBusy())
         return;
 
     if (puzzleImage.isNull())
@@ -461,7 +470,7 @@ void MainWindowImpl::timerOff()
 void MainWindowImpl::setTimer(const bool reset, const QTime time)
 {
     if (reset) {
-        ptimer->stop();
+        guiTimer->stop();
         timerText->setText(tr("00:00:00"));
     } else
         timerText->setText(time.toString(TimeFormat));
@@ -471,23 +480,19 @@ void MainWindowImpl::timerReset()
     setTimer(true);
 }
 
-void MainWindowImpl::loadLanguage(const QString& rLanguage)
+void MainWindowImpl::loadLanguage(const QString& language)
 {
-    if (currLang != rLanguage)
+    if (currentLanguage != language)
     {
-        currLang = rLanguage;
-        QLocale locale = QLocale(currLang);
+        currentLanguage = language;
+        QLocale locale = QLocale(currentLanguage);
         QLocale::setDefault(locale);
-        //QString languageName = QLocale::languageToString(locale.language());
 
-        // remove the old translator
         qApp->removeTranslator(&translator);
-        // load the new translator
-        if (translator.load(QString(":/language/client_%1.qm").arg(rLanguage)))
+        if (translator.load(QString(":/language/client_%1.qm").arg(language)))
         {
             qApp->installTranslator(&translator);
             retranslateUi(this);
-            //log->append(tr("Язык изменён на %1").arg(languageName));
         }
     }
 }
@@ -522,7 +527,7 @@ void MainWindowImpl::setSpanish()
 }
 void MainWindowImpl::solvePuzzle()
 {
-    if (!multi)
+    if (!gameType)
         return;
 
     if (busy == false) {
@@ -557,12 +562,15 @@ void MainWindowImpl::startTimer(QStack<State*>* path)
 void MainWindowImpl::updateState()
 {
     if (path->count() > 0) {
-        const QVector<char>* nodes = path->pop()->getState();
-        Param *param = new Param(this, nodes, path->count() == 0);
+        const QVector<char>* nodes = path->pop()->getNodes();
+        StateParam *param = new StateParam(this, nodes, path->count() == 0);
         displayState(param);
     } else {
         solutionTimer->stop();
         setBusy(false);
+
+        path->clear();
+        path->detach();
     }
 }
 
@@ -592,11 +600,11 @@ void MainWindowImpl::setComplication()
 }
 void MainWindowImpl::detectGameType()
 {
-    multi = gameType2->isChecked();
+    gameType = GameType(gameType2->isChecked());
 }
 void MainWindowImpl::getRandomImage()
 {
-    if (busy)
+    if (isBusy())
         return;
 
     log->append(tr("<i>Загрузка произвольного изображения......</i>"));
@@ -615,19 +623,19 @@ void MainWindowImpl::getRandomImage()
     } else
         getFileList();
 }
-void MainWindowImpl::tcpConnect(MessageType type)
+void MainWindowImpl::ConnectToServer(MessageType type)
 {
-    socket.socketConnect(type, host->text(), ip->text().toUShort(), listImage->currentRow());
+    socket.clientConnect(type, host->text(), ip->text().toUShort(), listImage->currentRow());
 }
 void MainWindowImpl::getFileList()
 {
-    if (busy)
+    if (isBusy())
         return;
 
     log->append(tr("<i>Получение списка изображений......</i>"));
 
     if (imageSource == Net) {
-        tcpConnect(List);
+        ConnectToServer(List);
     }
     else if (imageSource == Local) {
         QString lf = localFolder->text();
@@ -639,7 +647,7 @@ void MainWindowImpl::getFileList()
     }
     else if (imageSource == Internet) {
         listImage->clear();
-        images.clear();
+        imagesCache.clear();
 
         getInternetImage();
     }
@@ -651,21 +659,21 @@ void MainWindowImpl::getInternetImage() {
 }
 void MainWindowImpl::getImage(const int curRow)
 {
-    if (busy)
+    if (isBusy())
         return;
 
     if (listImage && curRow != -1) {
         if (imageSource == Net) {
             this->curRow = curRow;
 
-            if (images[curRow] != QPixmap()){
-                puzzleImage = images[curRow];
+            if (imagesCache[curRow] != QPixmap()){
+                puzzleImage = imagesCache[curRow];
                 setupPuzzle();
                 return;
             }
             log->append(tr("<i>Загрузка изображения с сервера......</i>"));
 
-            tcpConnect(File);
+            ConnectToServer(File);
         }
         else if (imageSource == Local) {
             QString lf = localFolder->text();
@@ -689,7 +697,7 @@ void MainWindowImpl::getImage(const int curRow)
             }
         }
         else if (imageSource == Internet) {
-            puzzleImage = images[listImage->currentRow()];
+            puzzleImage = imagesCache[listImage->currentRow()];
             setupPuzzle();
         }
     }
@@ -715,8 +723,8 @@ void MainWindowImpl::loadImage()
                                        (puzzleImage.height() - size)/2, size, size)
             .scaled(puzzleWidget->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
         }        
-        images.append(puzzleImage);
-        listImage->addItem(tr("Картинка").append(" #%1").arg(images.count()));
+        imagesCache.append(puzzleImage);
+        listImage->addItem(tr("Картинка").append(" #%1").arg(imagesCache.count()));
 
         log->append(tr("<i>Изображение загружено из интернета!</i>"));
     }
@@ -725,7 +733,7 @@ void MainWindowImpl::loadImage()
 
     setupPuzzle();
 }
-void MainWindowImpl::displayState(Param *param)
+void MainWindowImpl::displayState(StateParam *param)
 {
     const QVector<char>* nodes = param->getState();
     bool isFinal = param->isFinalState();
@@ -735,7 +743,7 @@ void MainWindowImpl::displayState(Param *param)
     if (nodes != nullptr)
         puzzleWidget->setPieces(nodes);
 }
-void MainWindowImpl::onPuzzleSolved(Param* param) {
+void MainWindowImpl::onPuzzleSolved(StepParam* param) {
     int steps = param->getSteps();
     int states = param->getStates();
     log->append(tr("Решение найдено: %1 шагов, %2 состояний").arg(steps).arg(states));
@@ -761,6 +769,13 @@ void MainWindowImpl::setBusy(bool busy)
     this->busy = busy;
     puzzleWidget->setBusy(busy);
 }
+bool MainWindowImpl::isBusy()
+{
+    if (busy)
+        log->append(tr("Программа занята, подождите."));
+
+    return busy;
+}
 void MainWindowImpl::getSocketImage(int dataSize)
 {
     QImage image = QImage::fromData(socket.read(dataSize));
@@ -769,7 +784,7 @@ void MainWindowImpl::getSocketImage(int dataSize)
         setupPuzzle();
         log->append(tr("<i>Изображение загружено!</i>"));
 
-        images.replace(this->curRow, puzzleImage);
+        imagesCache.replace(this->curRow, puzzleImage);
     }
     else
         log->append(tr("<i>Ошибка при получении изображения!</i>"));
@@ -785,17 +800,16 @@ void MainWindowImpl::socketError()
 void MainWindowImpl::socketList(QList<QString> names)
 {
     listImage->clear();
-    images.clear();
+    imagesCache.clear();
 
     for (int i = 0; i < names.length(); i++) {
         listImage->addItem(names[i]);
-        images.append(QPixmap());
+        imagesCache.append(QPixmap());
     }
     listImage->update();
     log->append(tr("<i>Список доступных файлов загружен.</i>"));
-
 }
-void MainWindowImpl::socketIncorrect(MessageType messageType)
+void MainWindowImpl::socketIncorrectType(MessageType messageType)
 {
     log->append(tr("<i>Неизвестный тип - %1</i>").arg(messageType));
 }

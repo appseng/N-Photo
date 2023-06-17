@@ -32,7 +32,6 @@ public:
 private:
     QList<QPoint> locations;
     QList<QPixmap> pixmaps;
-    QPoint pnt;
 };
 
 #endif // PIECESLIST_H

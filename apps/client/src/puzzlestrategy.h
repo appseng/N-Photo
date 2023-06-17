@@ -9,19 +9,11 @@
 #include <QTimer>
 
 #include "state.h"
-#include "param.h"
+#include "params.h"
 
 class PuzzleStrategy : public QObject
 {
     Q_OBJECT
-    private:
-        int steps;
-        bool isFinalState;
-        State *initState;
-        QStack<State*> *path;
-        QVector<Direction> statesList;
-        int threshold;
-        int minThreshold;
     public:
         PuzzleStrategy(QObject* = nullptr);
         void IDAStar(QVector<char>*, Heuristic);
@@ -30,9 +22,17 @@ class PuzzleStrategy : public QObject
         void onFinalState(State*);
         void onPuzzleSolved(State*, int);
     signals:
-        void onStateChanged(Param*);
-        void onPuzzleSolved(Param*);
+        void onStateChanged(StateParam*);
+        void onPuzzleSolved(StepParam*);
         void onTimerStart(QStack<State*>*);
+    private:
+        int steps;
+        bool isFinalState;
+        State *initState;
+        QStack<State*> *path;
+        QVector<Direction> statesList;
+        int threshold;
+        int minThreshold;
 };
 
 #endif // PUZZLESTRATEGY_H

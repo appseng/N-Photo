@@ -9,11 +9,8 @@
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QMouseEvent>
-#include <QPainter>
 #include <QVector>
 #include <QMimeData>
-#include <QDrag>
-#include <QEvent>
 
 #include "enums.h"
 
@@ -24,7 +21,7 @@ public:
     PuzzleWidget(QWidget * = nullptr, const QSize = QSize(400,400));
     void clear();
     void changeRelation(const QPoint);
-    void changeType(const int);
+    void changeType(const GameType);
     void addPieces(const QPixmap& = QPixmap());
     void shuffle();
     int getTargetIndex(const QPoint&) const;
@@ -53,9 +50,9 @@ private:
     QList<QPoint> pieceLocations;
     QRect highlightedRect;
     int inPlace;
-    QPoint pnt;
+    QSize tile;
     QPoint relation;
-    int gameType;
+    GameType gameType;
     int moves;
     QPoint missingLocation;
     bool busy;

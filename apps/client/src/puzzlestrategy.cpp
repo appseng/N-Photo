@@ -39,7 +39,7 @@ void PuzzleStrategy::onPuzzleSolved(State *state, int states)
         state = state->getParent();
         steps++;
     }
-    Param *param = new Param(this, steps, states);
+    StepParam *param = new StepParam(this, steps, states);
     emit onPuzzleSolved(param);
 }
 
@@ -53,7 +53,7 @@ void PuzzleStrategy::onFinalState(State *state)
         }
         emit onTimerStart(path);
     } else {
-        Param *param = new Param(this, nullptr, true);
+        StateParam *param = new StateParam(this, nullptr, true);
         emit onStateChanged(param);
     }
 }

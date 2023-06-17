@@ -1,16 +1,17 @@
-#include "clientsocket.h"
 #include <QDataStream>
+
+#include "clientsocket.h"
 
 ClientSocket::ClientSocket(QObject* parent) :
     QTcpSocket(parent)
 {
     connect(this, SIGNAL(error(QAbstractSocket::SocketError)),
-            this, SLOT(socketError(QAbstractSocket::SocketError)));
-    connect(this, SIGNAL(readyRead()), this, SLOT(socketReady()));
-    connect(this, SIGNAL(connected()), this, SLOT(socketConnected()));
+            this, SLOT(error(QAbstractSocket::SocketError)));
+    connect(this, SIGNAL(readyRead()), this, SLOT(ready()));
+    connect(this, SIGNAL(connected()), this, SLOT(clientConnected()));
     dataSize = 0;
 }
-void ClientSocket::socketConnect(MessageType type, QString host, unsigned short ip, int row)
+void ClientSocket::clientConnect(const MessageType type, const QString host, const unsigned short ip, const int row)
 {
     messageType = type;
     dataSize = 0;
@@ -18,7 +19,7 @@ void ClientSocket::socketConnect(MessageType type, QString host, unsigned short 
     this->abort();
     this->connectToHost(host, ip);
 }
-void ClientSocket::socketConnected()
+void ClientSocket::clientConnected()
 {
     QByteArray block;
     QDataStream out(&block, QIODevice::ReadWrite);
@@ -32,14 +33,14 @@ void ClientSocket::socketConnected()
 
     this->write(block);
 }
-void ClientSocket::socketError(QAbstractSocket::SocketError error)
+void ClientSocket::error(QAbstractSocket::SocketError error)
 {
    if (error == QAbstractSocket::RemoteHostClosedError)
        return;
 
-   emit sendSocketError();
+   emit sendError();
 }
-void ClientSocket::socketReady()
+void ClientSocket::ready()
 {
     if (this->bytesAvailable() < 2*sizeof(int)) return;
 
@@ -53,7 +54,7 @@ void ClientSocket::socketReady()
         if (this->bytesAvailable() < dataSize)
             return;
 
-        emit getSocketImage(dataSize);
+        emit sendImage(dataSize);
         dataSize = 0;
     }
     else if (messageType == List) { // get directory list
@@ -65,9 +66,9 @@ void ClientSocket::socketReady()
             list.append(name);
             dataSize--;
         }
-        emit sendSocketList(list);
+        emit sendImageList(list);
         dataSize = 0;
     }
     else // incorrect type
-        emit socketIncorrect(messageType);
+        emit incorrectType(messageType);
 }

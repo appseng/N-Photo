@@ -10,16 +10,16 @@ class ClientSocket: public QTcpSocket
     Q_OBJECT
 public:
     ClientSocket(QObject* = nullptr);
-    void socketConnect(MessageType, QString, unsigned short, int);
+    void clientConnect(const MessageType, const QString, const unsigned short, const int);
 private slots:
-    void socketConnected();
-    void socketError(QAbstractSocket::SocketError);
-    void socketReady();
+    void clientConnected();
+    void error(QAbstractSocket::SocketError);
+    void ready();
 signals:
-    void getSocketImage(int);
-    void sendSocketError();
-    void sendSocketList(QList<QString>);
-    void socketIncorrect(MessageType);
+    void sendImage(int);
+    void sendError();
+    void sendImageList(QList<QString>);
+    void incorrectType(MessageType);
 private:
     int dataSize;
     MessageType messageType;

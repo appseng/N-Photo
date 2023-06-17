@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>730</width>
-    <height>600</height>
+    <width>741</width>
+    <height>589</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+   <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -19,14 +19,19 @@
   <property name="minimumSize">
    <size>
     <width>730</width>
-    <height>600</height>
+    <height>550</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>7000</width>
-    <height>6000</height>
+    <width>1000</width>
+    <height>800</height>
    </size>
+  </property>
+  <property name="font">
+   <font>
+    <family>DejaVu Sans</family>
+   </font>
   </property>
   <property name="focusPolicy">
    <enum>Qt::StrongFocus</enum>
@@ -61,7 +66,7 @@
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>40</width>
+          <width>20</width>
           <height>20</height>
          </size>
         </property>
@@ -69,30 +74,33 @@
       </item>
       <item>
        <widget class="QWidget" name="widget" native="true">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
         <property name="minimumSize">
          <size>
           <width>521</width>
-          <height>411</height>
+          <height>400</height>
          </size>
         </property>
-        <widget class="QWidget" name="horizontalLayoutWidget">
-         <property name="geometry">
-          <rect>
-           <x>-1</x>
-           <y>-1</y>
-           <width>521</width>
-           <height>411</height>
-          </rect>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <property name="spacing">
-           <number>6</number>
-          </property>
-          <property name="sizeConstraint">
-           <enum>QLayout::SetDefaultConstraint</enum>
-          </property>
-         </layout>
-        </widget>
+        <property name="toolTipDuration">
+         <number>-1</number>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_8">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="sizeConstraint">
+            <enum>QLayout::SetDefaultConstraint</enum>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+          </layout>
+         </item>
+        </layout>
        </widget>
       </item>
       <item>
@@ -102,7 +110,7 @@
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>40</width>
+          <width>20</width>
           <height>20</height>
          </size>
         </property>
@@ -532,6 +540,9 @@
             <height>16777215</height>
            </size>
           </property>
+          <property name="spacing">
+           <number>1</number>
+          </property>
          </widget>
         </item>
        </layout>
@@ -580,6 +591,9 @@
        <widget class="QLineEdit" name="timerText">
         <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="text">
+         <string>00:00:00</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -709,7 +723,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>730</width>
+     <width>741</width>
      <height>21</height>
     </rect>
    </property>

@@ -19,13 +19,12 @@
 // generated UI for this class
 #include "ui_mainwindow.h"
 
-// for downloading images from the Internet
-#include "downloader.h"
-
 // for finding solution
 #include "state.h"
 #include "solvethread.h"
 
+// for downloading images from the Internet
+#include "downloader.h"
 // for networking
 #include "clientsocket.h"
 
@@ -65,9 +64,9 @@ private slots:
         void moveMissingRectangleUp();
         void moveMissingRectangleDown();
         void moveMissingRectangleRight();
-
-        void displayState(Param*);
-        void onPuzzleSolved(Param*);
+        // solution
+        void displayState(StateParam*);
+        void onPuzzleSolved(StepParam*);
         void updateState();
         void startTimer(QStack<State*>*);
         // menu "Help"
@@ -85,8 +84,7 @@ private slots:
         void getSocketImage(int);
         void socketError();
         void socketList(QList<QString>);
-        void socketIncorrect(MessageType);
-        void tcpConnect(MessageType);
+        void socketIncorrectType(MessageType);
         // // from a local directory
         void chooseDirectory();
         // // from the Internet
@@ -95,49 +93,57 @@ private:
         void readSettings();
         void writeSettings();
 
+        // language
         void loadLanguage(const QString&);
         QTranslator translator;
+        QString currentLanguage;
 
-        void setComplication();
-        void detectGameType();
+        // network
+        void ConnectToServer(MessageType);
+        ClientSocket socket;
+        Downloader downloader;
+
+        // puzzle widget
         void setupWidgets();
         void setupPuzzle();
-        void setTimer(const bool, const QTime = QTime());
         void showPuzzleField();
-
-        void getInternetImage();
-
-        void setBusy(bool);
         QPixmap puzzleImage;
         QListView *piecesList;
         PuzzleWidget *puzzleWidget;
         PiecesModel *model;
-        QTimer *ptimer;
-        bool multi;
-        QPoint relation;
-        int moves;
         int curRow;
 
-        QList<QPixmap> images;
+        // complication
+        void setComplication();
+        QPoint relation;
+        // game type
+        void detectGameType();
+        GameType gameType;
 
+        // timer
+        void setTimer(const bool, const QTime = QTime());
+        void timerRestart();
+        QTimer *guiTimer;
+
+        // Source of images
+        void getInternetImage();
+        ImageSourceType imageSource;
+
+        // memory caching
+        QList<QPixmap> imagesCache;
+
+        // solution
+        void setBusy(bool);
+        bool isBusy();
+        bool busy;
+        int moves;
         PuzzleStrategy *strategy;
         SolveThread *thread;
         QTimer *solutionTimer;
         Heuristic heuristic;
         QVector<char> nodes;
         QStack<State*> *path;
-        bool busy;
 
-        Downloader downloader;
-        int imageIndex;
-        // language
-        QString currLang;
-        // Source of images
-        ImageSourceType imageSource;
-        // network
-        ClientSocket socket;
-        int dataSize;
-        unsigned int messageType;
 protected:
         void closeEvent(QCloseEvent *);
 };

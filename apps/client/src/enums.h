@@ -29,4 +29,10 @@ enum MessageType : unsigned int
     List = 8
 };
 
+enum GameType : bool
+{
+    JigSaw = false,
+    NPhoto = true
+};
+
 #endif // ENUMS_H
