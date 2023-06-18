@@ -44,3 +44,10 @@ Thumbs.db
 
 # Secret/hidden folders
 .vs/
+
+# linux
+bin/
+build/
+Makefile
+*.stash
+qrc_puzzle.cpp

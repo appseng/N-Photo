@@ -1,5 +1,6 @@
 #include <QDrag>
 #include <QPainter>
+#include <QRandomGenerator>
 
 #include "puzzlewidget.h"
 
@@ -21,7 +22,7 @@ void PuzzleWidget::changeRelation(const QPoint relation)
     if (!relation.isNull()) {
         this->relation = relation;
         tile.setWidth(minimumWidth()/relation.x());
-        tile.setWidth(minimumHeight()/relation.y());
+        tile.setHeight(minimumHeight()/relation.y());
     }
 }
 
@@ -206,7 +207,7 @@ void PuzzleWidget::mousePressEvent(QMouseEvent *event)
         drag->setHotSpot(event->pos() - square.topLeft());
         drag->setPixmap(pixmap);
 
-        if (drag->start(Qt::MoveAction) == 0) {
+        if (drag->exec(Qt::MoveAction) == 0) {
             pieceLocations.insert(found, location);
             piecePixmaps.insert(found, pixmap);
             pieceRects.insert(found, square);
@@ -249,9 +250,9 @@ void PuzzleWidget::shuffle()
     int missing = rect;
     QRect nRect;
     int iRect;
-    int i = qrand()%maxid + 150;
+    int i = QRandomGenerator::global()->bounded(150, maxid + 150);
     while (i) {
-        switch(int(qrand()%4)) {
+        switch(QRandomGenerator::global()->bounded(4)) {
         case Up:
             nRect = QRect(freeRect.x(),freeRect.y()-tile.height(),tile.width(),tile.height());
             break;
@@ -266,7 +267,7 @@ void PuzzleWidget::shuffle()
         }
         iRect = pieceRects.indexOf(nRect);
         if (iRect != -1) {
-            pieceRects.swap(iRect, rect);
+            pieceRects.swapItemsAt(iRect, rect);
             freeRect = nRect;
             i--;
         }
@@ -341,7 +342,7 @@ void PuzzleWidget::setPieces(const QVector<char>* nodes)
             int index = pieceLocations.indexOf(location);
 
             // point on PuzzleWidget
-            // num : number on title minus one
+            // num : number on tile minus one
             QPoint pos((i%relation.x())*tile.width(), (i/relation.x())*tile.height());
 
             // rect accorging 'point'

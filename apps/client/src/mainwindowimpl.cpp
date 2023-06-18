@@ -96,7 +96,7 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     gameType = NPhoto;
     curRow = -1;
 
-    qsrand(uint(QCursor::pos().x() * QCursor::pos().y()));
+    rand.seed(QCursor::pos().x() * QCursor::pos().y());
 
     // default heuristic is ManhattanDistance
     heuristic = ManhattanDistance;
@@ -618,7 +618,7 @@ void MainWindowImpl::getRandomImage()
         if (count == 1)
             newCur = 0;
         else
-            while ((newCur = qrand()%count) == curRow);
+            while ((newCur = rand.bounded(count)) == curRow);
         listImage->setCurrentRow(newCur);
     } else
         getFileList();

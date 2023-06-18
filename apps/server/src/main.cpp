@@ -8,11 +8,11 @@ const quint16 defaultPort = 5500;
 bool start (Server &server, bool ok = false, quint16 port = defaultPort)
 {
     if (!server.listen(QHostAddress::Any, (ok) ? port : defaultPort)) {
-        qCritical() << "A server for N-Photo." << endl
-                    << "It's impossible to launch a server: " << server.errorString() << "."  << endl;
+        qCritical() << "A server for N-Photo." << Qt::endl
+                    << "It's impossible to launch a server: " << server.errorString() << "."  << Qt::endl;
         return false;
     }
-    qDebug() << "A server started on the port" << server.serverPort() << "." << endl
+    qDebug() << "A server started on the port" << server.serverPort() << "." << Qt::endl
              << "Later, start a client of N-Photo.";
     return true;
 }
@@ -51,17 +51,17 @@ int main(int argc, char *argv[])
             return (ret) ? 0 : -3;
         }
         else {//if (str == QString("--help")) {
-            qDebug() << "N-Photo game server." << endl
-                     << "Usage:" << argv[0] << " [OPTION]" << endl
-                     << "OPTION is one of" << endl
-                     << "   NUMBER\t\tset port to listen to and" << endl
-                     << "         \t\tstart server without GUI" << endl
-                     << "   --rebuild\t\trebuild SQLite database" << endl
-                     << "         \t\tfrom \"images\" folder" << endl
-                     << "   --export\t\texport files from database" << endl
-                     << "         \t\tto \"export\" folder" << endl
-                     << "   --add-image FILENAME\tadd image to database" << endl
-                     << "   --help\t\tshow this text" << endl;
+            qDebug() << "N-Photo game server." << Qt::endl
+                     << "Usage:" << argv[0] << " [OPTION]" << Qt::endl
+                     << "OPTION is one of" << Qt::endl
+                     << "   NUMBER\t\tset port to listen to and" << Qt::endl
+                     << "         \t\tstart server without GUI" << Qt::endl
+                     << "   --rebuild\t\trebuild SQLite database" << Qt::endl
+                     << "         \t\tfrom \"images\" folder" << Qt::endl
+                     << "   --export\t\texport files from database" << Qt::endl
+                     << "         \t\tto \"export\" folder" << Qt::endl
+                     << "   --add-image FILENAME\tadd image to database" << Qt::endl
+                     << "   --help\t\tshow this text" << Qt::endl;
             return 0;
         }
     }

@@ -6,32 +6,32 @@ ClientSocket::ClientSocket(QObject* parent) :
     QTcpSocket(parent)
 {
     connect(this, SIGNAL(error(QAbstractSocket::SocketError)),
-            this, SLOT(error(QAbstractSocket::SocketError)));
-    connect(this, SIGNAL(readyRead()), this, SLOT(ready()));
-    connect(this, SIGNAL(connected()), this, SLOT(clientConnected()));
+            SLOT(error(QAbstractSocket::SocketError)));
+    connect(this, SIGNAL(readyRead()), SLOT(ready()));
+    connect(this, SIGNAL(connected()), SLOT(clientConnected()));
     dataSize = 0;
 }
-void ClientSocket::clientConnect(const MessageType type, const QString host, const unsigned short ip, const int row)
+void ClientSocket::clientConnect(const MessageType type, const QString host, const unsigned short port, const int row) 
 {
     messageType = type;
     dataSize = 0;
     this->row = row;
-    this->abort();
-    this->connectToHost(host, ip);
+    abort();
+    connectToHost(host, port);
 }
 void ClientSocket::clientConnected()
 {
     QByteArray block;
-    QDataStream out(&block, QIODevice::ReadWrite);
-    out << messageType;
+    QDataStream out(&block, QIODevice::WriteOnly);
+    unsigned int type = (unsigned int)messageType;
+    out << type;
 
-    if (messageType == File) {
+    if (messageType == File)
         out << row;
-    }
     else
         out << int(0);
 
-    this->write(block);
+    write(block);
 }
 void ClientSocket::error(QAbstractSocket::SocketError error)
 {
@@ -42,7 +42,7 @@ void ClientSocket::error(QAbstractSocket::SocketError error)
 }
 void ClientSocket::ready()
 {
-    if (this->bytesAvailable() < 2*sizeof(int)) return;
+    if (bytesAvailable() < int(2*sizeof(int))) return;
 
     QDataStream stream(this);
     unsigned int type;
@@ -51,7 +51,7 @@ void ClientSocket::ready()
 
     messageType = MessageType(type);
     if (messageType == File) {   // get image file
-        if (this->bytesAvailable() < dataSize)
+        if (bytesAvailable() < dataSize)
             return;
 
         emit sendImage(dataSize);

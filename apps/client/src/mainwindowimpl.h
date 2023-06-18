@@ -8,6 +8,7 @@
 #include <QTcpSocket>
 #include <QListView>
 #include <QTranslator>
+#include <QRandomGenerator>
 
 // UI: widget
 #include "puzzlewidget.h"
@@ -32,7 +33,7 @@ class MainWindowImpl : public QMainWindow, public Ui::MainWindow
 {
         Q_OBJECT
 public:
-        MainWindowImpl(QWidget * = nullptr, Qt::WindowFlags = nullptr);
+        MainWindowImpl(QWidget * = nullptr, Qt::WindowFlags = Qt::WindowFlags());
         ~MainWindowImpl();
 private slots:
         // menu "File"
@@ -143,6 +144,8 @@ private:
         Heuristic heuristic;
         QVector<char> nodes;
         QStack<State*> *path;
+        
+        QRandomGenerator rand;
 
 protected:
         void closeEvent(QCloseEvent *);

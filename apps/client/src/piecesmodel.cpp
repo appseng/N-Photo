@@ -1,3 +1,5 @@
+#include <QRandomGenerator>
+
 #include "piecesmodel.h"
 
 PiecesModel::PiecesModel(QObject *parent)
@@ -24,11 +26,7 @@ QVariant PiecesModel::data(const QModelIndex &index, int role) const
 
 void PiecesModel::addPiece(const QPixmap &pixmap, const QPoint &location)
 {
-    int row;
-    if (int(2.0*qrand()/(RAND_MAX+1.0)) == 1)
-        row = 0;
-    else
-        row = pixmaps.size();
+    int row = pixmaps.size();
 
     beginInsertRows(QModelIndex(), row, row);
     pixmaps.insert(row, pixmap);
