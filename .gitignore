@@ -50,4 +50,6 @@ bin/
 build/
 Makefile
 *.stash
-qrc_puzzle.cpp
+qrc_*.cpp
+*.Debug
+*.Release

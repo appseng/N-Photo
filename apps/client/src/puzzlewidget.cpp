@@ -267,7 +267,11 @@ void PuzzleWidget::shuffle()
         }
         iRect = pieceRects.indexOf(nRect);
         if (iRect != -1) {
-            pieceRects.swapItemsAt(iRect, rect);
+            #if QT_VERSION >= QT_VERSION_CHECK(5,14,0)
+                pieceRects.swapItemsAt(iRect, rect);
+            #else
+                pieceRects.swap(iRect, rect);
+            #endif
             freeRect = nRect;
             i--;
         }
