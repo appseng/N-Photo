@@ -5,6 +5,8 @@
 #include <QMutexLocker>
 #include <QObject>
 
+#define MAX 500
+
 class DatabaseWork :QObject
 {
      Q_OBJECT

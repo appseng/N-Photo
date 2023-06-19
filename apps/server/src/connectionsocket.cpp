@@ -20,40 +20,36 @@ ConnectionSocket::ConnectionSocket(QObject* parent, int descriptor)
 
 void ConnectionSocket::messageExchange()
 {
-    if (bytesAvailable() == 0) return;
+    if (bytesAvailable() < 4) return;
 
     // получение данных
-    unsigned int messageType;
     QDataStream in(this);
-    in >> messageType;
-    if (messageType == None)
-        return;
-
-    int fileIndex;
-    in >> fileIndex;
+    unsigned int read;
+    in >> read;
+    MessageType messageType = MessageType(read >> 28);
+    int fileIndex = read & 0x0FFFFFFF;
 
     // отправка данных
-    QByteArray data;
-    QDataStream stream (&data, QIODevice::ReadWrite);
+    QByteArray block;
+    QDataStream stream (&block, QIODevice::WriteOnly);
     if (messageType == File) {
         QString name;
         bool ok = false;
+
         QByteArray image = DatabaseWork::getInstance()->getImage(ok, fileIndex+1, name);
-        stream << messageType << image.size();
-        data.append(image);
-        write(data);
+        int send = (messageType << 28) | (image.size() & 0x0FFFFFFF);
+        stream << send << image;
+
+        write(block);
     }
     else if (messageType == List) {
         bool ok = true;
-        QList<QString> entries = DatabaseWork::getInstance()->listImages(ok);
+        QList<QString> list = DatabaseWork::getInstance()->listImages(ok);
 
-        int count = entries.count();
-        stream << messageType << count;
+        int send = messageType << 28;
+        stream << send << list;
 
-        for (int i = 0; i < count; i++)
-            stream << entries.at(i) << int(0);
-
-        write(data);
+        write(block);
     }
 }
 

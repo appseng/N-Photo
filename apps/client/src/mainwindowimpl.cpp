@@ -80,7 +80,7 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     connect(download, SIGNAL(clicked()), this, SLOT(getRandomImage()));
     connect(&downloader, SIGNAL(downloaded()), this, SLOT(loadImage()));
     // через сеть
-    connect(&socket, SIGNAL(sendImage(int)), this, SLOT(getSocketImage(int)));
+    connect(&socket, SIGNAL(sendImage(QByteArray)), this, SLOT(getSocketImage(QByteArray)));
     connect(&socket, SIGNAL(sendError()), this, SLOT(socketError()));
     connect(&socket, SIGNAL(sendImageList(QList<QString>)), this, SLOT(socketList(QList<QString>)));
     connect(&socket, SIGNAL(incorrectType(MessageType)), this, SLOT(socketIncorrectType(MessageType)));
@@ -96,7 +96,7 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     gameType = NPhoto;
     curRow = -1;
 
-    rand.seed(QCursor::pos().x() * QCursor::pos().y());
+    rand.seed(quint32(QCursor::pos().x() * QCursor::pos().y()));
 
     // default heuristic is ManhattanDistance
     heuristic = ManhattanDistance;
@@ -776,9 +776,9 @@ bool MainWindowImpl::isBusy()
 
     return busy;
 }
-void MainWindowImpl::getSocketImage(int dataSize)
+void MainWindowImpl::getSocketImage(const QByteArray data)
 {
-    QImage image = QImage::fromData(socket.read(dataSize));
+    QImage image = QImage::fromData(data);
     if (!image.isNull()) {
         puzzleImage = QPixmap::fromImage(image);
         setupPuzzle();

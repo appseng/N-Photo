@@ -82,7 +82,7 @@ private slots:
         void getFileList();
         void getImage(const int);
         // // from a server
-        void getSocketImage(int);
+        void getSocketImage(const QByteArray);
         void socketError();
         void socketList(QList<QString>);
         void socketIncorrectType(MessageType);

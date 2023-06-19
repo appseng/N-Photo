@@ -22,11 +22,12 @@ enum ImageSourceType
     Local
 };
 
-enum MessageType : unsigned int
+enum MessageType : unsigned char
 {
     None = 0,
     File = 4,
-    List = 8
+    List = 8,
+    More = 2
 };
 
 enum GameType : bool

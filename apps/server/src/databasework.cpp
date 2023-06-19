@@ -116,7 +116,8 @@ QList<QString> DatabaseWork::listImages(bool &ok)
     QList<QString> imageList;
     QSqlQuery query(db);
     ok = query.exec("SELECT name FROM images");
-    while (query.next())
+    int i = 0;
+    while (query.next() && i++ < MAX)
         imageList.append(query.value(0).toString());
 
     ok = closeConnection() && ok;
@@ -151,7 +152,7 @@ bool DatabaseWork::fillDB(const QString folder)
     QDir dir (folder);
     dir.setFilter(QDir::Files);
     QFileInfoList list = dir.entryInfoList();
-    int fileListSize = list.size();
+    int fileListSize = qMin(list.size(), MAX);
     for (int i = 0; i < fileListSize; i++) {
         QFileInfo df = list.at(i);
         QImage image = QImage(df.absoluteFilePath());

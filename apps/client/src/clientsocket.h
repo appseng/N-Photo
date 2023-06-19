@@ -16,7 +16,7 @@ private slots:
     void error(QAbstractSocket::SocketError);
     void ready();
 signals:
-    void sendImage(int);
+    void sendImage(const QByteArray);
     void sendError();
     void sendImageList(QList<QString>);
     void incorrectType(MessageType);

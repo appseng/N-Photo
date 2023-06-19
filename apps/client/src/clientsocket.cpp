@@ -23,13 +23,14 @@ void ClientSocket::clientConnected()
 {
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
-    unsigned int type = (unsigned int)messageType;
-    out << type;
 
+    int data = 0;
     if (messageType == File)
-        out << row;
-    else
-        out << int(0);
+        data = (row & 0x0FFFFFFF) | (messageType << 28);
+    else if (messageType == List)
+        data = messageType << 28;
+
+    out << data;
 
     write(block);
 }
@@ -42,30 +43,28 @@ void ClientSocket::error(QAbstractSocket::SocketError error)
 }
 void ClientSocket::ready()
 {
-    if (bytesAvailable() < int(2*sizeof(int))) return;
+    if (bytesAvailable() < 4) return;
 
     QDataStream stream(this);
-    unsigned int type;
-    if (dataSize == 0)
-        stream >> type >> dataSize;
-
-    messageType = MessageType(type);
+    unsigned int data;
+    if (dataSize == 0) {
+        stream >> data;
+        dataSize = data & 0x0FFFFFFF;
+        messageType = MessageType(data >> 28);
+    }
     if (messageType == File) {   // get image file
         if (bytesAvailable() < dataSize)
             return;
 
-        emit sendImage(dataSize);
+        QByteArray image;
+        stream >> image;
+
+        emit sendImage(image);
         dataSize = 0;
     }
     else if (messageType == List) { // get directory list
         QList<QString> list;
-        QString name;
-        int separator;
-        while (dataSize > 0) {
-            stream >> name >> separator;
-            list.append(name);
-            dataSize--;
-        }
+        stream >> list;
         emit sendImageList(list);
         dataSize = 0;
     }
