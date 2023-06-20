@@ -4,13 +4,11 @@
 HEADERS = \
     src/server.h \
     src/databasework.h \
-    src/connectionsocket.h \
     src/enums.h
 SOURCES = \
     src/main.cpp \
     src/server.cpp \
-    src/databasework.cpp \
-    src/connectionsocket.cpp
+    src/databasework.cpp
 QT += network sql widgets core
 TARGET = server
 CONFIG += warn_on release console

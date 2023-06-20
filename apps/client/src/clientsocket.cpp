@@ -1,4 +1,5 @@
 #include <QDataStream>
+#include <QByteArray>
 
 #include "clientsocket.h"
 
@@ -24,7 +25,7 @@ void ClientSocket::clientConnected()
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
 
-    int data = 0;
+    unsigned int data = 0;
     if (messageType == File)
         data = (row & 0x0FFFFFFF) | (messageType << 28);
     else if (messageType == List)
