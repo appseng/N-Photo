@@ -9,7 +9,7 @@ SOURCES = \
     src/main.cpp \
     src/server.cpp \
     src/databasework.cpp
-QT += network sql widgets core
+QT += network sql
 TARGET = server
 CONFIG += warn_on release console
 CONFIG -= app_bundle

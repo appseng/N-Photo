@@ -1,4 +1,4 @@
-#include <QApplication>
+#include <QCoreApplication>
 #include <QFileInfo>
 
 #include "server.h"
@@ -25,14 +25,14 @@ bool start (Server &server, bool ok = false, quint16 port = defaultPort)
 }
 int main(int argc, char *argv[])
 {
-    QApplication  app(argc, argv);
+    QCoreApplication  app(argc, argv);
     Server server;
     if (argc > 1) {
         QString str(argv[1]);
         bool ok;
         quint16 port = str.toUShort(&ok);
         if (ok) {
-            return start(server, ok, port) && app.exec();
+            return start(server, ok, port) ? app.exec() : -1;
         }
         else if (str == QString("--rebuild")) {
             DatabaseWork* db = DatabaseWork::getInstance();
@@ -72,5 +72,5 @@ int main(int argc, char *argv[])
             return 0;
         }
     }
-    return start(server) && app.exec();
+    return start(server) ? app.exec() : -1;
 }
