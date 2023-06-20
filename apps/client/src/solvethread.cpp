@@ -11,9 +11,12 @@ void SolveThread::run()
 {
     strategy = new PuzzleStrategy(this);
 
-    connect(strategy, SIGNAL(onTimerStart(QStack<State*>*)), UIThread, SLOT(startTimer(QStack<State*>*)));
-    connect(strategy, SIGNAL(onPuzzleSolved(StepParam*)), UIThread, SLOT(onPuzzleSolved(StepParam*)));
-    connect(strategy, SIGNAL(onStateChanged(StateParam*)), UIThread, SLOT(displayState(StateParam*)));
+    connect(strategy, SIGNAL(onTimerStart(QStack<State*>*)),
+            UIThread, SLOT(startTimer(QStack<State*>*)));
+    connect(strategy, SIGNAL(onPuzzleSolved(StepParam*)),
+            UIThread, SLOT(onPuzzleSolved(StepParam*)));
+    connect(strategy, SIGNAL(onStateChanged(StateParam*)),
+            UIThread, SLOT(displayState(StateParam*)));
 
     strategy->IDAStar(nodes, heuristic);
 }

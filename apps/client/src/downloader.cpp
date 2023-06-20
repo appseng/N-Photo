@@ -4,7 +4,8 @@ Downloader::Downloader(QObject *parent) :
     QObject(parent)
 {
     url = QUrl("https://i.pravatar.cc/400");
-    connect(&webCtrl, SIGNAL(finished(QNetworkReply*)), this, SLOT(ready(QNetworkReply*)));
+    connect(&webCtrl, SIGNAL(finished(QNetworkReply*)),
+            this, SLOT(ready(QNetworkReply*)));
 }
 void Downloader::sendRequest()
 {

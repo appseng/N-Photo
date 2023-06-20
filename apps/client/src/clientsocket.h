@@ -10,7 +10,8 @@ class ClientSocket: public QTcpSocket
     Q_OBJECT
 public:
     ClientSocket(QObject* = nullptr);
-    void clientConnect(const MessageType, const QString, const unsigned short, const int);
+    void clientConnect(const MessageType, const QString,
+                       const unsigned short, const int);
 private slots:
     void clientConnected();
     void error(QAbstractSocket::SocketError);
@@ -18,8 +19,8 @@ private slots:
 signals:
     void sendImage(const QByteArray);
     void sendError();
-    void sendImageList(QList<QString>);
-    void incorrectType(MessageType);
+    void sendImageList(const QList<QString>);
+    void incorrectType(const MessageType);
 private:
     int dataSize;
     MessageType messageType;

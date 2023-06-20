@@ -116,7 +116,8 @@ void PuzzleWidget::dropEvent(QDropEvent *event)
         event->accept();
         emit blockMoved();
 
-        if (location == QPoint(square.x()/tile.width(), square.y()/tile.height())) {
+        if (location == QPoint(square.x()/tile.width(),
+                               square.y()/tile.height())) {
             inPlace++;
             if (inPlace == relation.x()*relation.y())
                 emit puzzleCompleted(true);
@@ -187,7 +188,8 @@ void PuzzleWidget::mousePressEvent(QMouseEvent *event)
         pieceRects.insert(found, square);
         update(targetSquare(event->pos()));
         update(square);
-        if (location == QPoint(square.x()/tile.width(), square.y()/tile.height()))
+        if (location == QPoint(square.x()/tile.width(),
+                               square.y()/tile.height()))
             inPlace++;
 
         if (inPlace == pieceRects.length())
@@ -245,7 +247,10 @@ void PuzzleWidget::shuffle()
 {
     moves = 0;
     int maxid = pieceRects.length()-1;
-    QRect freeRect = QRect((relation.x()-1)*tile.width(), (relation.y()-1)*tile.height(), tile.width(), tile.height());
+    QRect freeRect = QRect((relation.x()-1)*tile.width(),
+                           (relation.y()-1)*tile.height(),
+                           tile.width(),
+                           tile.height());
     int rect = pieceRects.indexOf(freeRect);
     int missing = rect;
     QRect nRect;
@@ -254,16 +259,28 @@ void PuzzleWidget::shuffle()
     while (i) {
         switch(QRandomGenerator::global()->bounded(4)) {
         case Up:
-            nRect = QRect(freeRect.x(),freeRect.y()-tile.height(),tile.width(),tile.height());
+            nRect = QRect(freeRect.x(),
+                          freeRect.y()-tile.height(),
+                          tile.width(),
+                          tile.height());
             break;
         case Left:
-            nRect = QRect(freeRect.x()-tile.width(),freeRect.y(),tile.width(),tile.height());
+            nRect = QRect(freeRect.x()-tile.width(),
+                          freeRect.y(),
+                          tile.width(),
+                          tile.height());
             break;
         case Down:
-            nRect = QRect(freeRect.x(),freeRect.y()+tile.height(),tile.width(),tile.height());
+            nRect = QRect(freeRect.x(),
+                          freeRect.y()+tile.height(),
+                          tile.width(),
+                          tile.height());
             break;
         default: //right
-            nRect = QRect(freeRect.x()+tile.width(),freeRect.y(),tile.width(),tile.height());
+            nRect = QRect(freeRect.x()+tile.width(),
+                          freeRect.y(),
+                          tile.width(),
+                          tile.height());
         }
         iRect = pieceRects.indexOf(nRect);
         if (iRect != -1) {
@@ -312,7 +329,10 @@ void PuzzleWidget::paintEvent(QPaintEvent *event)
 
 const QRect PuzzleWidget::targetSquare(const QPoint &position) const
 {
-    return QRect((position.x()/tile.width()) * tile.width(), (position.y()/tile.height()) * tile.height(), tile.width(), tile.height());
+    return QRect((position.x()/tile.width()) * tile.width(),
+                 (position.y()/tile.height()) * tile.height(),
+                 tile.width(),
+                 tile.height());
 }
 int  PuzzleWidget::getTargetIndex(const QPoint &point) const
 {
@@ -327,7 +347,8 @@ void PuzzleWidget::countMatches()
 {
     inPlace = 0;
     for (int k = 0; k < pieceRects.size(); ++k) {
-        if (pieceLocations[k] == QPoint(pieceRects[k].x()/tile.width(), pieceRects[k].y()/tile.height()))
+        if (pieceLocations[k] == QPoint(pieceRects[k].x()/tile.width(),
+                                        pieceRects[k].y()/tile.height()))
             inPlace++;
     }
 }
@@ -347,7 +368,8 @@ void PuzzleWidget::setPieces(const QVector<char>* nodes)
 
             // point on PuzzleWidget
             // num : number on tile minus one
-            QPoint pos((i%relation.x())*tile.width(), (i/relation.x())*tile.height());
+            QPoint pos((i%relation.x())*tile.width(),
+                       (i/relation.x())*tile.height());
 
             // rect accorging 'point'
             QRect ts = targetSquare(pos);
@@ -367,7 +389,8 @@ void PuzzleWidget::moveMissingRectangle(Direction direction)
     if (busy)
         return;
 
-    QPoint point(missingLocation.x() * tile.width() + 1 ,  missingLocation.y() * tile.height() + 1);
+    QPoint point(missingLocation.x() * tile.width() + 1 ,
+                 missingLocation.y() * tile.height() + 1);
     QPoint oldPoint(point);
     switch (direction) {
         case Left:
@@ -396,7 +419,8 @@ void PuzzleWidget::moveMissingRectangle(Direction direction)
             break;
     }
     if (oldPoint != point) {
-        QMouseEvent event(QEvent::GraphicsSceneMousePress, point, Qt::NoButton, Qt::NoButton, Qt::NoModifier);
+        QMouseEvent event(QEvent::GraphicsSceneMousePress, point, Qt::NoButton,
+                          Qt::NoButton, Qt::NoModifier);
         mousePressEvent(&event);
     }
 }

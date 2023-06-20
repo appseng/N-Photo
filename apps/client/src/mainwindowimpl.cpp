@@ -32,65 +32,69 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
     readSettings();
 
     QTime now = QTime::currentTime();
-    log->append(tr("<b>Добро пожаловать!</b><br>На данный момент <b>%1</b> день года, <b>%2:%3:%4</b>")
+    log->append(tr("<b>Добро пожаловать!</b>"
+                   "<br>На данный момент <b>%1</b> день года, <b>%2:%3:%4</b>")
                  .arg(QDate::currentDate().dayOfYear())
                  .arg(now.hour()).arg(now.minute()).arg(now.second()));
     //step->setVisible(false);
     // действия меню
     // file
-    connect(aExit, SIGNAL(triggered()), this, SLOT(close()));
-    connect(aOpen, SIGNAL(triggered()), this, SLOT(openImage()));
-    connect(aSave, SIGNAL(triggered()), this, SLOT(saveImage()));
+    connect(aExit, SIGNAL(triggered()), SLOT(close()));
+    connect(aOpen, SIGNAL(triggered()), SLOT(openImage()));
+    connect(aSave, SIGNAL(triggered()), SLOT(saveImage()));
     // timer
-    connect(aTimerOn, SIGNAL(triggered()), this, SLOT(timerOn()));
-    connect(aTimerOff, SIGNAL(triggered()), this, SLOT(timerOff()));
-    connect(aTimerReset, SIGNAL(triggered()), this, SLOT(timerReset()));
+    connect(aTimerOn, SIGNAL(triggered()), SLOT(timerOn()));
+    connect(aTimerOff, SIGNAL(triggered()), SLOT(timerOff()));
+    connect(aTimerReset, SIGNAL(triggered()), SLOT(timerReset()));
     // settings
-    connect(aServerSource, SIGNAL(triggered()), this, SLOT(setServerSettings()));
-    connect(aLocalSource, SIGNAL(triggered()), this, SLOT(setLocalFolderSettings()));
-    connect(aInternetSource, SIGNAL(triggered()), this, SLOT(setInternetSettings()));
-    connect(aGameSettings, SIGNAL(triggered()), this, SLOT(setGameSettings()));
-    connect(aComplication, SIGNAL(triggered()), this, SLOT(setComplicationSettings()));
-    connect(aAll, SIGNAL(triggered()), this, SLOT(setSettingsAll()));
-    connect(aLog, SIGNAL(triggered()), this, SLOT(setLogVisible()));
+    connect(aServerSource, SIGNAL(triggered()), SLOT(setServerSettings()));
+    connect(aLocalSource, SIGNAL(triggered()), SLOT(setLocalFolderSettings()));
+    connect(aInternetSource, SIGNAL(triggered()), SLOT(setInternetSettings()));
+    connect(aGameSettings, SIGNAL(triggered()), SLOT(setGameSettings()));
+    connect(aComplication, SIGNAL(triggered()), SLOT(setComplicationSettings()));
+    connect(aAll, SIGNAL(triggered()), SLOT(setSettingsAll()));
+    connect(aLog, SIGNAL(triggered()), SLOT(setLogVisible()));
     // lanuguage
-    connect(aRussian, SIGNAL(triggered()), this, SLOT(setRussian()));
-    connect(aEnglish, SIGNAL(triggered()), this, SLOT(setEnglish()));
-    connect(aSpanish, SIGNAL(triggered()), this, SLOT(setSpanish()));
+    connect(aRussian, SIGNAL(triggered()), SLOT(setRussian()));
+    connect(aEnglish, SIGNAL(triggered()), SLOT(setEnglish()));
+    connect(aSpanish, SIGNAL(triggered()), SLOT(setSpanish()));
     // help
-    connect(aAboutProgram, SIGNAL(triggered()), this, SLOT(about()));
-    connect(aAboutQt, SIGNAL(triggered()), this, SLOT(aboutQt()));
+    connect(aAboutProgram, SIGNAL(triggered()), SLOT(about()));
+    connect(aAboutQt, SIGNAL(triggered()), SLOT(aboutQt()));
     // solution
-    connect(aSolvePuzzle, SIGNAL(triggered()), this, SLOT(solvePuzzle()));
-    connect(aMisplacedTiles, SIGNAL(triggered()), this, SLOT(setMisplacedTiles()));
-    connect(aManhattanDistance, SIGNAL(triggered()), this, SLOT(setManhattanDistance()));
+    connect(aSolvePuzzle, SIGNAL(triggered()), SLOT(solvePuzzle()));
+    connect(aMisplacedTiles, SIGNAL(triggered()), SLOT(setMisplacedTiles()));
+    connect(aManhattanDistance, SIGNAL(triggered()), SLOT(setManhattanDistance()));
     // solution=>moves
-    connect(aLeft, SIGNAL(triggered()), this, SLOT(moveMissingRectangleLeft()));
-    connect(aUp, SIGNAL(triggered()), this, SLOT(moveMissingRectangleUp()));
-    connect(aDown, SIGNAL(triggered()), this, SLOT(moveMissingRectangleDown()));
-    connect(aRight, SIGNAL(triggered()), this, SLOT(moveMissingRectangleRight()));
+    connect(aLeft, SIGNAL(triggered()), SLOT(moveMissingRectangleLeft()));
+    connect(aUp, SIGNAL(triggered()), SLOT(moveMissingRectangleUp()));
+    connect(aDown, SIGNAL(triggered()), SLOT(moveMissingRectangleDown()));
+    connect(aRight, SIGNAL(triggered()), SLOT(moveMissingRectangleRight()));
     /////////
     // кнопки
-    connect(shuffle, SIGNAL(clicked()), this, SLOT (clickShuffle()));
-    connect(refresh, SIGNAL (clicked()), this, SLOT (clickRefresh()));
-    connect(checkConnection, SIGNAL (clicked()), this, SLOT(getFileList()));
+    connect(shuffle, SIGNAL(clicked()), SLOT (clickShuffle()));
+    connect(refresh, SIGNAL (clicked()), SLOT (clickRefresh()));
+    connect(checkConnection, SIGNAL (clicked()), SLOT(getFileList()));
     //-------------------------------
     // загрузка изображения
-    connect(listImage, SIGNAL(currentRowChanged(int)), this, SLOT(getImage(int)));
-    connect(download, SIGNAL(clicked()), this, SLOT(getRandomImage()));
-    connect(&downloader, SIGNAL(downloaded()), this, SLOT(loadImage()));
+    connect(listImage, SIGNAL(currentRowChanged(int)), SLOT(getImage(int)));
+    connect(download, SIGNAL(clicked()), SLOT(getRandomImage()));
+    connect(&downloader, SIGNAL(downloaded()), SLOT(loadImage()));
     // через сеть
-    connect(&socket, SIGNAL(sendImage(QByteArray)), this, SLOT(getSocketImage(QByteArray)));
-    connect(&socket, SIGNAL(sendError()), this, SLOT(socketError()));
-    connect(&socket, SIGNAL(sendImageList(QList<QString>)), this, SLOT(socketList(QList<QString>)));
-    connect(&socket, SIGNAL(incorrectType(MessageType)), this, SLOT(socketIncorrectType(MessageType)));
+    connect(&socket, SIGNAL(sendImage(QByteArray)),
+            SLOT(getSocketImage(QByteArray)));
+    connect(&socket, SIGNAL(sendError()), SLOT(socketError()));
+    connect(&socket, SIGNAL(sendImageList(QList<QString>)),
+            SLOT(socketList(QList<QString>)));
+    connect(&socket, SIGNAL(incorrectType(MessageType)),
+            SLOT(socketIncorrectType(MessageType)));
 
     //  из локальной папки
-    connect(choseFolder, SIGNAL(clicked()), this, SLOT(chooseDirectory()));
+    connect(choseFolder, SIGNAL(clicked()), SLOT(chooseDirectory()));
     //
 
     guiTimer = new QTimer(this);
-    connect(guiTimer, SIGNAL(timeout()), this, SLOT(updateTime()));
+    connect(guiTimer, SIGNAL(timeout()), SLOT(updateTime()));
 
     timerOn();
     gameType = NPhoto;
@@ -107,7 +111,7 @@ MainWindowImpl::MainWindowImpl(QWidget * parent, Qt::WindowFlags f)
 
     solutionTimer = new QTimer(this);
     solutionTimer->setInterval(1200);
-    connect(solutionTimer, SIGNAL(timeout()), this, SLOT(updateState()));
+    connect(solutionTimer, SIGNAL(timeout()), SLOT(updateState()));
 
     getFileList();
 }
@@ -252,9 +256,9 @@ void MainWindowImpl::setupWidgets()
     puzzleWidget = new PuzzleWidget(this);
     //puzzleWidget->changeRelation(relation);
     connect(puzzleWidget, SIGNAL(puzzleCompleted(bool)),
-            this, SLOT(setCompleted(bool)), Qt::QueuedConnection);
+            SLOT(setCompleted(bool)), Qt::QueuedConnection);
     connect(puzzleWidget, SIGNAL(blockMoved()),
-            this, SLOT(incStep()), Qt::QueuedConnection);
+            SLOT(incStep()), Qt::QueuedConnection);
     puzzleWidget->addPieces(QPixmap(QString::fromUtf8(":/images/images/example.jpg")));
     horizontalLayout->addWidget(piecesList);
     horizontalLayout->addWidget(puzzleWidget);
@@ -625,7 +629,10 @@ void MainWindowImpl::getRandomImage()
 }
 void MainWindowImpl::ConnectToServer(MessageType type)
 {
-    socket.clientConnect(type, host->text(), ip->text().toUShort(), listImage->currentRow());
+    socket.clientConnect(type,
+                         host->text(),
+                         ip->text().toUShort(),
+                         listImage->currentRow());
 }
 void MainWindowImpl::getFileList()
 {
@@ -679,7 +686,8 @@ void MainWindowImpl::getImage(const int curRow)
             QString lf = localFolder->text();
             if (!lf.trimmed().isEmpty() && QDir().exists(lf)) {
                 log->append(tr("<i>Загрузка изображения из папки......</i>"));
-                QString file (tr("%1/%2").arg(lf).arg(listImage->currentItem()->text()));
+                QString file (tr("%1/%2").arg(lf)
+                              .arg(listImage->currentItem()->text()));
                 QPixmap image = QPixmap(file);
                 if (image.isNull())
                     puzzleImage = QPixmap(QString::fromUtf8(":/images/images/example.jpg"));
@@ -688,8 +696,11 @@ void MainWindowImpl::getImage(const int curRow)
                     if (puzzleImage.size() != puzzleWidget->size()) {
                         int size = qMin(puzzleImage.width(), puzzleImage.height());
                         puzzleImage = puzzleImage.copy((puzzleImage.width() - size)/2,
-                                                       (puzzleImage.height() - size)/2, size, size)
-                                .scaled(puzzleWidget->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+                                                       (puzzleImage.height() - size)/2,
+                                                       size, size)
+                                .scaled(puzzleWidget->size(),
+                                        Qt::IgnoreAspectRatio,
+                                        Qt::SmoothTransformation);
                     }
                     log->append(tr("<i>Изображение загружено из папки!</i>"));
                 }
@@ -705,7 +716,10 @@ void MainWindowImpl::getImage(const int curRow)
 
 void MainWindowImpl::chooseDirectory()
 {
-    QString dir = QFileDialog::getExistingDirectory(this, tr("Выбор папки"),localFolder->text(),QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Выбор папки"),
+                                                    localFolder->text(),
+                                                    QFileDialog::ShowDirsOnly
+                                                    | QFileDialog::DontResolveSymlinks);
     if (dir.length() == 0)
         dir = localFolder->text();
 
@@ -720,11 +734,15 @@ void MainWindowImpl::loadImage()
         if (puzzleImage.size() != puzzleWidget->size()) {
             int size = qMin(puzzleImage.width(), puzzleImage.height());
             puzzleImage = puzzleImage.copy((puzzleImage.width() - size)/2,
-                                       (puzzleImage.height() - size)/2, size, size)
-            .scaled(puzzleWidget->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+                                           (puzzleImage.height() - size)/2,
+                                           size, size)
+            .scaled(puzzleWidget->size(),
+                    Qt::IgnoreAspectRatio,
+                    Qt::SmoothTransformation);
         }        
         imagesCache.append(puzzleImage);
-        listImage->addItem(tr("Картинка").append(" #%1").arg(imagesCache.count()));
+        listImage->addItem(tr("Картинка").append(" #%1")
+                           .arg(imagesCache.count()));
 
         log->append(tr("<i>Изображение загружено из интернета!</i>"));
     }
@@ -746,7 +764,8 @@ void MainWindowImpl::displayState(StateParam *param)
 void MainWindowImpl::onPuzzleSolved(StepParam* param) {
     int steps = param->getSteps();
     int states = param->getStates();
-    log->append(tr("Решение найдено: %1 шагов, %2 состояний").arg(steps).arg(states));
+    log->append(tr("Решение найдено: %1 шагов, %2 состояний")
+                .arg(steps).arg(states));
 }
 void MainWindowImpl::moveMissingRectangleLeft()
 {

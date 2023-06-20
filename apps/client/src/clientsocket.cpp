@@ -12,7 +12,8 @@ ClientSocket::ClientSocket(QObject* parent) :
     connect(this, SIGNAL(connected()), SLOT(clientConnected()));
     dataSize = 0;
 }
-void ClientSocket::clientConnect(const MessageType type, const QString host, const unsigned short port, const int row) 
+void ClientSocket::clientConnect(const MessageType type, const QString host,
+                                 const unsigned short port, const int row)
 {
     messageType = type;
     dataSize = 0;
@@ -25,7 +26,7 @@ void ClientSocket::clientConnected()
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
 
-    unsigned int data = 0;
+    int data = 0;
     if (messageType == File)
         data = (row & 0x0FFFFFFF) | (messageType << 28);
     else if (messageType == List)
@@ -64,6 +65,9 @@ void ClientSocket::ready()
         dataSize = 0;
     }
     else if (messageType == List) { // get directory list
+        if (bytesAvailable() < dataSize)
+            return;
+
         QList<QString> list;
         stream >> list;
         emit sendImageList(list);

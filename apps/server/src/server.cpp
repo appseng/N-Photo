@@ -35,7 +35,7 @@ void Server::ready(QTcpSocket* socket)
 
     // отправка данных
     QByteArray block;
-    QDataStream stream (&block, QIODevice::ReadWrite);
+    QDataStream stream (&block, QIODevice::WriteOnly);
     if (messageType == File) {
         QString name;
         bool ok = false;
@@ -49,8 +49,10 @@ void Server::ready(QTcpSocket* socket)
     else if (messageType == List) {
         bool ok = true;
         QList<QString> list = DatabaseWork::getInstance()->listImages(ok);
-
-        int send = messageType << 28;
+        QByteArray blist;
+        QDataStream slist(&blist, QIODevice::WriteOnly);
+        slist << list;
+        int send = (messageType << 28) | (blist.size() & 0x0FFFFFFF);
         stream << send << list;
 
         socket->write(block);
