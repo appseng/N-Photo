@@ -35,16 +35,17 @@ int main(int argc, char *argv[])
             return start(server, ok, port) ? app.exec() : -1;
         }
         else if (str == QString("--rebuild")) {
-            DatabaseWork* db = DatabaseWork::getInstance();
-            if (db->rebuildDB()) {
-                qDebug() << "Rebuilding of the database" << db->getDBName() << "has completed.";
+            DatabaseWork &db = *DatabaseWork::getInstance();
+            if (db.rebuildDB()) {
+                qDebug() << "Rebuilding of the database" << db.getDBName() << "has completed.";
                 return 0;
             }
             qCritical() << "An error occured.";
             return -2;
         }
         else if (str == QString("--export")) {
-            if (!DatabaseWork::getInstance()->exportDB()) {
+            DatabaseWork &db = *DatabaseWork::getInstance();
+            if (!db.exportDB()) {
                 qCritical() << "An error has occured during export.";
                 return -2;
             }
@@ -53,7 +54,8 @@ int main(int argc, char *argv[])
         }
         else if (str == QString("--add-image") && argc > 2) {
             str = QString(argv[2]);
-            bool ret = DatabaseWork::getInstance()->addImage(QFileInfo(str).absoluteFilePath());
+            DatabaseWork &db = *DatabaseWork::getInstance();
+            bool ret = db.addImage(QFileInfo(str).absoluteFilePath());
             qDebug() << "Image added.";
             return (ret) ? 0 : -3;
         }
