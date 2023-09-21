@@ -642,6 +642,9 @@ void MainWindowImpl::getFileList()
     log->append(tr("<i>Получение списка изображений......</i>"));
 
     if (imageSource == Net) {
+        listImage->clear();
+        imagesCache.clear();
+
         ConnectToServer(List);
     }
     else if (imageSource == Local) {
