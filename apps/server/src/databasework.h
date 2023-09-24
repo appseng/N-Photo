@@ -11,6 +11,7 @@ class DatabaseWork :QObject
 {
      Q_OBJECT
 public:
+    DatabaseWork();
     ~DatabaseWork();
     //work with images
     bool addImage(const QString);
@@ -22,10 +23,6 @@ public:
     bool rebuildDB();
     bool exportDB(const QString = QString("export"));
     QString getDBName() const;
-    static DatabaseWork* getInstance();
-
-protected:
-    DatabaseWork();
 
 private:
     bool openConnection();
@@ -34,8 +31,6 @@ private:
 
     QSqlDatabase db;
     QMutex mutex;
-
-    static DatabaseWork* instance;
 };
 
 #endif // DATABASEWORK_H

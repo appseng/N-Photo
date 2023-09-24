@@ -2,6 +2,7 @@
 #define SERVER_H
 
 #include <QTcpServer>
+#include "databasework.h"
 
 class Server : public QTcpServer
 {
@@ -11,6 +12,8 @@ public:
 private slots:
     void connection();
     void ready(QTcpSocket*);
+private:
+    DatabaseWork DBWork;
 };
 
 #endif // SERVER_H

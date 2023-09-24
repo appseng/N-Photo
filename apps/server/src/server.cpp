@@ -6,7 +6,6 @@
 
 #include "server.h"
 #include "enums.h"
-#include "databasework.h"
 
 Server::Server(QTcpServer *parent)
         :QTcpServer(parent)
@@ -40,7 +39,8 @@ void Server::ready(QTcpSocket* socket)
         QString name;
         bool ok = false;
 
-        QByteArray image = DatabaseWork::getInstance()->getImage(ok, fileIndex+1, name);
+        QByteArray image = DBWork.getImage(ok, fileIndex+1, name);
+
         int send = (messageType << 28) | (image.size() & 0x0FFFFFFF);
         stream << send << image;
 
@@ -48,7 +48,7 @@ void Server::ready(QTcpSocket* socket)
     }
     else if (messageType == List) {
         bool ok = true;
-        QList<QString> list = DatabaseWork::getInstance()->listImages(ok);
+        QList<QString> list = DBWork.listImages(ok);
         QByteArray blist;
         QDataStream slist(&blist, QIODevice::WriteOnly);
         slist << list;

@@ -12,8 +12,6 @@
 #include <QFileInfoList>
 #include "databasework.h"
 
-DatabaseWork* DatabaseWork::instance = nullptr;
-
 DatabaseWork::DatabaseWork()
 {
     db = QSqlDatabase::addDatabase("QSQLITE");
@@ -22,16 +20,6 @@ DatabaseWork::DatabaseWork()
 DatabaseWork::~DatabaseWork()
 {
     closeConnection();
-}
-DatabaseWork* DatabaseWork::getInstance()
-{
-    if (instance != nullptr)
-        return instance;
-
-    if (instance == nullptr) {
-        instance = new DatabaseWork();
-    }
-    return instance;
 }
 bool DatabaseWork::createConnection()
 {
