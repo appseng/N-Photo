@@ -13,7 +13,7 @@ private slots:
     void connection();
     void ready(QTcpSocket*);
 private:
-    DatabaseWork DBWork;
+    DatabaseWork databaseWork;
 };
 
 #endif // SERVER_H

@@ -38,9 +38,9 @@ int main(int argc, char *argv[])
             return startServer(app, ok, port);
         else if (param == QString("--rebuild")) {
             DatabaseWork dw;
-            if (dw.rebuildDB()) {
+            if (dw.rebuild()) {
                 qDebug() << "Rebuilding of the database"
-                         << dw.getDBName() << "has completed.";
+                         << dw.getDatabaseName() << "has completed.";
                 return 0;
             }
             qCritical() << "An error occured.";
@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
         }
         else if (param == QString("--export")) {
             DatabaseWork dw;
-            if (!dw.exportDB()) {
+            if (!dw.exportIn()) {
                 qCritical() << "An error has occured during export.";
                 return -2;
             }

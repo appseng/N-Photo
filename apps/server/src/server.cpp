@@ -25,36 +25,41 @@ void Server::ready(QTcpSocket* socket)
 {
     if (socket->bytesAvailable() < 4) return;
 
+    const int mask = 0x0FFFFFFF;
     // получение данных
     QDataStream in(socket);
     unsigned int read;
     in >> read;
     MessageType messageType = MessageType(read >> 28);
-    int fileIndex = read & 0x0FFFFFFF;
 
     // отправка данных
     QByteArray block;
-    QDataStream stream (&block, QIODevice::WriteOnly);
+    QDataStream data (&block, QIODevice::WriteOnly);
     if (messageType == File) {
         QString name;
-        bool ok = false;
+        bool ok = true;
+        int fileIndex = read & mask;
 
-        QByteArray image = DBWork.getImage(ok, fileIndex+1, name);
+        QByteArray image = databaseWork.getImage(ok, fileIndex+1, name);
 
-        int send = (messageType << 28) | (image.size() & 0x0FFFFFFF);
-        stream << send << image;
+        if (ok) {
+            int meta = (messageType << 28) | (image.size() & mask);
+            data << meta << image;
 
-        socket->write(block);
+            socket->write(block);
+        }
     }
     else if (messageType == List) {
         bool ok = true;
-        QList<QString> list = DBWork.listImages(ok);
-        QByteArray blist;
-        QDataStream slist(&blist, QIODevice::WriteOnly);
-        slist << list;
-        int send = (messageType << 28) | (blist.size() & 0x0FFFFFFF);
-        stream << send << list;
+        QList<QString> list = databaseWork.imageList(ok);
+        if (ok) {
+            QByteArray bites;
+            QDataStream stream(&bites, QIODevice::WriteOnly);
+            stream << list;
+            int meta = (messageType << 28) | (bites.size() & mask);
+            data << meta << list;
 
-        socket->write(block);
+            socket->write(block);
+        }
     }
 }

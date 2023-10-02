@@ -5,7 +5,7 @@
 #include <QMutexLocker>
 #include <QObject>
 
-#define MAX 500
+#define MAX_LIST 500
 
 class DatabaseWork :QObject
 {
@@ -16,18 +16,19 @@ public:
     //work with images
     bool addImage(const QString);
     QByteArray getImage(bool&, const int, QString&);
-    QList<QString> listImages(bool &);
+    QList<QString> imageList(bool &);
     //work with database
-    bool fillDB(const QString = QString("images"));
-    bool cleanDB();
-    bool rebuildDB();
-    bool exportDB(const QString = QString("export"));
-    QString getDBName() const;
+    bool rebuild();
+    bool exportIn(const QString = QString("export"));
+    QString getDatabaseName() const;
 
 private:
     bool openConnection();
     bool createConnection();
     bool closeConnection();
+
+    bool fill(const QString = QString("images"));
+    bool clean();
 
     QSqlDatabase db;
     QMutex mutex;
